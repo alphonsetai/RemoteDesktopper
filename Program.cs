@@ -22,7 +22,7 @@ namespace RemoteDesktopper
     public enum ScreenMode
     {
         SingleScreenLocal,
-        DualScreen,
+        MultiScreen,
         Other
     }
 }
