@@ -6,9 +6,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using Microsoft.Win32;
 using RemoteDesktopper.BLL;
 
@@ -37,20 +39,14 @@ namespace RemoteDesktopper
         /*-- Event Handlers ---------------------------------------------------------------------------------------------------*/
         private void MainForm_Load(object sender, EventArgs e)
         {
+            InitFavoritesComboBox();
             InitRdpFileComboBox();
-            //InitOtherSizeComboBox();
             uxStateTimer.Enabled = true;
             InitScreenOption();
             CalculateScreenSizes();
             _moreMode = true;
-            //ToggleMoreMode();
             MoveToSouthwest();
         }
-
-        //private void uxOtherSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    uxMediumSizeRadioButton.Checked = true;
-        //}
 
         private void uxConnectButton_Click(object sender, EventArgs e)
         {
@@ -87,23 +83,6 @@ namespace RemoteDesktopper
             CalculateScreenSizes();
         }
 
-        private void uxMoreButton_Click(object sender, EventArgs e)
-        {
-            ToggleMoreMode();
-        }
-
-        private void uxStoredServerComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var o = uxStoredServerComboBox.SelectedItem as RdpServer;
-
-            if (o != null)
-            {
-                this.uxStoredServerNameTextBox.Text = o.ServerName;
-                uxLoginNameTextBox.Text = o.LoginName;
-                uxPasswordTextBox.Text = o.Password;
-            }
-        }
-
         private void MainForm_ClientSizeChanged(object sender, EventArgs e)
         {
             if (this.WindowState != _lastState && this.WindowState == FormWindowState.Normal)
@@ -118,6 +97,12 @@ namespace RemoteDesktopper
             SystemEvents.DisplaySettingsChanged -= SystemEvents_DisplaySettingsChanged;
         }
 
+        private void uxFavoriteComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(uxFavoriteComboBox.SelectedValue.ToString()))
+                uxFavoriteRadioButton.Checked = true;
+        }
+
         /*-- Private Methods --------------------------------------------------------------------------------------------------*/
         private string BuildCommandArgs()
         {
@@ -125,6 +110,8 @@ namespace RemoteDesktopper
 
             if (uxRdpFileRadioButton.Checked)
                 result += "\"" + Path.Combine(_rdpFolder, uxRdpFileComboBox.Text) + ".rdp\"";
+            else if (uxFavoriteRadioButton.Checked)
+                result += "/v: " + uxFavoriteComboBox.SelectedValue.ToString();
             else
                 result += "/v:" + uxServerNameTextBox.Text;
 
@@ -181,6 +168,25 @@ namespace RemoteDesktopper
                 uxRdpFileComboBox.Items.Add(Path.GetFileNameWithoutExtension(item));
         }
 
+        private void InitFavoritesComboBox()
+        {
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var xmlFile = Path.Combine(path, @"..\..\FavoriteMachines.xml");
+            List<BLL.FavoriteMachine> favorites;
+
+            using (var sr = new StreamReader(xmlFile))
+            {
+                var xs = new XmlSerializer(typeof(List<BLL.FavoriteMachine>));
+                favorites = (List<BLL.FavoriteMachine>)xs.Deserialize(sr);
+                sr.Close();
+            }
+
+            favorites.Insert(0, new FavoriteMachine { Name = string.Empty, PublicDns = string.Empty });
+            uxFavoriteComboBox.DataSource = favorites;
+            uxFavoriteComboBox.DisplayMember = "Name";
+            uxFavoriteComboBox.ValueMember = "PublicDns";
+        }
+
         private void InitScreenOption()
         {
             switch (GetScreenMode())
@@ -200,7 +206,9 @@ namespace RemoteDesktopper
         private void UpdateState()
         {
             var enabled = (uxRdpFileRadioButton.Checked && !string.IsNullOrWhiteSpace(uxRdpFileComboBox.Text)) 
-                || (uxServerRadioButton.Checked && !string.IsNullOrWhiteSpace(uxServerNameTextBox.Text));
+                || (uxServerRadioButton.Checked && !string.IsNullOrWhiteSpace(uxServerNameTextBox.Text))
+                || (uxFavoriteRadioButton.Checked && !string.IsNullOrWhiteSpace(uxFavoriteComboBox.SelectedValue.ToString()))
+                ;
 
             uxConnectButton.Enabled = enabled;
             uxMinimizeAndConnectButton.Enabled = enabled;
@@ -251,12 +259,13 @@ namespace RemoteDesktopper
             /*--- Get Distinct Screen Sizes ---*/
             var screenSizes = new List<Size>();
             var screenNum = 0;
+            var margin = 10;
 
             foreach (var screen in screens)
             {
                 var bestScreenSize = screenResolutions.Where(o =>
-                                                            o.Width < screen.Width
-                                                            && o.Height < screen.Height)
+                                                            o.Width < screen.Width - margin
+                                                            && o.Height < screen.Height - margin)
                                                         .OrderByDescending(o => o.Height)
                                                         .ThenByDescending(o => o.Width)
                                                         .ToList()
@@ -297,28 +306,6 @@ namespace RemoteDesktopper
             this.Top = Screen.PrimaryScreen.WorkingArea.Height - this.Height - gap;
             this.Left = gap;
         }
-
-        private void uxStoredServerRadioButton_Click(object sender, EventArgs e)
-        {
-            InitStoredServerComboBox();
-        }
-
-        private void InitStoredServerComboBox()
-        {
-            uxStoredServerComboBox.DataSource = null;
-            uxStoredServerComboBox.DataSource = new AppServerManager().GetRdpServers();
-            uxStoredServerComboBox.DisplayMember = "Name";
-        }
-
-        private void ToggleMoreMode()
-        {
-            _moreMode = !_moreMode;
-            Height = _moreMode ? 231 : 128;
-            MoveToSouthwest();
-            uxStoredServerPanel.Visible = _moreMode;
-            uxMoreButton.Text = (_moreMode ? "Less" : "More");
-        }
-
 
     }
 }
