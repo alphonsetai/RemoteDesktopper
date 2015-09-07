@@ -46,6 +46,7 @@
             this.uxSmallSizeRadioButton = new System.Windows.Forms.RadioButton();
             this.uxStateTimer = new System.Windows.Forms.Timer(this.components);
             this.uxMinimizeAndConnectButton = new System.Windows.Forms.Button();
+            this.uxPasteServerNameLabel = new System.Windows.Forms.LinkLabel();
             this.uxServerFrame.SuspendLayout();
             this.uxWindowSizeFrame.SuspendLayout();
             this.SuspendLayout();
@@ -100,6 +101,7 @@
             // 
             this.uxServerFrame.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxServerFrame.Controls.Add(this.uxPasteServerNameLabel);
             this.uxServerFrame.Controls.Add(this.uxFavoriteComboBox);
             this.uxServerFrame.Controls.Add(this.uxFavoriteRadioButton);
             this.uxServerFrame.Controls.Add(this.uxRequeryLinkLabel);
@@ -155,7 +157,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.uxServerNameTextBox.Location = new System.Drawing.Point(103, 72);
             this.uxServerNameTextBox.Name = "uxServerNameTextBox";
-            this.uxServerNameTextBox.Size = new System.Drawing.Size(553, 20);
+            this.uxServerNameTextBox.Size = new System.Drawing.Size(500, 20);
             this.uxServerNameTextBox.TabIndex = 6;
             this.uxServerNameTextBox.TextChanged += new System.EventHandler(this.uxServerNameTextBox_TextChanged);
             // 
@@ -246,6 +248,18 @@
             this.uxMinimizeAndConnectButton.UseVisualStyleBackColor = true;
             this.uxMinimizeAndConnectButton.Click += new System.EventHandler(this.uxMinimizeAndConnectButton_Click);
             // 
+            // uxPasteServerNameLabel
+            // 
+            this.uxPasteServerNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxPasteServerNameLabel.AutoSize = true;
+            this.uxPasteServerNameLabel.Location = new System.Drawing.Point(609, 75);
+            this.uxPasteServerNameLabel.Name = "uxPasteServerNameLabel";
+            this.uxPasteServerNameLabel.Size = new System.Drawing.Size(34, 13);
+            this.uxPasteServerNameLabel.TabIndex = 7;
+            this.uxPasteServerNameLabel.TabStop = true;
+            this.uxPasteServerNameLabel.Text = "Paste";
+            this.uxPasteServerNameLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.uxPasteServerNameLabel_LinkClicked);
+            // 
             // MainForm
             // 
             this.AcceptButton = this.uxMinimizeAndConnectButton;
@@ -292,6 +306,7 @@
         private System.Windows.Forms.Button uxMinimizeAndConnectButton;
         private System.Windows.Forms.ComboBox uxFavoriteComboBox;
         private System.Windows.Forms.RadioButton uxFavoriteRadioButton;
+        private System.Windows.Forms.LinkLabel uxPasteServerNameLabel;
     }
 }
 

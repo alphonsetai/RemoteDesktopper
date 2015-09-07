@@ -103,6 +103,12 @@ namespace RemoteDesktopper
                 uxFavoriteRadioButton.Checked = true;
         }
 
+        private void uxPasteServerNameLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var s = Clipboard.GetText();
+            uxServerNameTextBox.Text = s;
+        }
+
         /*-- Private Methods --------------------------------------------------------------------------------------------------*/
         private string BuildCommandArgs()
         {
