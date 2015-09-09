@@ -34,6 +34,7 @@
             this.uxMediumSizeRadioButton = new System.Windows.Forms.RadioButton();
             this.uxConnectButton = new System.Windows.Forms.Button();
             this.uxServerFrame = new System.Windows.Forms.GroupBox();
+            this.uxPasteServerNameLabel = new System.Windows.Forms.LinkLabel();
             this.uxFavoriteComboBox = new System.Windows.Forms.ComboBox();
             this.uxFavoriteRadioButton = new System.Windows.Forms.RadioButton();
             this.uxRequeryLinkLabel = new System.Windows.Forms.LinkLabel();
@@ -46,7 +47,6 @@
             this.uxSmallSizeRadioButton = new System.Windows.Forms.RadioButton();
             this.uxStateTimer = new System.Windows.Forms.Timer(this.components);
             this.uxMinimizeAndConnectButton = new System.Windows.Forms.Button();
-            this.uxPasteServerNameLabel = new System.Windows.Forms.LinkLabel();
             this.uxServerFrame.SuspendLayout();
             this.uxWindowSizeFrame.SuspendLayout();
             this.SuspendLayout();
@@ -115,6 +115,18 @@
             this.uxServerFrame.TabIndex = 0;
             this.uxServerFrame.TabStop = false;
             this.uxServerFrame.Text = "Server";
+            // 
+            // uxPasteServerNameLabel
+            // 
+            this.uxPasteServerNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxPasteServerNameLabel.AutoSize = true;
+            this.uxPasteServerNameLabel.Location = new System.Drawing.Point(609, 75);
+            this.uxPasteServerNameLabel.Name = "uxPasteServerNameLabel";
+            this.uxPasteServerNameLabel.Size = new System.Drawing.Size(34, 13);
+            this.uxPasteServerNameLabel.TabIndex = 7;
+            this.uxPasteServerNameLabel.TabStop = true;
+            this.uxPasteServerNameLabel.Text = "Paste";
+            this.uxPasteServerNameLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.uxPasteServerNameLabel_LinkClicked);
             // 
             // uxFavoriteComboBox
             // 
@@ -248,18 +260,6 @@
             this.uxMinimizeAndConnectButton.UseVisualStyleBackColor = true;
             this.uxMinimizeAndConnectButton.Click += new System.EventHandler(this.uxMinimizeAndConnectButton_Click);
             // 
-            // uxPasteServerNameLabel
-            // 
-            this.uxPasteServerNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxPasteServerNameLabel.AutoSize = true;
-            this.uxPasteServerNameLabel.Location = new System.Drawing.Point(609, 75);
-            this.uxPasteServerNameLabel.Name = "uxPasteServerNameLabel";
-            this.uxPasteServerNameLabel.Size = new System.Drawing.Size(34, 13);
-            this.uxPasteServerNameLabel.TabIndex = 7;
-            this.uxPasteServerNameLabel.TabStop = true;
-            this.uxPasteServerNameLabel.Text = "Paste";
-            this.uxPasteServerNameLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.uxPasteServerNameLabel_LinkClicked);
-            // 
             // MainForm
             // 
             this.AcceptButton = this.uxMinimizeAndConnectButton;
@@ -278,7 +278,6 @@
             this.Text = "Remote Desktopper";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.ClientSizeChanged += new System.EventHandler(this.MainForm_ClientSizeChanged);
             this.uxServerFrame.ResumeLayout(false);
             this.uxServerFrame.PerformLayout();
             this.uxWindowSizeFrame.ResumeLayout(false);

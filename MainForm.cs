@@ -83,15 +83,6 @@ namespace RemoteDesktopper
             CalculateScreenSizes();
         }
 
-        private void MainForm_ClientSizeChanged(object sender, EventArgs e)
-        {
-            if (this.WindowState != _lastState && this.WindowState == FormWindowState.Normal)
-            {                
-                MoveToSouthwest();
-            }
-            _lastState = this.WindowState;
-        }
-
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SystemEvents.DisplaySettingsChanged -= SystemEvents_DisplaySettingsChanged;
@@ -211,6 +202,12 @@ namespace RemoteDesktopper
 
         private void UpdateState()
         {
+            if (this.WindowState != _lastState && this.WindowState == FormWindowState.Normal)
+            {
+                MoveToSouthwest();
+            }
+            _lastState = this.WindowState;
+
             var enabled = (uxRdpFileRadioButton.Checked && !string.IsNullOrWhiteSpace(uxRdpFileComboBox.Text)) 
                 || (uxServerRadioButton.Checked && !string.IsNullOrWhiteSpace(uxServerNameTextBox.Text))
                 || (uxFavoriteRadioButton.Checked && !string.IsNullOrWhiteSpace(uxFavoriteComboBox.SelectedValue.ToString()))
