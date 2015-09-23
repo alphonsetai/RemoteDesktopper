@@ -41,7 +41,7 @@ namespace RemoteDesktopper
         {
             InitFavoritesComboBox();
             InitRdpFileComboBox();
-            InitScreenOption();
+            //InitScreenOption();
             CalculateScreenSizes();
             _moreMode = true;
             MoveToSouthwest();
@@ -115,25 +115,15 @@ namespace RemoteDesktopper
             result += " ";
 
             if (uxFullScreenSizeRadioButton.Checked)
-            {
+
                 result += uxFullScreenSizeRadioButton.Tag.ToString();
-            }
-            //else if (uxLargeSizeRadioButton.Checked)
-            //{
-            //    result += uxLargeSizeRadioButton.Tag.ToString();
-            //}
-            //else if (uxMediumSizeRadioButton.Checked)
-            //{
-            //    result += uxMediumSizeRadioButton.Tag.ToString();
-            //}
-            //else if (uxSmallSizeRadioButton.Checked)
-            //{
-            //    result += uxSmallSizeRadioButton.Tag.ToString();
-            //}
-            else if (uxFullScreenSizeRadioButton.Checked)
-                result += ((ScreenSize)uxFullScreenComboBox.SelectedItem).Value.ToString();
+
+            else if (uxFullScreenWindowRadioButton.Checked)
+
+                result += ((ScreenSize)uxFullScreenWindowComboBox.SelectedItem).Value.ToString();
 
             else if (uxLargestWindowRadioButton.Checked)
+
                 result += ((ScreenSize)uxLargestWindowComboBox.SelectedItem).Value.ToString();
 
             return result;
@@ -151,16 +141,16 @@ namespace RemoteDesktopper
             p.Start();
         }
 
-        private ScreenMode GetScreenMode()
-        {
-            if (Screen.AllScreens.Count() >= 2)
-                return ScreenMode.MultiScreen;
+        //private ScreenMode GetScreenMode()
+        //{
+        //    if (Screen.AllScreens.Count() >= 2)
+        //        return ScreenMode.MultiScreen;
 
-            if (!SystemInformation.TerminalServerSession)
-                return ScreenMode.SingleScreenLocal;
+        //    if (!SystemInformation.TerminalServerSession)
+        //        return ScreenMode.SingleScreenLocal;
 
-            return ScreenMode.Other;
-        }
+        //    return ScreenMode.Other;
+        //}
 
         private void InitRdpFileComboBox()
         {
@@ -190,21 +180,21 @@ namespace RemoteDesktopper
             uxFavoriteComboBox.ValueMember = "PublicDns";
         }
 
-        private void InitScreenOption()
-        {
-            switch (GetScreenMode())
-            {
-                case ScreenMode.MultiScreen:
-                    this.uxLargeSizeRadioButton.Checked = true;
-                    break;
-                case ScreenMode.SingleScreenLocal:
-                    this.uxFullScreenSizeRadioButton.Checked = true;
-                    break;
-                case ScreenMode.Other:
-                    this.uxLargeSizeRadioButton.Checked = true;
-                    break;
-            }
-        }
+        //private void InitScreenOption()
+        //{
+        //    switch (GetScreenMode())
+        //    {
+        //        case ScreenMode.MultiScreen:
+        //            this.uxLargeSizeRadioButton.Checked = true;
+        //            break;
+        //        case ScreenMode.SingleScreenLocal:
+        //            this.uxFullScreenSizeRadioButton.Checked = true;
+        //            break;
+        //        case ScreenMode.Other:
+        //            this.uxLargeSizeRadioButton.Checked = true;
+        //            break;
+        //    }
+        //}
 
         private void UpdateState()
         {
@@ -247,12 +237,6 @@ namespace RemoteDesktopper
                 new Size( 800,  600),
                 new Size( 640,  480)
             };
-
-            //var screenSizeRadioButtons = new RadioButton[] { 
-            //    uxLargeSizeRadioButton,
-            //    uxMediumSizeRadioButton,
-            //    uxSmallSizeRadioButton
-            //};
 
             /*--- Get List of All Full Size Windows ---*/
             var screenSizes = Screen.AllScreens
@@ -297,34 +281,31 @@ namespace RemoteDesktopper
                 }
             }
 
-            /*--- Fill Full-Screen-Window ComboBox (?)---*/
-            var useEnableFullScreenWindows = (screenSizes.Count() > 1);
-            uxFullScreenComboBox.Visible = useEnableFullScreenWindows;
-            uxFullScreenWindowRadioButton.Visible = useEnableFullScreenWindows;
-
-            if (useEnableFullScreenWindows)
-            {
-                uxFullScreenComboBox.Items.Clear();
-
-                foreach (var item in screenSizes)
-                    uxFullScreenComboBox.Items.Add(new ScreenSize(item));
-
-                //var fsVal = new ScreenSize(screenSizes[0]).Value;
-                //uxFullScreenComboBox.SelectedValue = fsVal;
-                uxFullScreenComboBox.SelectedIndex = 0;
-            }
-
             /*--- Fill Largest-Window ComboBox ---*/
             uxLargestWindowComboBox.Items.Clear();
 
             foreach (var item in largestWindows)
                 uxLargestWindowComboBox.Items.Add(new ScreenSize(item));
 
-            //var lwVal = new ScreenSize(largestWindows[0]).Value;
-            //uxLargestWindowComboBox.SelectedValue = lwVal;
             uxLargestWindowComboBox.SelectedIndex = 0;
 
             uxLargestWindowRadioButton.Checked = true;
+
+            /*--- Fill Full-Screen-Window ComboBox (?)---*/
+            var useEnableFullScreenWindows = (screenSizes.Count() > 1);
+            uxFullScreenWindowComboBox.Visible = useEnableFullScreenWindows;
+            uxFullScreenWindowRadioButton.Visible = useEnableFullScreenWindows;
+
+            if (useEnableFullScreenWindows)
+            {
+                uxFullScreenWindowComboBox.Items.Clear();
+
+                foreach (var item in screenSizes)
+                    uxFullScreenWindowComboBox.Items.Add(new ScreenSize(item));
+
+                uxFullScreenWindowComboBox.SelectedIndex = 0;
+                uxFullScreenWindowRadioButton.Checked = true;
+            }
         }
 
         private void MoveToSouthwest()
