@@ -61,7 +61,7 @@
             this.uxRdpFileComboBox.FormattingEnabled = true;
             this.uxRdpFileComboBox.Location = new System.Drawing.Point(25, 38);
             this.uxRdpFileComboBox.Name = "uxRdpFileComboBox";
-            this.uxRdpFileComboBox.Size = new System.Drawing.Size(438, 21);
+            this.uxRdpFileComboBox.Size = new System.Drawing.Size(618, 21);
             this.uxRdpFileComboBox.TabIndex = 1;
             this.uxRdpFileComboBox.SelectedIndexChanged += new System.EventHandler(this.uxRdpFileComboBox_SelectedIndexChanged);
             // 
@@ -79,7 +79,7 @@
             // uxConnectButton
             // 
             this.uxConnectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxConnectButton.Location = new System.Drawing.Point(636, 41);
+            this.uxConnectButton.Location = new System.Drawing.Point(816, 41);
             this.uxConnectButton.Name = "uxConnectButton";
             this.uxConnectButton.Size = new System.Drawing.Size(138, 23);
             this.uxConnectButton.TabIndex = 4;
@@ -101,7 +101,7 @@
             this.uxServerFrame.Controls.Add(this.uxRdpFileComboBox);
             this.uxServerFrame.Location = new System.Drawing.Point(12, 12);
             this.uxServerFrame.Name = "uxServerFrame";
-            this.uxServerFrame.Size = new System.Drawing.Size(469, 177);
+            this.uxServerFrame.Size = new System.Drawing.Size(649, 177);
             this.uxServerFrame.TabIndex = 0;
             this.uxServerFrame.TabStop = false;
             this.uxServerFrame.Text = "Server";
@@ -110,7 +110,7 @@
             // 
             this.uxPasteServerNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uxPasteServerNameLabel.AutoSize = true;
-            this.uxPasteServerNameLabel.Location = new System.Drawing.Point(429, 121);
+            this.uxPasteServerNameLabel.Location = new System.Drawing.Point(609, 121);
             this.uxPasteServerNameLabel.Name = "uxPasteServerNameLabel";
             this.uxPasteServerNameLabel.Size = new System.Drawing.Size(34, 13);
             this.uxPasteServerNameLabel.TabIndex = 7;
@@ -127,7 +127,7 @@
             this.uxFavoriteComboBox.FormattingEnabled = true;
             this.uxFavoriteComboBox.Location = new System.Drawing.Point(25, 88);
             this.uxFavoriteComboBox.Name = "uxFavoriteComboBox";
-            this.uxFavoriteComboBox.Size = new System.Drawing.Size(438, 21);
+            this.uxFavoriteComboBox.Size = new System.Drawing.Size(618, 21);
             this.uxFavoriteComboBox.TabIndex = 4;
             this.uxFavoriteComboBox.SelectedIndexChanged += new System.EventHandler(this.uxFavoriteComboBox_SelectedIndexChanged);
             // 
@@ -145,7 +145,7 @@
             // 
             this.uxRequeryLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uxRequeryLinkLabel.AutoSize = true;
-            this.uxRequeryLinkLabel.Location = new System.Drawing.Point(416, 21);
+            this.uxRequeryLinkLabel.Location = new System.Drawing.Point(596, 21);
             this.uxRequeryLinkLabel.Name = "uxRequeryLinkLabel";
             this.uxRequeryLinkLabel.Size = new System.Drawing.Size(47, 13);
             this.uxRequeryLinkLabel.TabIndex = 2;
@@ -159,7 +159,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.uxServerNameTextBox.Location = new System.Drawing.Point(25, 142);
             this.uxServerNameTextBox.Name = "uxServerNameTextBox";
-            this.uxServerNameTextBox.Size = new System.Drawing.Size(438, 20);
+            this.uxServerNameTextBox.Size = new System.Drawing.Size(618, 20);
             this.uxServerNameTextBox.TabIndex = 6;
             this.uxServerNameTextBox.TextChanged += new System.EventHandler(this.uxServerNameTextBox_TextChanged);
             // 
@@ -194,7 +194,7 @@
             this.uxWindowSizeFrame.Controls.Add(this.uxFullScreenSizeRadioButton);
             this.uxWindowSizeFrame.Controls.Add(this.uxLargestWindowRadioButton);
             this.uxWindowSizeFrame.Controls.Add(this.uxRecalculateLabel);
-            this.uxWindowSizeFrame.Location = new System.Drawing.Point(487, 12);
+            this.uxWindowSizeFrame.Location = new System.Drawing.Point(667, 12);
             this.uxWindowSizeFrame.Name = "uxWindowSizeFrame";
             this.uxWindowSizeFrame.Size = new System.Drawing.Size(143, 177);
             this.uxWindowSizeFrame.TabIndex = 1;
@@ -266,7 +266,7 @@
             // uxMinimizeAndConnectButton
             // 
             this.uxMinimizeAndConnectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxMinimizeAndConnectButton.Location = new System.Drawing.Point(636, 12);
+            this.uxMinimizeAndConnectButton.Location = new System.Drawing.Point(816, 12);
             this.uxMinimizeAndConnectButton.Name = "uxMinimizeAndConnectButton";
             this.uxMinimizeAndConnectButton.Size = new System.Drawing.Size(138, 23);
             this.uxMinimizeAndConnectButton.TabIndex = 2;
@@ -279,7 +279,7 @@
             this.AcceptButton = this.uxMinimizeAndConnectButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(786, 202);
+            this.ClientSize = new System.Drawing.Size(966, 202);
             this.Controls.Add(this.uxMinimizeAndConnectButton);
             this.Controls.Add(this.uxWindowSizeFrame);
             this.Controls.Add(this.uxServerFrame);
@@ -317,10 +317,10 @@
         private System.Windows.Forms.ComboBox uxFavoriteComboBox;
         private System.Windows.Forms.RadioButton uxFavoriteRadioButton;
         private System.Windows.Forms.LinkLabel uxPasteServerNameLabel;
-        private System.Windows.Forms.ComboBox uxFullScreenWindowComboBox;
         private System.Windows.Forms.RadioButton uxFullScreenWindowRadioButton;
         private System.Windows.Forms.ComboBox uxLargestWindowComboBox;
         private System.Windows.Forms.RadioButton uxLargestWindowRadioButton;
+        private System.Windows.Forms.ComboBox uxFullScreenWindowComboBox;
     }
 }
 

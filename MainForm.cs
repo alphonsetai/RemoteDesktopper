@@ -39,12 +39,12 @@ namespace RemoteDesktopper
         /*-- Event Handlers ---------------------------------------------------------------------------------------------------*/
         private void MainForm_Load(object sender, EventArgs e)
         {
+            MoveToSouthwest();
             InitFavoritesComboBox();
             InitRdpFileComboBox();
             //InitScreenOption();
             CalculateScreenSizes();
             _moreMode = true;
-            MoveToSouthwest();
             uxStateTimer.Enabled = true;
         }
 
@@ -293,8 +293,6 @@ namespace RemoteDesktopper
 
             /*--- Fill Full-Screen-Window ComboBox (?)---*/
             var useEnableFullScreenWindows = (screenSizes.Count() > 1);
-            uxFullScreenWindowComboBox.Visible = useEnableFullScreenWindows;
-            uxFullScreenWindowRadioButton.Visible = useEnableFullScreenWindows;
 
             if (useEnableFullScreenWindows)
             {
@@ -306,6 +304,8 @@ namespace RemoteDesktopper
                 uxFullScreenWindowComboBox.SelectedIndex = 0;
                 uxFullScreenWindowRadioButton.Checked = true;
             }
+            uxFullScreenWindowComboBox.Visible = useEnableFullScreenWindows;
+            uxFullScreenWindowRadioButton.Visible = useEnableFullScreenWindows;
         }
 
         private void MoveToSouthwest()
