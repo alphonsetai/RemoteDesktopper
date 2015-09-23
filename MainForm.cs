@@ -41,11 +41,11 @@ namespace RemoteDesktopper
         {
             InitFavoritesComboBox();
             InitRdpFileComboBox();
-            uxStateTimer.Enabled = true;
             InitScreenOption();
             CalculateScreenSizes();
             _moreMode = true;
             MoveToSouthwest();
+            uxStateTimer.Enabled = true;
         }
 
         private void uxConnectButton_Click(object sender, EventArgs e)
@@ -118,18 +118,24 @@ namespace RemoteDesktopper
             {
                 result += uxFullScreenSizeRadioButton.Tag.ToString();
             }
-            else if (uxLargeSizeRadioButton.Checked)
-            {
-                result += uxLargeSizeRadioButton.Tag.ToString();
-            }
-            else if (uxMediumSizeRadioButton.Checked)
-            {
-                result += uxMediumSizeRadioButton.Tag.ToString();
-            }
-            else if (uxSmallSizeRadioButton.Checked)
-            {
-                result += uxSmallSizeRadioButton.Tag.ToString();
-            }
+            //else if (uxLargeSizeRadioButton.Checked)
+            //{
+            //    result += uxLargeSizeRadioButton.Tag.ToString();
+            //}
+            //else if (uxMediumSizeRadioButton.Checked)
+            //{
+            //    result += uxMediumSizeRadioButton.Tag.ToString();
+            //}
+            //else if (uxSmallSizeRadioButton.Checked)
+            //{
+            //    result += uxSmallSizeRadioButton.Tag.ToString();
+            //}
+            else if (uxFullScreenSizeRadioButton.Checked)
+                result += ((ScreenSize)uxFullScreenComboBox.SelectedItem).Value.ToString();
+
+            else if (uxLargestWindowRadioButton.Checked)
+                result += ((ScreenSize)uxLargestWindowComboBox.SelectedItem).Value.ToString();
+
             return result;
         }
 
@@ -242,29 +248,37 @@ namespace RemoteDesktopper
                 new Size( 640,  480)
             };
 
-            var screenSizeRadioButtons = new RadioButton[] { 
-                uxLargeSizeRadioButton,
-                uxMediumSizeRadioButton,
-                uxSmallSizeRadioButton
-            };
+            //var screenSizeRadioButtons = new RadioButton[] { 
+            //    uxLargeSizeRadioButton,
+            //    uxMediumSizeRadioButton,
+            //    uxSmallSizeRadioButton
+            //};
 
-            /*--- Get List of All Screens ---*/
-            var screens = Screen.AllScreens
+            /*--- Get List of All Full Size Windows ---*/
+            var screenSizes = Screen.AllScreens
                 .Select(o => o.WorkingArea)
                 .OrderByDescending(o => o.Height)
                 .ThenByDescending(o => o.Width)
                 .Select(o => new Size
                 {
-                    Height = o.Height - heightBuffer,
-                    Width = o.Width - widthBuffer
-                });
+                    Height = o.Height,
+                    Width = o.Width
+                })
+                .Distinct()
+                .ToList();
 
-            /*--- Get Distinct Screen Sizes ---*/
-            var screenSizes = new List<Size>();
+            var fullSizeBufferedWindows = screenSizes.Select(o => new Size
+            {
+                Height = o.Height - heightBuffer,
+                Width = o.Width - widthBuffer
+            });
+
+            /*--- Build List of Largest Windows ---*/
+            var largestWindows = new List<Size>();
             var screenNum = 0;
             var margin = 10;
 
-            foreach (var screen in screens)
+            foreach (var screen in fullSizeBufferedWindows)
             {
                 var bestScreenSize = screenResolutions.Where(o =>
                                                             o.Width < screen.Width - margin
@@ -274,32 +288,43 @@ namespace RemoteDesktopper
                                                         .ToList()
                                                         .FirstOrDefault();
 
-                if (!screenSizes.Any(o => o.Width == bestScreenSize.Width && o.Height == bestScreenSize.Height))
+                if (!largestWindows.Any(o => o.Width == bestScreenSize.Width && o.Height == bestScreenSize.Height))
                 { 
-                    screenSizes.Add(bestScreenSize);
+                    largestWindows.Add(bestScreenSize);
                     screenNum++;
                     if (screenNum > 3)
                         break;
                 }
             }
 
+            /*--- Fill Full-Screen-Window ComboBox (?)---*/
+            var useEnableFullScreenWindows = (screenSizes.Count() > 1);
+            uxFullScreenComboBox.Visible = useEnableFullScreenWindows;
+            uxFullScreenWindowRadioButton.Visible = useEnableFullScreenWindows;
 
-            /*--- Hide Radio Buttons ---*/
-            for (int i = 0; i < 3; i++)
-                screenSizeRadioButtons[i].Visible = false;
-
-            /*--- Loop Through Screens ---*/
-            screenNum = 0;
-
-            foreach (var screenSize in screenSizes)
+            if (useEnableFullScreenWindows)
             {
-                var rb = screenSizeRadioButtons[screenNum];
-                rb.Tag = string.Format("/w:{0} /h:{1}", screenSize.Width, screenSize.Height);
-                rb.Text = string.Format("{0} x {1}", screenSize.Width, screenSize.Height);
-                rb.Visible = true;
+                uxFullScreenComboBox.Items.Clear();
 
-                screenNum++;
+                foreach (var item in screenSizes)
+                    uxFullScreenComboBox.Items.Add(new ScreenSize(item));
+
+                //var fsVal = new ScreenSize(screenSizes[0]).Value;
+                //uxFullScreenComboBox.SelectedValue = fsVal;
+                uxFullScreenComboBox.SelectedIndex = 0;
             }
+
+            /*--- Fill Largest-Window ComboBox ---*/
+            uxLargestWindowComboBox.Items.Clear();
+
+            foreach (var item in largestWindows)
+                uxLargestWindowComboBox.Items.Add(new ScreenSize(item));
+
+            //var lwVal = new ScreenSize(largestWindows[0]).Value;
+            //uxLargestWindowComboBox.SelectedValue = lwVal;
+            uxLargestWindowComboBox.SelectedIndex = 0;
+
+            uxLargestWindowRadioButton.Checked = true;
         }
 
         private void MoveToSouthwest()

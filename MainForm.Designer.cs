@@ -47,6 +47,10 @@
             this.uxSmallSizeRadioButton = new System.Windows.Forms.RadioButton();
             this.uxStateTimer = new System.Windows.Forms.Timer(this.components);
             this.uxMinimizeAndConnectButton = new System.Windows.Forms.Button();
+            this.uxLargestWindowRadioButton = new System.Windows.Forms.RadioButton();
+            this.uxLargestWindowComboBox = new System.Windows.Forms.ComboBox();
+            this.uxFullScreenComboBox = new System.Windows.Forms.ComboBox();
+            this.uxFullScreenWindowRadioButton = new System.Windows.Forms.RadioButton();
             this.uxServerFrame.SuspendLayout();
             this.uxWindowSizeFrame.SuspendLayout();
             this.SuspendLayout();
@@ -58,16 +62,16 @@
             this.uxRdpFileComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.uxRdpFileComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uxRdpFileComboBox.FormattingEnabled = true;
-            this.uxRdpFileComboBox.Location = new System.Drawing.Point(103, 18);
+            this.uxRdpFileComboBox.Location = new System.Drawing.Point(25, 38);
             this.uxRdpFileComboBox.Name = "uxRdpFileComboBox";
-            this.uxRdpFileComboBox.Size = new System.Drawing.Size(500, 21);
+            this.uxRdpFileComboBox.Size = new System.Drawing.Size(431, 21);
             this.uxRdpFileComboBox.TabIndex = 1;
             this.uxRdpFileComboBox.SelectedIndexChanged += new System.EventHandler(this.uxRdpFileComboBox_SelectedIndexChanged);
             // 
             // uxFullScreenSizeRadioButton
             // 
             this.uxFullScreenSizeRadioButton.AutoSize = true;
-            this.uxFullScreenSizeRadioButton.Location = new System.Drawing.Point(12, 19);
+            this.uxFullScreenSizeRadioButton.Location = new System.Drawing.Point(6, 19);
             this.uxFullScreenSizeRadioButton.Name = "uxFullScreenSizeRadioButton";
             this.uxFullScreenSizeRadioButton.Size = new System.Drawing.Size(78, 17);
             this.uxFullScreenSizeRadioButton.TabIndex = 0;
@@ -78,18 +82,19 @@
             // uxMediumSizeRadioButton
             // 
             this.uxMediumSizeRadioButton.AutoSize = true;
-            this.uxMediumSizeRadioButton.Location = new System.Drawing.Point(12, 65);
+            this.uxMediumSizeRadioButton.Location = new System.Drawing.Point(820, 93);
             this.uxMediumSizeRadioButton.Name = "uxMediumSizeRadioButton";
             this.uxMediumSizeRadioButton.Size = new System.Drawing.Size(78, 17);
             this.uxMediumSizeRadioButton.TabIndex = 2;
             this.uxMediumSizeRadioButton.Tag = "/w:1280 /h:720";
             this.uxMediumSizeRadioButton.Text = "1280 x 720";
             this.uxMediumSizeRadioButton.UseVisualStyleBackColor = true;
+            this.uxMediumSizeRadioButton.Visible = false;
             // 
             // uxConnectButton
             // 
             this.uxConnectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxConnectButton.Location = new System.Drawing.Point(795, 41);
+            this.uxConnectButton.Location = new System.Drawing.Point(629, 41);
             this.uxConnectButton.Name = "uxConnectButton";
             this.uxConnectButton.Size = new System.Drawing.Size(138, 23);
             this.uxConnectButton.TabIndex = 4;
@@ -111,7 +116,7 @@
             this.uxServerFrame.Controls.Add(this.uxRdpFileComboBox);
             this.uxServerFrame.Location = new System.Drawing.Point(12, 12);
             this.uxServerFrame.Name = "uxServerFrame";
-            this.uxServerFrame.Size = new System.Drawing.Size(662, 125);
+            this.uxServerFrame.Size = new System.Drawing.Size(462, 177);
             this.uxServerFrame.TabIndex = 0;
             this.uxServerFrame.TabStop = false;
             this.uxServerFrame.Text = "Server";
@@ -120,7 +125,7 @@
             // 
             this.uxPasteServerNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uxPasteServerNameLabel.AutoSize = true;
-            this.uxPasteServerNameLabel.Location = new System.Drawing.Point(609, 75);
+            this.uxPasteServerNameLabel.Location = new System.Drawing.Point(422, 121);
             this.uxPasteServerNameLabel.Name = "uxPasteServerNameLabel";
             this.uxPasteServerNameLabel.Size = new System.Drawing.Size(34, 13);
             this.uxPasteServerNameLabel.TabIndex = 7;
@@ -135,16 +140,16 @@
             this.uxFavoriteComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.uxFavoriteComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uxFavoriteComboBox.FormattingEnabled = true;
-            this.uxFavoriteComboBox.Location = new System.Drawing.Point(103, 45);
+            this.uxFavoriteComboBox.Location = new System.Drawing.Point(25, 88);
             this.uxFavoriteComboBox.Name = "uxFavoriteComboBox";
-            this.uxFavoriteComboBox.Size = new System.Drawing.Size(553, 21);
+            this.uxFavoriteComboBox.Size = new System.Drawing.Size(431, 21);
             this.uxFavoriteComboBox.TabIndex = 4;
             this.uxFavoriteComboBox.SelectedIndexChanged += new System.EventHandler(this.uxFavoriteComboBox_SelectedIndexChanged);
             // 
             // uxFavoriteRadioButton
             // 
             this.uxFavoriteRadioButton.AutoSize = true;
-            this.uxFavoriteRadioButton.Location = new System.Drawing.Point(6, 46);
+            this.uxFavoriteRadioButton.Location = new System.Drawing.Point(6, 69);
             this.uxFavoriteRadioButton.Name = "uxFavoriteRadioButton";
             this.uxFavoriteRadioButton.Size = new System.Drawing.Size(86, 17);
             this.uxFavoriteRadioButton.TabIndex = 3;
@@ -155,7 +160,7 @@
             // 
             this.uxRequeryLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uxRequeryLinkLabel.AutoSize = true;
-            this.uxRequeryLinkLabel.Location = new System.Drawing.Point(609, 21);
+            this.uxRequeryLinkLabel.Location = new System.Drawing.Point(409, 21);
             this.uxRequeryLinkLabel.Name = "uxRequeryLinkLabel";
             this.uxRequeryLinkLabel.Size = new System.Drawing.Size(47, 13);
             this.uxRequeryLinkLabel.TabIndex = 2;
@@ -167,16 +172,16 @@
             // 
             this.uxServerNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxServerNameTextBox.Location = new System.Drawing.Point(103, 72);
+            this.uxServerNameTextBox.Location = new System.Drawing.Point(25, 142);
             this.uxServerNameTextBox.Name = "uxServerNameTextBox";
-            this.uxServerNameTextBox.Size = new System.Drawing.Size(500, 20);
+            this.uxServerNameTextBox.Size = new System.Drawing.Size(431, 20);
             this.uxServerNameTextBox.TabIndex = 6;
             this.uxServerNameTextBox.TextChanged += new System.EventHandler(this.uxServerNameTextBox_TextChanged);
             // 
             // uxServerRadioButton
             // 
             this.uxServerRadioButton.AutoSize = true;
-            this.uxServerRadioButton.Location = new System.Drawing.Point(6, 73);
+            this.uxServerRadioButton.Location = new System.Drawing.Point(6, 119);
             this.uxServerRadioButton.Name = "uxServerRadioButton";
             this.uxServerRadioButton.Size = new System.Drawing.Size(91, 17);
             this.uxServerRadioButton.TabIndex = 5;
@@ -198,22 +203,24 @@
             // uxWindowSizeFrame
             // 
             this.uxWindowSizeFrame.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxWindowSizeFrame.Controls.Add(this.uxRecalculateLabel);
-            this.uxWindowSizeFrame.Controls.Add(this.uxLargeSizeRadioButton);
+            this.uxWindowSizeFrame.Controls.Add(this.uxFullScreenComboBox);
+            this.uxWindowSizeFrame.Controls.Add(this.uxFullScreenWindowRadioButton);
+            this.uxWindowSizeFrame.Controls.Add(this.uxLargestWindowComboBox);
             this.uxWindowSizeFrame.Controls.Add(this.uxFullScreenSizeRadioButton);
-            this.uxWindowSizeFrame.Controls.Add(this.uxSmallSizeRadioButton);
-            this.uxWindowSizeFrame.Controls.Add(this.uxMediumSizeRadioButton);
-            this.uxWindowSizeFrame.Location = new System.Drawing.Point(684, 12);
+            this.uxWindowSizeFrame.Controls.Add(this.uxLargestWindowRadioButton);
+            this.uxWindowSizeFrame.Controls.Add(this.uxRecalculateLabel);
+            this.uxWindowSizeFrame.Location = new System.Drawing.Point(480, 12);
             this.uxWindowSizeFrame.Name = "uxWindowSizeFrame";
-            this.uxWindowSizeFrame.Size = new System.Drawing.Size(105, 125);
+            this.uxWindowSizeFrame.Size = new System.Drawing.Size(143, 177);
             this.uxWindowSizeFrame.TabIndex = 1;
             this.uxWindowSizeFrame.TabStop = false;
             this.uxWindowSizeFrame.Text = "Window Size";
             // 
             // uxRecalculateLabel
             // 
+            this.uxRecalculateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uxRecalculateLabel.AutoSize = true;
-            this.uxRecalculateLabel.Location = new System.Drawing.Point(32, 108);
+            this.uxRecalculateLabel.Location = new System.Drawing.Point(72, 149);
             this.uxRecalculateLabel.Name = "uxRecalculateLabel";
             this.uxRecalculateLabel.Size = new System.Drawing.Size(64, 13);
             this.uxRecalculateLabel.TabIndex = 4;
@@ -225,7 +232,7 @@
             // 
             this.uxLargeSizeRadioButton.AutoSize = true;
             this.uxLargeSizeRadioButton.Checked = true;
-            this.uxLargeSizeRadioButton.Location = new System.Drawing.Point(12, 42);
+            this.uxLargeSizeRadioButton.Location = new System.Drawing.Point(820, 70);
             this.uxLargeSizeRadioButton.Name = "uxLargeSizeRadioButton";
             this.uxLargeSizeRadioButton.Size = new System.Drawing.Size(78, 17);
             this.uxLargeSizeRadioButton.TabIndex = 1;
@@ -233,17 +240,19 @@
             this.uxLargeSizeRadioButton.Tag = "/w:1280 /h:720";
             this.uxLargeSizeRadioButton.Text = "1280 x 720";
             this.uxLargeSizeRadioButton.UseVisualStyleBackColor = true;
+            this.uxLargeSizeRadioButton.Visible = false;
             // 
             // uxSmallSizeRadioButton
             // 
             this.uxSmallSizeRadioButton.AutoSize = true;
-            this.uxSmallSizeRadioButton.Location = new System.Drawing.Point(12, 88);
+            this.uxSmallSizeRadioButton.Location = new System.Drawing.Point(820, 116);
             this.uxSmallSizeRadioButton.Name = "uxSmallSizeRadioButton";
             this.uxSmallSizeRadioButton.Size = new System.Drawing.Size(84, 17);
             this.uxSmallSizeRadioButton.TabIndex = 3;
             this.uxSmallSizeRadioButton.Tag = "/w:1680 /h:1050";
             this.uxSmallSizeRadioButton.Text = "1680 x 1050";
             this.uxSmallSizeRadioButton.UseVisualStyleBackColor = true;
+            this.uxSmallSizeRadioButton.Visible = false;
             // 
             // uxStateTimer
             // 
@@ -252,7 +261,7 @@
             // uxMinimizeAndConnectButton
             // 
             this.uxMinimizeAndConnectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxMinimizeAndConnectButton.Location = new System.Drawing.Point(795, 12);
+            this.uxMinimizeAndConnectButton.Location = new System.Drawing.Point(629, 12);
             this.uxMinimizeAndConnectButton.Name = "uxMinimizeAndConnectButton";
             this.uxMinimizeAndConnectButton.Size = new System.Drawing.Size(138, 23);
             this.uxMinimizeAndConnectButton.TabIndex = 2;
@@ -260,21 +269,69 @@
             this.uxMinimizeAndConnectButton.UseVisualStyleBackColor = true;
             this.uxMinimizeAndConnectButton.Click += new System.EventHandler(this.uxMinimizeAndConnectButton_Click);
             // 
+            // uxLargestWindowRadioButton
+            // 
+            this.uxLargestWindowRadioButton.AutoSize = true;
+            this.uxLargestWindowRadioButton.Checked = true;
+            this.uxLargestWindowRadioButton.Location = new System.Drawing.Point(6, 42);
+            this.uxLargestWindowRadioButton.Name = "uxLargestWindowRadioButton";
+            this.uxLargestWindowRadioButton.Size = new System.Drawing.Size(105, 17);
+            this.uxLargestWindowRadioButton.TabIndex = 5;
+            this.uxLargestWindowRadioButton.Text = "Largest Window:";
+            this.uxLargestWindowRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // uxLargestWindowComboBox
+            // 
+            this.uxLargestWindowComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxLargestWindowComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.uxLargestWindowComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.uxLargestWindowComboBox.FormattingEnabled = true;
+            this.uxLargestWindowComboBox.Location = new System.Drawing.Point(23, 61);
+            this.uxLargestWindowComboBox.Name = "uxLargestWindowComboBox";
+            this.uxLargestWindowComboBox.Size = new System.Drawing.Size(113, 21);
+            this.uxLargestWindowComboBox.TabIndex = 6;
+            // 
+            // uxFullScreenComboBox
+            // 
+            this.uxFullScreenComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxFullScreenComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.uxFullScreenComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.uxFullScreenComboBox.FormattingEnabled = true;
+            this.uxFullScreenComboBox.Location = new System.Drawing.Point(23, 111);
+            this.uxFullScreenComboBox.Name = "uxFullScreenComboBox";
+            this.uxFullScreenComboBox.Size = new System.Drawing.Size(113, 21);
+            this.uxFullScreenComboBox.TabIndex = 8;
+            // 
+            // uxFullScreenWindowRadioButton
+            // 
+            this.uxFullScreenWindowRadioButton.AutoSize = true;
+            this.uxFullScreenWindowRadioButton.Location = new System.Drawing.Point(6, 92);
+            this.uxFullScreenWindowRadioButton.Name = "uxFullScreenWindowRadioButton";
+            this.uxFullScreenWindowRadioButton.Size = new System.Drawing.Size(123, 17);
+            this.uxFullScreenWindowRadioButton.TabIndex = 7;
+            this.uxFullScreenWindowRadioButton.Text = "Full Screen Window:";
+            this.uxFullScreenWindowRadioButton.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AcceptButton = this.uxMinimizeAndConnectButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(945, 149);
+            this.ClientSize = new System.Drawing.Size(779, 202);
             this.Controls.Add(this.uxMinimizeAndConnectButton);
+            this.Controls.Add(this.uxLargeSizeRadioButton);
             this.Controls.Add(this.uxWindowSizeFrame);
+            this.Controls.Add(this.uxSmallSizeRadioButton);
             this.Controls.Add(this.uxServerFrame);
+            this.Controls.Add(this.uxMediumSizeRadioButton);
             this.Controls.Add(this.uxConnectButton);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(3000, 3000);
             this.MinimumSize = new System.Drawing.Size(438, 27);
             this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Remote Desktopper";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -283,6 +340,7 @@
             this.uxWindowSizeFrame.ResumeLayout(false);
             this.uxWindowSizeFrame.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -306,6 +364,10 @@
         private System.Windows.Forms.ComboBox uxFavoriteComboBox;
         private System.Windows.Forms.RadioButton uxFavoriteRadioButton;
         private System.Windows.Forms.LinkLabel uxPasteServerNameLabel;
+        private System.Windows.Forms.ComboBox uxFullScreenComboBox;
+        private System.Windows.Forms.RadioButton uxFullScreenWindowRadioButton;
+        private System.Windows.Forms.ComboBox uxLargestWindowComboBox;
+        private System.Windows.Forms.RadioButton uxLargestWindowRadioButton;
     }
 }
 
