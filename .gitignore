@@ -163,3 +163,4 @@ packages*/
 **/node_modules/
 
 *.DS_STORE
+FavoriteMachines.xml
