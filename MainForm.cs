@@ -58,7 +58,7 @@ namespace RemoteDesktopper
             Connect(true);
         }
 
-        private void uxRequeryLinkLabel_Click(object sender, EventArgs e)
+        private void uxRequeryRdpLinkLabel_Click(object sender, EventArgs e)
         {
             InitRdpFileComboBox();
         }
@@ -165,6 +165,18 @@ namespace RemoteDesktopper
         {
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var xmlFile = Path.Combine(path, @"..\..\FavoriteMachines.xml");
+
+            if (!File.Exists(xmlFile))
+            {
+                MessageBox.Show("Favorites file not found.\n\n" + xmlFile, this.Text, 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            var dt = File.GetLastWriteTime(xmlFile);
+            uxFavoritesTimestampLabel.Text = dt.ToString("MM/dd/yy h:mm tt");
+
             List<BLL.FavoriteMachine> favorites;
 
             using (var sr = new StreamReader(xmlFile))
@@ -174,10 +186,10 @@ namespace RemoteDesktopper
                 sr.Close();
             }
 
-            favorites.Insert(0, new FavoriteMachine { Name = string.Empty, PublicDns = string.Empty });
+            favorites.Insert(0, new FavoriteMachine { DisplayName = string.Empty, MachineAddress = string.Empty });
             uxFavoriteComboBox.DataSource = favorites;
-            uxFavoriteComboBox.DisplayMember = "Name";
-            uxFavoriteComboBox.ValueMember = "PublicDns";
+            uxFavoriteComboBox.DisplayMember = "DisplayName";
+            uxFavoriteComboBox.ValueMember = "MachineAddress";
         }
 
         //private void InitScreenOption()
@@ -314,6 +326,11 @@ namespace RemoteDesktopper
             this.Left = gap;
             this.Top = Screen.PrimaryScreen.WorkingArea.Height - this.Height - gap;
             this.Left = gap;
+        }
+
+        private void uxRequeryFavoritesLinkLabel_Click(object sender, EventArgs e)
+        {
+            InitFavoritesComboBox();
         }
 
     }

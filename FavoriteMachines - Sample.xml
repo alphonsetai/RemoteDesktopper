@@ -1,10 +1,10 @@
 ﻿<ArrayOfFavoriteMachine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <FavoriteMachine>
-    <Name>Web 1</Name>
-    <PublicDns>127.0.0.1</PublicDns>
+    <DisplayName>Web 1</DisplayName>
+    <MachineAddress>127.0.0.1</MachineAddress>
   </FavoriteMachine>
   <FavoriteMachine>
-    <Name>Web Server 1</Name>
-    <PublicDns>web01.mydomain</PublicDns>
+    <DisplayName>Web Server 1</DisplayName>
+    <MachineAddress>web01.mydomain</MachineAddress>
   </FavoriteMachine>
 </ArrayOfFavoriteMachine>

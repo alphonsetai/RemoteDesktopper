@@ -8,7 +8,7 @@ namespace RemoteDesktopper.BLL
 {
     public class FavoriteMachine
     {
-        public string Name { get; set; }
-        public string PublicDns { get; set; }
+        public string DisplayName { get; set; }
+        public string MachineAddress { get; set; }
     }
 }
