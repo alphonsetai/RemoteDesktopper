@@ -174,8 +174,14 @@ namespace RemoteDesktopper
                 return;
             }
 
+            var lbl = uxFavoritesTimestampLabel;
             var dt = File.GetLastWriteTime(xmlFile);
-            uxFavoritesTimestampLabel.Text = dt.ToString("MM/dd/yy h:mm tt");
+            var isOld = (DateTime.Now.Subtract(dt).TotalHours > 24.0);
+
+            lbl.Text = dt.ToString("MM/dd/yy h:mm tt");
+            lbl.ForeColor = isOld ? Color.Red : SystemColors.ControlText;
+            lbl.BackColor = isOld ?Color.Yellow : SystemColors.Control;
+
 
             List<BLL.FavoriteMachine> favorites;
 

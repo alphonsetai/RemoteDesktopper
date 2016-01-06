@@ -33,6 +33,8 @@
             this.uxFullScreenSizeRadioButton = new System.Windows.Forms.RadioButton();
             this.uxConnectButton = new System.Windows.Forms.Button();
             this.uxServerFrame = new System.Windows.Forms.GroupBox();
+            this.uxFavoritesTimestampLabel = new System.Windows.Forms.Label();
+            this.uxRequeryFavoritesLinkLabel = new System.Windows.Forms.LinkLabel();
             this.uxPasteServerNameLabel = new System.Windows.Forms.LinkLabel();
             this.uxFavoriteComboBox = new System.Windows.Forms.ComboBox();
             this.uxFavoriteRadioButton = new System.Windows.Forms.RadioButton();
@@ -48,8 +50,6 @@
             this.uxRecalculateLabel = new System.Windows.Forms.LinkLabel();
             this.uxStateTimer = new System.Windows.Forms.Timer(this.components);
             this.uxMinimizeAndConnectButton = new System.Windows.Forms.Button();
-            this.uxRequeryFavoritesLinkLabel = new System.Windows.Forms.LinkLabel();
-            this.uxFavoritesTimestampLabel = new System.Windows.Forms.Label();
             this.uxServerFrame.SuspendLayout();
             this.uxWindowSizeFrame.SuspendLayout();
             this.SuspendLayout();
@@ -109,6 +109,27 @@
             this.uxServerFrame.TabIndex = 0;
             this.uxServerFrame.TabStop = false;
             this.uxServerFrame.Text = "Server";
+            // 
+            // uxFavoritesTimestampLabel
+            // 
+            this.uxFavoritesTimestampLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxFavoritesTimestampLabel.Location = new System.Drawing.Point(315, 72);
+            this.uxFavoritesTimestampLabel.Name = "uxFavoritesTimestampLabel";
+            this.uxFavoritesTimestampLabel.Size = new System.Drawing.Size(101, 14);
+            this.uxFavoritesTimestampLabel.TabIndex = 9;
+            this.uxFavoritesTimestampLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // uxRequeryFavoritesLinkLabel
+            // 
+            this.uxRequeryFavoritesLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxRequeryFavoritesLinkLabel.AutoSize = true;
+            this.uxRequeryFavoritesLinkLabel.Location = new System.Drawing.Point(422, 72);
+            this.uxRequeryFavoritesLinkLabel.Name = "uxRequeryFavoritesLinkLabel";
+            this.uxRequeryFavoritesLinkLabel.Size = new System.Drawing.Size(47, 13);
+            this.uxRequeryFavoritesLinkLabel.TabIndex = 8;
+            this.uxRequeryFavoritesLinkLabel.TabStop = true;
+            this.uxRequeryFavoritesLinkLabel.Text = "Requery";
+            this.uxRequeryFavoritesLinkLabel.Click += new System.EventHandler(this.uxRequeryFavoritesLinkLabel_Click);
             // 
             // uxPasteServerNameLabel
             // 
@@ -277,27 +298,6 @@
             this.uxMinimizeAndConnectButton.Text = "Minimize and Connect";
             this.uxMinimizeAndConnectButton.UseVisualStyleBackColor = true;
             this.uxMinimizeAndConnectButton.Click += new System.EventHandler(this.uxMinimizeAndConnectButton_Click);
-            // 
-            // uxRequeryFavoritesLinkLabel
-            // 
-            this.uxRequeryFavoritesLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxRequeryFavoritesLinkLabel.AutoSize = true;
-            this.uxRequeryFavoritesLinkLabel.Location = new System.Drawing.Point(422, 72);
-            this.uxRequeryFavoritesLinkLabel.Name = "uxRequeryFavoritesLinkLabel";
-            this.uxRequeryFavoritesLinkLabel.Size = new System.Drawing.Size(47, 13);
-            this.uxRequeryFavoritesLinkLabel.TabIndex = 8;
-            this.uxRequeryFavoritesLinkLabel.TabStop = true;
-            this.uxRequeryFavoritesLinkLabel.Text = "Requery";
-            this.uxRequeryFavoritesLinkLabel.Click += new System.EventHandler(this.uxRequeryFavoritesLinkLabel_Click);
-            // 
-            // uxFavoritesTimestampLabel
-            // 
-            this.uxFavoritesTimestampLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxFavoritesTimestampLabel.Location = new System.Drawing.Point(305, 72);
-            this.uxFavoritesTimestampLabel.Name = "uxFavoritesTimestampLabel";
-            this.uxFavoritesTimestampLabel.Size = new System.Drawing.Size(111, 14);
-            this.uxFavoritesTimestampLabel.TabIndex = 9;
-            this.uxFavoritesTimestampLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // MainForm
             // 
