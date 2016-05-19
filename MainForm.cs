@@ -20,6 +20,7 @@ namespace RemoteDesktopper
     {
         private string _rdpFolder = @"C:\Data\Remote Desktop";
         private string _rdpExe = @"C:\Windows\System32\mstsc.exe";
+        private string _rdpTemplate;
         private bool _moreMode = true;
         private FormWindowState _lastState;
 
@@ -28,6 +29,7 @@ namespace RemoteDesktopper
             InitializeComponent();
             _lastState = this.WindowState;
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
+            _rdpTemplate = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Template.rdp");
         }
 
         void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
@@ -100,31 +102,48 @@ namespace RemoteDesktopper
             uxServerNameTextBox.Text = s;
         }
 
+        private void uxRequeryFavoritesLinkLabel_Click(object sender, EventArgs e)
+        {
+            InitFavoritesComboBox();
+        }
+
         /*-- Private Methods --------------------------------------------------------------------------------------------------*/
         private string BuildCommandArgs()
         {
             var result = string.Empty;
 
             if (uxRdpFileRadioButton.Checked)
-                result += "\"" + Path.Combine(_rdpFolder, uxRdpFileComboBox.Text) + ".rdp\"";
+            {
+                result += "\"" + Path.Combine(_rdpFolder, uxRdpFileComboBox.Text) + ".rdp\" ";
+            }
             else if (uxFavoriteRadioButton.Checked)
-                result += "/v: " + uxFavoriteComboBox.SelectedValue.ToString();
+            {
+                var selectedFavorite = ((FavoriteMachine)uxFavoriteComboBox.SelectedValue);
+                var targetFileName = CleanFileName(selectedFavorite.MachineName);
+                var targetFullName = Path.Combine(_rdpFolder, "Temp", targetFileName);
+                File.Copy(_rdpTemplate, targetFullName, true);
+                result += "\"" + targetFullName + "\" ";
+                result += "/v: " + selectedFavorite.MachineAddress;
+            }
             else
+            {
                 result += "/v:" + uxServerNameTextBox.Text;
+            }
 
             result += " ";
 
             if (uxFullScreenSizeRadioButton.Checked)
-
+            {
                 result += uxFullScreenSizeRadioButton.Tag.ToString();
-
+            }
             else if (uxFullScreenWindowRadioButton.Checked)
-
+            {
                 result += ((ScreenSize)uxFullScreenWindowComboBox.SelectedItem).Value.ToString();
-
+            }
             else if (uxLargestWindowRadioButton.Checked)
-
+            {
                 result += ((ScreenSize)uxLargestWindowComboBox.SelectedItem).Value.ToString();
+            }
 
             return result;
         }
@@ -140,17 +159,6 @@ namespace RemoteDesktopper
             si.Arguments = BuildCommandArgs();
             p.Start();
         }
-
-        //private ScreenMode GetScreenMode()
-        //{
-        //    if (Screen.AllScreens.Count() >= 2)
-        //        return ScreenMode.MultiScreen;
-
-        //    if (!SystemInformation.TerminalServerSession)
-        //        return ScreenMode.SingleScreenLocal;
-
-        //    return ScreenMode.Other;
-        //}
 
         private void InitRdpFileComboBox()
         {
@@ -180,7 +188,7 @@ namespace RemoteDesktopper
 
             lbl.Text = dt.ToString("MM/dd/yy h:mm tt");
             lbl.ForeColor = isOld ? Color.Red : SystemColors.ControlText;
-            lbl.BackColor = isOld ?Color.Yellow : SystemColors.Control;
+            lbl.BackColor = isOld ? Color.Yellow : SystemColors.Control;
 
 
             List<BLL.FavoriteMachine> favorites;
@@ -195,24 +203,8 @@ namespace RemoteDesktopper
             favorites.Insert(0, new FavoriteMachine { DisplayName = string.Empty, MachineAddress = string.Empty });
             uxFavoriteComboBox.DataSource = favorites;
             uxFavoriteComboBox.DisplayMember = "DisplayName";
-            uxFavoriteComboBox.ValueMember = "MachineAddress";
+            uxFavoriteComboBox.ValueMember = null;// Bind to the object "MachineAddress";
         }
-
-        //private void InitScreenOption()
-        //{
-        //    switch (GetScreenMode())
-        //    {
-        //        case ScreenMode.MultiScreen:
-        //            this.uxLargeSizeRadioButton.Checked = true;
-        //            break;
-        //        case ScreenMode.SingleScreenLocal:
-        //            this.uxFullScreenSizeRadioButton.Checked = true;
-        //            break;
-        //        case ScreenMode.Other:
-        //            this.uxLargeSizeRadioButton.Checked = true;
-        //            break;
-        //    }
-        //}
 
         private void UpdateState()
         {
@@ -334,10 +326,16 @@ namespace RemoteDesktopper
             this.Left = gap;
         }
 
-        private void uxRequeryFavoritesLinkLabel_Click(object sender, EventArgs e)
+        private string CleanFileName(string input)
         {
-            InitFavoritesComboBox();
-        }
+            var illegalCharacters = "\\/:*?\"<>|";
+            var imax = illegalCharacters.Length - 1;
+            var result = input;
 
+            for (var i = 0; i <= imax; i++)
+                result = result.Replace(illegalCharacters.Substring(i, 1), "~");
+            
+            return result;
+        }
     }
 }
