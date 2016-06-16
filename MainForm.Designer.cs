@@ -33,10 +33,11 @@
             this.uxFullScreenSizeRadioButton = new System.Windows.Forms.RadioButton();
             this.uxConnectButton = new System.Windows.Forms.Button();
             this.uxServerFrame = new System.Windows.Forms.GroupBox();
+            this.uxFavoriteGroupsComboBox = new System.Windows.Forms.ComboBox();
             this.uxFavoritesTimestampLabel = new System.Windows.Forms.Label();
             this.uxRequeryFavoritesLinkLabel = new System.Windows.Forms.LinkLabel();
             this.uxPasteServerNameLabel = new System.Windows.Forms.LinkLabel();
-            this.uxFavoriteComboBox = new System.Windows.Forms.ComboBox();
+            this.uxFavoriteMachineComboBox = new System.Windows.Forms.ComboBox();
             this.uxFavoriteRadioButton = new System.Windows.Forms.RadioButton();
             this.uxRequeryRdpLinkLabel = new System.Windows.Forms.LinkLabel();
             this.uxServerNameTextBox = new System.Windows.Forms.TextBox();
@@ -93,10 +94,11 @@
             // 
             this.uxServerFrame.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxServerFrame.Controls.Add(this.uxFavoriteGroupsComboBox);
             this.uxServerFrame.Controls.Add(this.uxFavoritesTimestampLabel);
             this.uxServerFrame.Controls.Add(this.uxRequeryFavoritesLinkLabel);
             this.uxServerFrame.Controls.Add(this.uxPasteServerNameLabel);
-            this.uxServerFrame.Controls.Add(this.uxFavoriteComboBox);
+            this.uxServerFrame.Controls.Add(this.uxFavoriteMachineComboBox);
             this.uxServerFrame.Controls.Add(this.uxFavoriteRadioButton);
             this.uxServerFrame.Controls.Add(this.uxRequeryRdpLinkLabel);
             this.uxServerFrame.Controls.Add(this.uxServerNameTextBox);
@@ -109,6 +111,19 @@
             this.uxServerFrame.TabIndex = 0;
             this.uxServerFrame.TabStop = false;
             this.uxServerFrame.Text = "Server";
+            // 
+            // uxFavoriteGroupsComboBox
+            // 
+            this.uxFavoriteGroupsComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxFavoriteGroupsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.uxFavoriteGroupsComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.uxFavoriteGroupsComboBox.FormattingEnabled = true;
+            this.uxFavoriteGroupsComboBox.Location = new System.Drawing.Point(25, 88);
+            this.uxFavoriteGroupsComboBox.Name = "uxFavoriteGroupsComboBox";
+            this.uxFavoriteGroupsComboBox.Size = new System.Drawing.Size(187, 21);
+            this.uxFavoriteGroupsComboBox.TabIndex = 10;
+            this.uxFavoriteGroupsComboBox.SelectedIndexChanged += new System.EventHandler(this.uxFavoriteGroupsComboBox_SelectedIndexChanged);
             // 
             // uxFavoritesTimestampLabel
             // 
@@ -143,18 +158,18 @@
             this.uxPasteServerNameLabel.Text = "Paste";
             this.uxPasteServerNameLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.uxPasteServerNameLabel_LinkClicked);
             // 
-            // uxFavoriteComboBox
+            // uxFavoriteMachineComboBox
             // 
-            this.uxFavoriteComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.uxFavoriteMachineComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxFavoriteComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.uxFavoriteComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uxFavoriteComboBox.FormattingEnabled = true;
-            this.uxFavoriteComboBox.Location = new System.Drawing.Point(25, 88);
-            this.uxFavoriteComboBox.Name = "uxFavoriteComboBox";
-            this.uxFavoriteComboBox.Size = new System.Drawing.Size(444, 21);
-            this.uxFavoriteComboBox.TabIndex = 4;
-            this.uxFavoriteComboBox.SelectedIndexChanged += new System.EventHandler(this.uxFavoriteComboBox_SelectedIndexChanged);
+            this.uxFavoriteMachineComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.uxFavoriteMachineComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.uxFavoriteMachineComboBox.FormattingEnabled = true;
+            this.uxFavoriteMachineComboBox.Location = new System.Drawing.Point(218, 88);
+            this.uxFavoriteMachineComboBox.Name = "uxFavoriteMachineComboBox";
+            this.uxFavoriteMachineComboBox.Size = new System.Drawing.Size(251, 21);
+            this.uxFavoriteMachineComboBox.TabIndex = 4;
+            this.uxFavoriteMachineComboBox.SelectedIndexChanged += new System.EventHandler(this.uxFavoriteComboBox_SelectedIndexChanged);
             // 
             // uxFavoriteRadioButton
             // 
@@ -339,7 +354,7 @@
         private System.Windows.Forms.LinkLabel uxRequeryRdpLinkLabel;
         private System.Windows.Forms.LinkLabel uxRecalculateLabel;
         private System.Windows.Forms.Button uxMinimizeAndConnectButton;
-        private System.Windows.Forms.ComboBox uxFavoriteComboBox;
+        private System.Windows.Forms.ComboBox uxFavoriteMachineComboBox;
         private System.Windows.Forms.RadioButton uxFavoriteRadioButton;
         private System.Windows.Forms.LinkLabel uxPasteServerNameLabel;
         private System.Windows.Forms.RadioButton uxFullScreenWindowRadioButton;
@@ -348,6 +363,7 @@
         private System.Windows.Forms.ComboBox uxFullScreenWindowComboBox;
         private System.Windows.Forms.LinkLabel uxRequeryFavoritesLinkLabel;
         private System.Windows.Forms.Label uxFavoritesTimestampLabel;
+        private System.Windows.Forms.ComboBox uxFavoriteGroupsComboBox;
     }
 }
 

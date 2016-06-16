@@ -23,6 +23,7 @@ namespace RemoteDesktopper
         private string _rdpTemplate;
         private bool _moreMode = true;
         private FormWindowState _lastState;
+        private List<BLL.FavoriteMachine> _favoriteMachines;
 
         public MainForm()
         {
@@ -42,7 +43,7 @@ namespace RemoteDesktopper
         private void MainForm_Load(object sender, EventArgs e)
         {
             MoveToSouthwest();
-            InitFavoritesComboBox();
+            InitFavoriteGroupsComboBox();
             InitRdpFileComboBox();
             //InitScreenOption();
             CalculateScreenSizes();
@@ -92,7 +93,7 @@ namespace RemoteDesktopper
 
         private void uxFavoriteComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(uxFavoriteComboBox.SelectedValue.ToString()))
+            if (!string.IsNullOrWhiteSpace(uxFavoriteMachineComboBox.SelectedValue.ToString()))
                 uxFavoriteRadioButton.Checked = true;
         }
 
@@ -104,7 +105,12 @@ namespace RemoteDesktopper
 
         private void uxRequeryFavoritesLinkLabel_Click(object sender, EventArgs e)
         {
-            InitFavoritesComboBox();
+            InitFavoriteGroupsComboBox();
+        }
+
+        private void uxFavoriteGroupsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshFavoriteMachinesComboBox();
         }
 
         /*-- Private Methods --------------------------------------------------------------------------------------------------*/
@@ -118,8 +124,8 @@ namespace RemoteDesktopper
             }
             else if (uxFavoriteRadioButton.Checked)
             {
-                var selectedFavorite = ((FavoriteMachine)uxFavoriteComboBox.SelectedValue);
-                var targetFileName = CleanFileName(selectedFavorite.MachineName);
+                var selectedFavorite = ((FavoriteMachine)uxFavoriteMachineComboBox.SelectedValue);
+                var targetFileName = CleanFileName(selectedFavorite.MachineName + " - " + selectedFavorite.GroupName);
                 var targetFullName = Path.Combine(_rdpFolder, "Temp", targetFileName);
                 File.Copy(_rdpTemplate, targetFullName, true);
                 result += "\"" + targetFullName + "\" ";
@@ -169,8 +175,9 @@ namespace RemoteDesktopper
                 uxRdpFileComboBox.Items.Add(Path.GetFileNameWithoutExtension(item));
         }
 
-        private void InitFavoritesComboBox()
+        private void InitFavoriteGroupsComboBox()
         {
+            /*--- Inits ---*/
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var xmlFile = Path.Combine(path, @"..\..\FavoriteMachines.xml");
 
@@ -182,6 +189,7 @@ namespace RemoteDesktopper
                 return;
             }
 
+            /*--- Update Timestamp Label ---*/
             var lbl = uxFavoritesTimestampLabel;
             var dt = File.GetLastWriteTime(xmlFile);
             var isOld = (DateTime.Now.Subtract(dt).TotalHours > 24.0);
@@ -190,20 +198,27 @@ namespace RemoteDesktopper
             lbl.ForeColor = isOld ? Color.Red : SystemColors.ControlText;
             lbl.BackColor = isOld ? Color.Yellow : SystemColors.Control;
 
-
-            List<BLL.FavoriteMachine> favorites;
+            /*--- Load Favorites from XML file ---*/
 
             using (var sr = new StreamReader(xmlFile))
             {
                 var xs = new XmlSerializer(typeof(List<BLL.FavoriteMachine>));
-                favorites = (List<BLL.FavoriteMachine>)xs.Deserialize(sr);
+                _favoriteMachines = (List<BLL.FavoriteMachine>)xs.Deserialize(sr);
                 sr.Close();
             }
+            _favoriteMachines.Insert(0, new FavoriteMachine { DisplayName = string.Empty, MachineAddress = string.Empty, GroupName = string.Empty, MachineName = string.Empty });
 
-            favorites.Insert(0, new FavoriteMachine { DisplayName = string.Empty, MachineAddress = string.Empty });
-            uxFavoriteComboBox.DataSource = favorites;
-            uxFavoriteComboBox.DisplayMember = "DisplayName";
-            uxFavoriteComboBox.ValueMember = null;// Bind to the object "MachineAddress";
+            /*--- Bind Favorite Groups ComboBox ---*/
+            uxFavoriteGroupsComboBox.DataSource = _favoriteMachines.Select(a => a.GroupName).Distinct().OrderBy(a => a).ToList();
+            RefreshFavoriteMachinesComboBox();
+        }
+
+        private void RefreshFavoriteMachinesComboBox()
+        {
+            var groupName = uxFavoriteGroupsComboBox.SelectedValue.ToString();
+            uxFavoriteMachineComboBox.DataSource = _favoriteMachines.Where(a => a.GroupName == groupName).ToList(); ;
+            uxFavoriteMachineComboBox.DisplayMember = "MachineName";
+            uxFavoriteMachineComboBox.ValueMember = null;// Bind to the object "MachineAddress";
         }
 
         private void UpdateState()
@@ -216,7 +231,7 @@ namespace RemoteDesktopper
 
             var enabled = (uxRdpFileRadioButton.Checked && !string.IsNullOrWhiteSpace(uxRdpFileComboBox.Text)) 
                 || (uxServerRadioButton.Checked && !string.IsNullOrWhiteSpace(uxServerNameTextBox.Text))
-                || (uxFavoriteRadioButton.Checked && !string.IsNullOrWhiteSpace(uxFavoriteComboBox.SelectedValue.ToString()))
+                || (uxFavoriteRadioButton.Checked && !string.IsNullOrWhiteSpace(uxFavoriteMachineComboBox.SelectedValue.ToString()))
                 ;
 
             uxConnectButton.Enabled = enabled;
