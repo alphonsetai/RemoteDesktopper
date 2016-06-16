@@ -51,8 +51,13 @@
             this.uxRecalculateLabel = new System.Windows.Forms.LinkLabel();
             this.uxStateTimer = new System.Windows.Forms.Timer(this.components);
             this.uxMinimizeAndConnectButton = new System.Windows.Forms.Button();
+            this.uxFavoritesSplitContainer = new System.Windows.Forms.SplitContainer();
             this.uxServerFrame.SuspendLayout();
             this.uxWindowSizeFrame.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.uxFavoritesSplitContainer)).BeginInit();
+            this.uxFavoritesSplitContainer.Panel1.SuspendLayout();
+            this.uxFavoritesSplitContainer.Panel2.SuspendLayout();
+            this.uxFavoritesSplitContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // uxRdpFileComboBox
@@ -94,11 +99,10 @@
             // 
             this.uxServerFrame.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxServerFrame.Controls.Add(this.uxFavoriteGroupsComboBox);
+            this.uxServerFrame.Controls.Add(this.uxFavoritesSplitContainer);
             this.uxServerFrame.Controls.Add(this.uxFavoritesTimestampLabel);
             this.uxServerFrame.Controls.Add(this.uxRequeryFavoritesLinkLabel);
             this.uxServerFrame.Controls.Add(this.uxPasteServerNameLabel);
-            this.uxServerFrame.Controls.Add(this.uxFavoriteMachineComboBox);
             this.uxServerFrame.Controls.Add(this.uxFavoriteRadioButton);
             this.uxServerFrame.Controls.Add(this.uxRequeryRdpLinkLabel);
             this.uxServerFrame.Controls.Add(this.uxServerNameTextBox);
@@ -114,14 +118,13 @@
             // 
             // uxFavoriteGroupsComboBox
             // 
-            this.uxFavoriteGroupsComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxFavoriteGroupsComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uxFavoriteGroupsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.uxFavoriteGroupsComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uxFavoriteGroupsComboBox.FormattingEnabled = true;
-            this.uxFavoriteGroupsComboBox.Location = new System.Drawing.Point(25, 88);
+            this.uxFavoriteGroupsComboBox.Location = new System.Drawing.Point(0, 0);
             this.uxFavoriteGroupsComboBox.Name = "uxFavoriteGroupsComboBox";
-            this.uxFavoriteGroupsComboBox.Size = new System.Drawing.Size(187, 21);
+            this.uxFavoriteGroupsComboBox.Size = new System.Drawing.Size(161, 21);
             this.uxFavoriteGroupsComboBox.TabIndex = 10;
             this.uxFavoriteGroupsComboBox.SelectedIndexChanged += new System.EventHandler(this.uxFavoriteGroupsComboBox_SelectedIndexChanged);
             // 
@@ -160,14 +163,13 @@
             // 
             // uxFavoriteMachineComboBox
             // 
-            this.uxFavoriteMachineComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxFavoriteMachineComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uxFavoriteMachineComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.uxFavoriteMachineComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uxFavoriteMachineComboBox.FormattingEnabled = true;
-            this.uxFavoriteMachineComboBox.Location = new System.Drawing.Point(218, 88);
+            this.uxFavoriteMachineComboBox.Location = new System.Drawing.Point(0, 0);
             this.uxFavoriteMachineComboBox.Name = "uxFavoriteMachineComboBox";
-            this.uxFavoriteMachineComboBox.Size = new System.Drawing.Size(251, 21);
+            this.uxFavoriteMachineComboBox.Size = new System.Drawing.Size(279, 21);
             this.uxFavoriteMachineComboBox.TabIndex = 4;
             this.uxFavoriteMachineComboBox.SelectedIndexChanged += new System.EventHandler(this.uxFavoriteComboBox_SelectedIndexChanged);
             // 
@@ -314,6 +316,25 @@
             this.uxMinimizeAndConnectButton.UseVisualStyleBackColor = true;
             this.uxMinimizeAndConnectButton.Click += new System.EventHandler(this.uxMinimizeAndConnectButton_Click);
             // 
+            // uxFavoritesSplitContainer
+            // 
+            this.uxFavoritesSplitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxFavoritesSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.uxFavoritesSplitContainer.Location = new System.Drawing.Point(25, 92);
+            this.uxFavoritesSplitContainer.Name = "uxFavoritesSplitContainer";
+            // 
+            // uxFavoritesSplitContainer.Panel1
+            // 
+            this.uxFavoritesSplitContainer.Panel1.Controls.Add(this.uxFavoriteGroupsComboBox);
+            // 
+            // uxFavoritesSplitContainer.Panel2
+            // 
+            this.uxFavoritesSplitContainer.Panel2.Controls.Add(this.uxFavoriteMachineComboBox);
+            this.uxFavoritesSplitContainer.Size = new System.Drawing.Size(444, 23);
+            this.uxFavoritesSplitContainer.SplitterDistance = 161;
+            this.uxFavoritesSplitContainer.TabIndex = 5;
+            // 
             // MainForm
             // 
             this.AcceptButton = this.uxMinimizeAndConnectButton;
@@ -325,8 +346,8 @@
             this.Controls.Add(this.uxServerFrame);
             this.Controls.Add(this.uxConnectButton);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(3000, 3000);
-            this.MinimumSize = new System.Drawing.Size(438, 27);
+            this.MaximumSize = new System.Drawing.Size(3000, 229);
+            this.MinimumSize = new System.Drawing.Size(438, 229);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Remote Desktopper";
@@ -336,6 +357,10 @@
             this.uxServerFrame.PerformLayout();
             this.uxWindowSizeFrame.ResumeLayout(false);
             this.uxWindowSizeFrame.PerformLayout();
+            this.uxFavoritesSplitContainer.Panel1.ResumeLayout(false);
+            this.uxFavoritesSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.uxFavoritesSplitContainer)).EndInit();
+            this.uxFavoritesSplitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -364,6 +389,7 @@
         private System.Windows.Forms.LinkLabel uxRequeryFavoritesLinkLabel;
         private System.Windows.Forms.Label uxFavoritesTimestampLabel;
         private System.Windows.Forms.ComboBox uxFavoriteGroupsComboBox;
+        private System.Windows.Forms.SplitContainer uxFavoritesSplitContainer;
     }
 }
 

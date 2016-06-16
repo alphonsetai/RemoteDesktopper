@@ -217,7 +217,7 @@ namespace RemoteDesktopper
         {
             var groupName = uxFavoriteGroupsComboBox.SelectedValue.ToString();
             uxFavoriteMachineComboBox.DataSource = _favoriteMachines.Where(a => a.GroupName == groupName).ToList(); ;
-            uxFavoriteMachineComboBox.DisplayMember = "MachineName";
+            uxFavoriteMachineComboBox.DisplayMember = "DisplayName";
             uxFavoriteMachineComboBox.ValueMember = null;// Bind to the object "MachineAddress";
         }
 
