@@ -235,7 +235,7 @@ namespace RemoteDesktopper
                 ;
 
             uxConnectButton.Enabled = enabled;
-            uxMinimizeAndConnectButton.Enabled = enabled;
+            //uxMinimizeAndConnectButton.Enabled = enabled;
         }
 
         private void CalculateScreenSizes()
