@@ -152,8 +152,17 @@ namespace RemoteDesktopper
                     var keyFolder = Path.Combine(_sshKeyFolder, selectedFavorite.GroupName);
                     var ppkFile = Path.Combine(keyFolder, selectedFavorite.KeyName) + ".ppk";
                     var pemFile = Path.Combine(keyFolder, selectedFavorite.KeyName) + ".pem";
-                    // TODO: If PPK file not found, but PEM file is, offer to convert it via the following command
-                    // winscp.com /keygen {pemFile} /output={ppkFile}
+
+                    /*--- If PPK file not found, but PEM file is, offer to convert it ---*/
+                    if (!File.Exists(ppkFile) && File.Exists(pemFile))
+                    {
+                        var msg = string.Format("PPK file was not found.\n{0}.\n\nPEM file was found. Convert it? \n\n{1}", ppkFile, pemFile);
+
+                        if (DialogResult.Yes == MessageBox.Show(msg, this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+                        {
+                            ConvertPemFileToPpk(pemFile);
+                        }
+                    }
 
                     if (File.Exists(ppkFile))
                     {
@@ -200,6 +209,12 @@ namespace RemoteDesktopper
         private void Connect(bool minimizeFirst)
         {
             var cmd = BuildCommand();
+
+            if (!cmd.IsValid)
+            {
+                MessageBox.Show(cmd.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (minimizeFirst && !cmd.UsePutty)
                 this.WindowState = FormWindowState.Minimized;
@@ -427,6 +442,25 @@ namespace RemoteDesktopper
 
             var result = value.ToString();
             return result;
+        }
+
+        private void ConvertPemFileToPpk(string pemFile)
+        {
+            // Assumption: pemKeyFile exists
+
+            // winscp.com /keygen {pemFile} /output={ppkFile}
+
+            var ppkFile = Path.Combine(Path.GetDirectoryName(pemFile), Path.GetFileNameWithoutExtension(pemFile)) + ".ppk";
+
+            var args = string.Format("/keygen \"{0}\" /output=\"{1}\"", pemFile, ppkFile);
+
+            var p = new Process();
+            var si = p.StartInfo;
+            si.FileName = _winscpExe;
+            si.Arguments = args;
+            
+            p.Start();
+            p.WaitForExit();
         }
     }
 }
