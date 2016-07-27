@@ -19,7 +19,11 @@ namespace RemoteDesktopper
     public partial class MainForm : Form
     {
         private string _rdpFolder = @"C:\Data\Remote Desktop";
+        private string _sshKeyFolder = string.Empty;
+
         private string _rdpExe = @"C:\Windows\System32\mstsc.exe";
+        private string _puttyExe = @"C:\Program Files (x86)\PuTTY\putty.exe";
+        private string _winscpExe = @"C:\Program Files (x86)\WinSCP\winscp.com";
         private string _rdpTemplate;
         private bool _moreMode = true;
         private FormWindowState _lastState;
@@ -31,6 +35,7 @@ namespace RemoteDesktopper
             _lastState = this.WindowState;
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
             _rdpTemplate = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Template.rdp");
+            _sshKeyFolder = GetSshKeyFolder();
         }
 
         void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
@@ -114,55 +119,95 @@ namespace RemoteDesktopper
         }
 
         /*-- Private Methods --------------------------------------------------------------------------------------------------*/
-        private string BuildCommandArgs()
+        private Command BuildCommand()
         {
-            var result = string.Empty;
+            var args = string.Empty;
+            var usePutty = false;
+            var isValid = true;
+            var errorMessage = string.Empty;
 
             if (uxRdpFileRadioButton.Checked)
             {
-                result += "\"" + Path.Combine(_rdpFolder, uxRdpFileComboBox.Text) + ".rdp\" ";
+                args += "\"" + Path.Combine(_rdpFolder, uxRdpFileComboBox.Text) + ".rdp\" ";
             }
-            else if (uxFavoriteRadioButton.Checked)
+            else if (uxServerRadioButton.Checked)
             {
-                var selectedFavorite = ((FavoriteMachine)uxFavoriteMachineComboBox.SelectedValue);
-                var targetFileName = CleanFileName(selectedFavorite.MachineName + " - " + selectedFavorite.GroupName);
-                var targetFullName = Path.Combine(_rdpFolder, "Temp", targetFileName);
-                File.Copy(_rdpTemplate, targetFullName, true);
-                result += "\"" + targetFullName + "\" ";
-                result += "/v: " + selectedFavorite.MachineAddress;
+                args += "/v:" + uxServerNameTextBox.Text;
             }
             else
             {
-                result += "/v:" + uxServerNameTextBox.Text;
+                var selectedFavorite = ((FavoriteMachine)uxFavoriteMachineComboBox.SelectedValue);
+
+                if (selectedFavorite.Platform == "Windows")
+                {
+                    var targetFileName = CleanFileName(selectedFavorite.MachineName + " - " + selectedFavorite.GroupName);
+                    var targetFullName = Path.Combine(_rdpFolder, "Temp", targetFileName);
+                    File.Copy(_rdpTemplate, targetFullName, true);
+                    args += "\"" + targetFullName + "\" ";
+                    args += "/v: " + selectedFavorite.MachineAddress;
+                }
+                else // assume Linux
+                {
+                    usePutty = true;
+                    var keyFolder = Path.Combine(_sshKeyFolder, selectedFavorite.GroupName);
+                    var ppkFile = Path.Combine(keyFolder, selectedFavorite.KeyName) + ".ppk";
+                    var pemFile = Path.Combine(keyFolder, selectedFavorite.KeyName) + ".pem";
+                    // TODO: If PPK file not found, but PEM file is, offer to convert it via the following command
+                    // winscp.com /keygen {pemFile} /output={ppkFile}
+
+                    if (File.Exists(ppkFile))
+                    {
+                        var user = "ec2-user"; // assumed
+                        var port = 22; // assumed
+                        args = string.Format("-ssh {0}@{1} -P {2} -i \"{3}\"", "ec2-user", selectedFavorite.MachineAddress, port, ppkFile);
+                    }
+                    else
+                    {
+                        isValid = false;
+                        errorMessage = string.Format("PPK file '{0}' not found.", ppkFile);
+                    }
+
+                }
             }
 
-            result += " ";
+            if (!usePutty)
+            {
+                args += " ";
 
-            if (uxFullScreenSizeRadioButton.Checked)
-            {
-                result += uxFullScreenSizeRadioButton.Tag.ToString();
-            }
-            else if (uxFullScreenWindowRadioButton.Checked)
-            {
-                result += ((ScreenSize)uxFullScreenWindowComboBox.SelectedItem).Value.ToString();
-            }
-            else if (uxLargestWindowRadioButton.Checked)
-            {
-                result += ((ScreenSize)uxLargestWindowComboBox.SelectedItem).Value.ToString();
+                if (uxFullScreenSizeRadioButton.Checked)
+                {
+                    args += uxFullScreenSizeRadioButton.Tag.ToString();
+                }
+                else if (uxFullScreenWindowRadioButton.Checked)
+                {
+                    args += ((ScreenSize)uxFullScreenWindowComboBox.SelectedItem).Value.ToString();
+                }
+                else if (uxLargestWindowRadioButton.Checked)
+                {
+                    args += ((ScreenSize)uxLargestWindowComboBox.SelectedItem).Value.ToString();
+                }
             }
 
-            return result;
+            return new Command
+            {
+                Arguments = args,
+                UsePutty = usePutty,
+                IsValid = isValid,
+                ErrorMessage = errorMessage
+            };
         }
 
         private void Connect(bool minimizeFirst)
         {
-            if (minimizeFirst)
+            var cmd = BuildCommand();
+
+            if (minimizeFirst && !cmd.UsePutty)
                 this.WindowState = FormWindowState.Minimized;
 
             var p = new Process();
             var si = p.StartInfo;
-            si.FileName = _rdpExe;
-            si.Arguments = BuildCommandArgs();
+            si.FileName = cmd.UsePutty ? _puttyExe : _rdpExe;
+            si.Arguments = cmd.Arguments;
             p.Start();
         }
 
@@ -350,6 +395,37 @@ namespace RemoteDesktopper
             for (var i = 0; i <= imax; i++)
                 result = result.Replace(illegalCharacters.Substring(i, 1), "~");
             
+            return result;
+        }
+
+        private string GetSshKeyFolder()
+        {
+            var subKeyName = @"SOFTWARE\Jasinski\Remote Desktopper";
+            var valueName = "SSH Key Folder";
+
+            var subKey = Registry.CurrentUser.OpenSubKey(subKeyName);
+
+            if (subKey == null)
+            {
+                var msg = string.Format("Couldn't determine SSH Key Folder.\n\nRegistry Key 'HKCU\\{0}' not found.\n\nYou will not be able to connect to servers over SSH.", 
+                    subKeyName);
+
+                MessageBox.Show(msg, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return string.Empty;
+            }
+            
+            var value = subKey.GetValue(valueName);
+
+            if (value == null)
+            {
+                var msg = string.Format("Couldn't determine SSH Key Folder.\n\nRegistry Value 'HKCU\\{0}\\[{1}]' not found.\n\nYou will not be able to connect to servers over SSH.", 
+                    subKeyName, valueName);
+
+                MessageBox.Show(msg, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return string.Empty;
+            }
+
+            var result = value.ToString();
             return result;
         }
     }

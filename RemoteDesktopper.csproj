@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\Command.cs" />
     <Compile Include="BLL\FavoriteMachine.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

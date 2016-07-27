@@ -12,5 +12,7 @@ namespace RemoteDesktopper.BLL
         public string MachineAddress { get; set; }
         public string GroupName { get; set; }
         public string MachineName { get; set; }
+        public string Platform { get; set; }
+        public string KeyName { get; set; }
     }
 }
