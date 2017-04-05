@@ -14,5 +14,7 @@ namespace RemoteDesktopper.BLL
         public string MachineName { get; set; }
         public string Platform { get; set; }
         public string KeyName { get; set; }
+        public int SshPort { get; set; }
+        public string SshUser { get; set; }
     }
 }

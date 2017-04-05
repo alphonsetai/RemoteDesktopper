@@ -166,9 +166,9 @@ namespace RemoteDesktopper
 
                     if (File.Exists(ppkFile))
                     {
-                        var user = "ec2-user"; // assumed
-                        var port = 22; // assumed
-                        args = string.Format("-ssh {0}@{1} -P {2} -i \"{3}\"", "ec2-user", selectedFavorite.MachineAddress, port, ppkFile);
+                        var user = selectedFavorite.SshUser;
+                        var port = selectedFavorite.SshPort;
+                        args = string.Format("-ssh {0}@{1} -P {2} -i \"{3}\"", user, selectedFavorite.MachineAddress, port, ppkFile);
                     }
                     else
                     {
@@ -374,7 +374,7 @@ namespace RemoteDesktopper
 
             uxLargestWindowComboBox.SelectedIndex = 0;
 
-            uxLargestWindowRadioButton.Checked = true;
+            //uxLargestWindowRadioButton.Checked = true;
 
             /*--- Fill Full-Screen-Window ComboBox (?)---*/
             var useEnableFullScreenWindows = (screenSizes.Count() > 1);
@@ -387,7 +387,7 @@ namespace RemoteDesktopper
                     uxFullScreenWindowComboBox.Items.Add(new ScreenSize(item));
 
                 uxFullScreenWindowComboBox.SelectedIndex = 0;
-                uxFullScreenWindowRadioButton.Checked = true;
+                //uxFullScreenWindowRadioButton.Checked = true;
             }
             uxFullScreenWindowComboBox.Visible = useEnableFullScreenWindows;
             uxFullScreenWindowRadioButton.Visible = useEnableFullScreenWindows;
@@ -461,6 +461,18 @@ namespace RemoteDesktopper
             
             p.Start();
             p.WaitForExit();
+        }
+
+        private void uxRequeryFavoritesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            RefreshFavoriteMachinesComboBox();
+        }
+
+        private void uxFavoritePropertiesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var selectedFavorite = ((FavoriteMachine)uxFavoriteMachineComboBox.SelectedValue);
+            var frm = new FavoriteMachineForm();
+            frm.ShowDialog(selectedFavorite);
         }
     }
 }
