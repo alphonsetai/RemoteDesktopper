@@ -20,6 +20,7 @@ namespace RemoteDesktopper
 
         public void ShowDialog(FavoriteMachine m)
         {
+            uxServerNameTextBox.Text = m.MachineName;
             uxIpAddressTextBox.Text = m.MachineAddress;
             uxPortTextBox.Text = m.SshPort.ToString();
             uxUsernameTextBox.Text = m.SshUser;
@@ -30,6 +31,9 @@ namespace RemoteDesktopper
         private void uxCopyButton_Click(object sender, EventArgs e)
         {
             var sb = new StringBuilder();
+
+            sb.Append("Server: ");
+            sb.AppendLine(uxServerNameTextBox.Text);
 
             sb.Append("IP Address: ");
             sb.AppendLine(uxIpAddressTextBox.Text);
