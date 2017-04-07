@@ -16,5 +16,10 @@ namespace RemoteDesktopper.BLL
         public string KeyName { get; set; }
         public int SshPort { get; set; }
         public string SshUser { get; set; }
+
+        public bool UsesSsh
+        {
+            get { return Platform != "Windows"; }
+        }
     }
 }

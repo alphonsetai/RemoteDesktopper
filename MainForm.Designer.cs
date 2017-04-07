@@ -33,6 +33,7 @@
             this.uxFullScreenSizeRadioButton = new System.Windows.Forms.RadioButton();
             this.uxConnectButton = new System.Windows.Forms.Button();
             this.uxServerFrame = new System.Windows.Forms.GroupBox();
+            this.uxFavoritePropertiesLinkLabel = new System.Windows.Forms.LinkLabel();
             this.uxFavoritesSplitContainer = new System.Windows.Forms.SplitContainer();
             this.uxFavoriteGroupsComboBox = new System.Windows.Forms.ComboBox();
             this.uxFavoriteMachineComboBox = new System.Windows.Forms.ComboBox();
@@ -51,7 +52,6 @@
             this.uxLargestWindowRadioButton = new System.Windows.Forms.RadioButton();
             this.uxRecalculateLabel = new System.Windows.Forms.LinkLabel();
             this.uxStateTimer = new System.Windows.Forms.Timer(this.components);
-            this.uxFavoritePropertiesLinkLabel = new System.Windows.Forms.LinkLabel();
             this.uxServerFrame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uxFavoritesSplitContainer)).BeginInit();
             this.uxFavoritesSplitContainer.Panel1.SuspendLayout();
@@ -116,6 +116,18 @@
             this.uxServerFrame.TabIndex = 0;
             this.uxServerFrame.TabStop = false;
             this.uxServerFrame.Text = "Server";
+            // 
+            // uxFavoritePropertiesLinkLabel
+            // 
+            this.uxFavoritePropertiesLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxFavoritePropertiesLinkLabel.AutoSize = true;
+            this.uxFavoritePropertiesLinkLabel.Location = new System.Drawing.Point(98, 71);
+            this.uxFavoritePropertiesLinkLabel.Name = "uxFavoritePropertiesLinkLabel";
+            this.uxFavoritePropertiesLinkLabel.Size = new System.Drawing.Size(54, 13);
+            this.uxFavoritePropertiesLinkLabel.TabIndex = 10;
+            this.uxFavoritePropertiesLinkLabel.TabStop = true;
+            this.uxFavoritePropertiesLinkLabel.Text = "Properties";
+            this.uxFavoritePropertiesLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.uxFavoritePropertiesLinkLabel_LinkClicked);
             // 
             // uxFavoritesSplitContainer
             // 
@@ -325,18 +337,6 @@
             // uxStateTimer
             // 
             this.uxStateTimer.Tick += new System.EventHandler(this.uxStateTimer_Tick);
-            // 
-            // uxFavoritePropertiesLinkLabel
-            // 
-            this.uxFavoritePropertiesLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxFavoritePropertiesLinkLabel.AutoSize = true;
-            this.uxFavoritePropertiesLinkLabel.Location = new System.Drawing.Point(98, 71);
-            this.uxFavoritePropertiesLinkLabel.Name = "uxFavoritePropertiesLinkLabel";
-            this.uxFavoritePropertiesLinkLabel.Size = new System.Drawing.Size(54, 13);
-            this.uxFavoritePropertiesLinkLabel.TabIndex = 10;
-            this.uxFavoritePropertiesLinkLabel.TabStop = true;
-            this.uxFavoritePropertiesLinkLabel.Text = "Properties";
-            this.uxFavoritePropertiesLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.uxFavoritePropertiesLinkLabel_LinkClicked);
             // 
             // MainForm
             // 

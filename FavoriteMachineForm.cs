@@ -13,6 +13,8 @@ namespace RemoteDesktopper
 {
     public partial class FavoriteMachineForm : Form
     {
+        private FavoriteMachine _machine;
+
         public FavoriteMachineForm()
         {
             InitializeComponent();
@@ -20,11 +22,21 @@ namespace RemoteDesktopper
 
         public void ShowDialog(FavoriteMachine m)
         {
-            uxServerNameTextBox.Text = m.MachineName;
-            uxIpAddressTextBox.Text = m.MachineAddress;
-            uxPortTextBox.Text = m.SshPort.ToString();
-            uxUsernameTextBox.Text = m.SshUser;
-            uxPemFileTextBox.Text = m.GroupName + @"\" + m.KeyName + ".pem";
+            _machine = m;
+
+            uxServerNameTextBox.Text = _machine.MachineName;
+            uxIpAddressTextBox.Text = _machine.MachineAddress;
+            uxPortTextBox.Text = _machine.SshPort.ToString();
+            uxUsernameTextBox.Text = _machine.SshUser;
+            uxPemFileTextBox.Text = _machine.GroupName + @"\" + _machine.KeyName + ".pem";
+
+            lblPort.Visible = _machine.UsesSsh;
+            uxPortTextBox.Visible = _machine.UsesSsh;
+            lblUsername.Visible = _machine.UsesSsh;
+            uxUsernameTextBox.Visible = _machine.UsesSsh;
+            lblPemFile.Visible = _machine.UsesSsh;
+            uxPemFileTextBox.Visible = _machine.UsesSsh;
+
             ShowDialog();
         }
 
@@ -38,14 +50,17 @@ namespace RemoteDesktopper
             sb.Append("IP Address: ");
             sb.AppendLine(uxIpAddressTextBox.Text);
 
-            sb.Append("Port: ");
-            sb.AppendLine(uxPortTextBox.Text);
+            if (_machine.UsesSsh)
+            {
+                sb.Append("Port: ");
+                sb.AppendLine(uxPortTextBox.Text);
 
-            sb.Append("Username: ");
-            sb.AppendLine(uxUsernameTextBox.Text);
+                sb.Append("Username: ");
+                sb.AppendLine(uxUsernameTextBox.Text);
 
-            sb.Append("PEM File: ");
-            sb.AppendLine(uxPemFileTextBox.Text);
+                sb.Append("PEM File: ");
+                sb.AppendLine(uxPemFileTextBox.Text);
+            }
 
             Clipboard.SetText(sb.ToString());
         }

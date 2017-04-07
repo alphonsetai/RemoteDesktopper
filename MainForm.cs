@@ -138,7 +138,7 @@ namespace RemoteDesktopper
             {
                 var selectedFavorite = ((FavoriteMachine)uxFavoriteMachineComboBox.SelectedValue);
 
-                if (selectedFavorite.Platform == "Windows")
+                if (!selectedFavorite.UsesSsh)
                 {
                     var targetFileName = CleanFileName(selectedFavorite.MachineName + " - " + selectedFavorite.GroupName);
                     var targetFullName = Path.Combine(_rdpFolder, "Temp", targetFileName);
