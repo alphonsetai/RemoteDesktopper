@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.uxRdpFileComboBox = new System.Windows.Forms.ComboBox();
             this.uxFullScreenSizeRadioButton = new System.Windows.Forms.RadioButton();
             this.uxConnectButton = new System.Windows.Forms.Button();
@@ -347,6 +348,7 @@
             this.Controls.Add(this.uxWindowSizeFrame);
             this.Controls.Add(this.uxServerFrame);
             this.Controls.Add(this.uxConnectButton);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(3000, 269);
             this.MinimumSize = new System.Drawing.Size(438, 269);
