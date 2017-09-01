@@ -64,5 +64,10 @@ namespace RemoteDesktopper
 
             Clipboard.SetText(sb.ToString());
         }
+
+        private void uxCloseButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

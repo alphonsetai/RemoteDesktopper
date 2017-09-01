@@ -39,6 +39,7 @@
             this.uxCopyButton = new System.Windows.Forms.Button();
             this.uxServerNameTextBox = new System.Windows.Forms.TextBox();
             this.lblServerName = new System.Windows.Forms.Label();
+            this.uxCloseButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblIpAddress
@@ -115,7 +116,7 @@
             // 
             // uxCopyButton
             // 
-            this.uxCopyButton.Location = new System.Drawing.Point(302, 107);
+            this.uxCopyButton.Location = new System.Drawing.Point(221, 107);
             this.uxCopyButton.Name = "uxCopyButton";
             this.uxCopyButton.Size = new System.Drawing.Size(75, 23);
             this.uxCopyButton.TabIndex = 10;
@@ -141,11 +142,24 @@
             this.lblServerName.TabIndex = 0;
             this.lblServerName.Text = "Server Name";
             // 
+            // uxCloseButton
+            // 
+            this.uxCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.uxCloseButton.Location = new System.Drawing.Point(302, 107);
+            this.uxCloseButton.Name = "uxCloseButton";
+            this.uxCloseButton.Size = new System.Drawing.Size(75, 23);
+            this.uxCloseButton.TabIndex = 11;
+            this.uxCloseButton.Text = "Close";
+            this.uxCloseButton.UseVisualStyleBackColor = true;
+            this.uxCloseButton.Click += new System.EventHandler(this.uxCloseButton_Click);
+            // 
             // FavoriteMachineForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.uxCloseButton;
             this.ClientSize = new System.Drawing.Size(389, 145);
+            this.Controls.Add(this.uxCloseButton);
             this.Controls.Add(this.uxServerNameTextBox);
             this.Controls.Add(this.lblServerName);
             this.Controls.Add(this.uxCopyButton);
@@ -181,5 +195,6 @@
         private System.Windows.Forms.Button uxCopyButton;
         private System.Windows.Forms.TextBox uxServerNameTextBox;
         private System.Windows.Forms.Label lblServerName;
+        private System.Windows.Forms.Button uxCloseButton;
     }
 }
