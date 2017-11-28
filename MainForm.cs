@@ -187,6 +187,10 @@ namespace RemoteDesktopper
                 {
                     args += uxFullScreenSizeRadioButton.Tag.ToString();
                 }
+                else if (uxAllMonitorsRadioButton.Checked)
+                {
+                    args += uxAllMonitorsRadioButton.Tag.ToString();
+                }
                 else if (uxFullScreenWindowRadioButton.Checked)
                 {
                     args += ((ScreenSize)uxFullScreenWindowComboBox.SelectedItem).Value.ToString();
@@ -275,6 +279,9 @@ namespace RemoteDesktopper
 
         private void RefreshFavoriteMachinesComboBox()
         {
+            if (uxFavoriteGroupsComboBox.SelectedValue == null)
+                return;
+
             var groupName = uxFavoriteGroupsComboBox.SelectedValue.ToString();
             uxFavoriteMachineComboBox.DataSource = _favoriteMachines.Where(a => a.GroupName == groupName).ToList(); ;
             uxFavoriteMachineComboBox.DisplayMember = "DisplayName";
