@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.uxRdpFileComboBox = new System.Windows.Forms.ComboBox();
             this.uxFullScreenSizeRadioButton = new System.Windows.Forms.RadioButton();
             this.uxConnectButton = new System.Windows.Forms.Button();
@@ -122,7 +123,7 @@
             // 
             this.uxFavoritePropertiesLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uxFavoritePropertiesLinkLabel.AutoSize = true;
-            this.uxFavoritePropertiesLinkLabel.Location = new System.Drawing.Point(98, 71);
+            this.uxFavoritePropertiesLinkLabel.Location = new System.Drawing.Point(458, 75);
             this.uxFavoritePropertiesLinkLabel.Name = "uxFavoritePropertiesLinkLabel";
             this.uxFavoritePropertiesLinkLabel.Size = new System.Drawing.Size(54, 13);
             this.uxFavoritePropertiesLinkLabel.TabIndex = 10;
@@ -176,7 +177,7 @@
             // uxFavoritesTimestampLabel
             // 
             this.uxFavoritesTimestampLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxFavoritesTimestampLabel.Location = new System.Drawing.Point(358, 72);
+            this.uxFavoritesTimestampLabel.Location = new System.Drawing.Point(298, 75);
             this.uxFavoritesTimestampLabel.Name = "uxFavoritesTimestampLabel";
             this.uxFavoritesTimestampLabel.Size = new System.Drawing.Size(101, 14);
             this.uxFavoritesTimestampLabel.TabIndex = 9;
@@ -186,7 +187,7 @@
             // 
             this.uxRequeryFavoritesLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uxRequeryFavoritesLinkLabel.AutoSize = true;
-            this.uxRequeryFavoritesLinkLabel.Location = new System.Drawing.Point(465, 72);
+            this.uxRequeryFavoritesLinkLabel.Location = new System.Drawing.Point(405, 75);
             this.uxRequeryFavoritesLinkLabel.Name = "uxRequeryFavoritesLinkLabel";
             this.uxRequeryFavoritesLinkLabel.Size = new System.Drawing.Size(47, 13);
             this.uxRequeryFavoritesLinkLabel.TabIndex = 8;
@@ -360,6 +361,7 @@
             this.Controls.Add(this.uxWindowSizeFrame);
             this.Controls.Add(this.uxServerFrame);
             this.Controls.Add(this.uxConnectButton);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(3000, 269);
             this.MinimumSize = new System.Drawing.Size(438, 269);
