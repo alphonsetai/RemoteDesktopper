@@ -118,6 +118,18 @@ namespace RemoteDesktopper
             RefreshFavoriteMachinesComboBox();
         }
 
+        private void uxRequeryFavoritesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            RefreshFavoriteMachinesComboBox();
+        }
+
+        private void uxFavoritePropertiesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var selectedFavorite = ((FavoriteMachine)uxFavoriteMachineComboBox.SelectedValue);
+            var frm = new FavoriteMachineForm();
+            frm.ShowDialog(selectedFavorite);
+        }
+
         /*-- Private Methods --------------------------------------------------------------------------------------------------*/
         private Command BuildCommand()
         {
@@ -298,8 +310,7 @@ namespace RemoteDesktopper
 
             var enabled = (uxRdpFileRadioButton.Checked && !string.IsNullOrWhiteSpace(uxRdpFileComboBox.Text)) 
                 || (uxServerRadioButton.Checked && !string.IsNullOrWhiteSpace(uxServerNameTextBox.Text))
-                || (uxFavoriteRadioButton.Checked && !string.IsNullOrWhiteSpace(uxFavoriteMachineComboBox.SelectedValue.ToString()))
-                ;
+                || (uxFavoriteRadioButton.Checked && !string.IsNullOrWhiteSpace(SelectedFavoriteMachine));
 
             uxConnectButton.Enabled = enabled;
             //uxMinimizeAndConnectButton.Enabled = enabled;
@@ -470,16 +481,15 @@ namespace RemoteDesktopper
             p.WaitForExit();
         }
 
-        private void uxRequeryFavoritesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private string SelectedFavoriteMachine
         {
-            RefreshFavoriteMachinesComboBox();
+            get
+            {
+                var fm = uxFavoriteMachineComboBox.SelectedValue;
+
+                return fm == null ? string.Empty : fm.ToString();
+            }
         }
 
-        private void uxFavoritePropertiesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var selectedFavorite = ((FavoriteMachine)uxFavoriteMachineComboBox.SelectedValue);
-            var frm = new FavoriteMachineForm();
-            frm.ShowDialog(selectedFavorite);
-        }
     }
 }
