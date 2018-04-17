@@ -118,6 +118,18 @@ namespace RemoteDesktopper
             RefreshFavoriteMachinesComboBox();
         }
 
+        private void uxRequeryFavoritesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            RefreshFavoriteMachinesComboBox();
+        }
+
+        private void uxFavoritePropertiesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var selectedFavorite = ((FavoriteMachine)uxFavoriteMachineComboBox.SelectedValue);
+            var frm = new FavoriteMachineForm();
+            frm.ShowDialog(selectedFavorite);
+        }
+
         /*-- Private Methods --------------------------------------------------------------------------------------------------*/
         private Command BuildCommand()
         {
@@ -186,6 +198,10 @@ namespace RemoteDesktopper
                 if (uxFullScreenSizeRadioButton.Checked)
                 {
                     args += uxFullScreenSizeRadioButton.Tag.ToString();
+                }
+                else if (uxAllMonitorsRadioButton.Checked)
+                {
+                    args += uxAllMonitorsRadioButton.Tag.ToString();
                 }
                 else if (uxFullScreenWindowRadioButton.Checked)
                 {
@@ -275,6 +291,9 @@ namespace RemoteDesktopper
 
         private void RefreshFavoriteMachinesComboBox()
         {
+            if (uxFavoriteGroupsComboBox.SelectedValue == null)
+                return;
+
             var groupName = uxFavoriteGroupsComboBox.SelectedValue.ToString();
             uxFavoriteMachineComboBox.DataSource = _favoriteMachines.Where(a => a.GroupName == groupName).ToList(); ;
             uxFavoriteMachineComboBox.DisplayMember = "DisplayName";
@@ -291,8 +310,7 @@ namespace RemoteDesktopper
 
             var enabled = (uxRdpFileRadioButton.Checked && !string.IsNullOrWhiteSpace(uxRdpFileComboBox.Text)) 
                 || (uxServerRadioButton.Checked && !string.IsNullOrWhiteSpace(uxServerNameTextBox.Text))
-                || (uxFavoriteRadioButton.Checked && !string.IsNullOrWhiteSpace(uxFavoriteMachineComboBox.SelectedValue.ToString()))
-                ;
+                || (uxFavoriteRadioButton.Checked && !string.IsNullOrWhiteSpace(SelectedFavoriteMachine));
 
             uxConnectButton.Enabled = enabled;
             //uxMinimizeAndConnectButton.Enabled = enabled;
@@ -463,16 +481,15 @@ namespace RemoteDesktopper
             p.WaitForExit();
         }
 
-        private void uxRequeryFavoritesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private string SelectedFavoriteMachine
         {
-            RefreshFavoriteMachinesComboBox();
+            get
+            {
+                var fm = uxFavoriteMachineComboBox.SelectedValue;
+
+                return fm == null ? string.Empty : fm.ToString();
+            }
         }
 
-        private void uxFavoritePropertiesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var selectedFavorite = ((FavoriteMachine)uxFavoriteMachineComboBox.SelectedValue);
-            var frm = new FavoriteMachineForm();
-            frm.ShowDialog(selectedFavorite);
-        }
     }
 }

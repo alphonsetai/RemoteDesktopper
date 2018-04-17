@@ -53,6 +53,7 @@
             this.uxLargestWindowRadioButton = new System.Windows.Forms.RadioButton();
             this.uxRecalculateLabel = new System.Windows.Forms.LinkLabel();
             this.uxStateTimer = new System.Windows.Forms.Timer(this.components);
+            this.uxAllMonitorsRadioButton = new System.Windows.Forms.RadioButton();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
             this.fullScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -269,6 +270,7 @@
             // uxWindowSizeFrame
             // 
             this.uxWindowSizeFrame.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.uxWindowSizeFrame.Controls.Add(this.uxAllMonitorsRadioButton);
             this.uxWindowSizeFrame.Controls.Add(this.uxFullScreenWindowComboBox);
             this.uxWindowSizeFrame.Controls.Add(this.uxFullScreenWindowRadioButton);
             this.uxWindowSizeFrame.Controls.Add(this.uxLargestWindowComboBox);
@@ -289,7 +291,7 @@
             this.uxFullScreenWindowComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.uxFullScreenWindowComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uxFullScreenWindowComboBox.FormattingEnabled = true;
-            this.uxFullScreenWindowComboBox.Location = new System.Drawing.Point(23, 111);
+            this.uxFullScreenWindowComboBox.Location = new System.Drawing.Point(23, 134);
             this.uxFullScreenWindowComboBox.Name = "uxFullScreenWindowComboBox";
             this.uxFullScreenWindowComboBox.Size = new System.Drawing.Size(113, 21);
             this.uxFullScreenWindowComboBox.TabIndex = 8;
@@ -297,7 +299,7 @@
             // uxFullScreenWindowRadioButton
             // 
             this.uxFullScreenWindowRadioButton.AutoSize = true;
-            this.uxFullScreenWindowRadioButton.Location = new System.Drawing.Point(6, 92);
+            this.uxFullScreenWindowRadioButton.Location = new System.Drawing.Point(6, 115);
             this.uxFullScreenWindowRadioButton.Name = "uxFullScreenWindowRadioButton";
             this.uxFullScreenWindowRadioButton.Size = new System.Drawing.Size(123, 17);
             this.uxFullScreenWindowRadioButton.TabIndex = 7;
@@ -311,7 +313,7 @@
             this.uxLargestWindowComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.uxLargestWindowComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uxLargestWindowComboBox.FormattingEnabled = true;
-            this.uxLargestWindowComboBox.Location = new System.Drawing.Point(23, 61);
+            this.uxLargestWindowComboBox.Location = new System.Drawing.Point(23, 84);
             this.uxLargestWindowComboBox.Name = "uxLargestWindowComboBox";
             this.uxLargestWindowComboBox.Size = new System.Drawing.Size(113, 21);
             this.uxLargestWindowComboBox.TabIndex = 6;
@@ -320,7 +322,7 @@
             // 
             this.uxLargestWindowRadioButton.AutoSize = true;
             this.uxLargestWindowRadioButton.Checked = true;
-            this.uxLargestWindowRadioButton.Location = new System.Drawing.Point(6, 42);
+            this.uxLargestWindowRadioButton.Location = new System.Drawing.Point(6, 65);
             this.uxLargestWindowRadioButton.Name = "uxLargestWindowRadioButton";
             this.uxLargestWindowRadioButton.Size = new System.Drawing.Size(105, 17);
             this.uxLargestWindowRadioButton.TabIndex = 5;
@@ -332,7 +334,7 @@
             // 
             this.uxRecalculateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uxRecalculateLabel.AutoSize = true;
-            this.uxRecalculateLabel.Location = new System.Drawing.Point(72, 149);
+            this.uxRecalculateLabel.Location = new System.Drawing.Point(72, 158);
             this.uxRecalculateLabel.Name = "uxRecalculateLabel";
             this.uxRecalculateLabel.Size = new System.Drawing.Size(64, 13);
             this.uxRecalculateLabel.TabIndex = 4;
@@ -343,6 +345,17 @@
             // uxStateTimer
             // 
             this.uxStateTimer.Tick += new System.EventHandler(this.uxStateTimer_Tick);
+            // 
+            // uxAllMonitorsRadioButton
+            // 
+            this.uxAllMonitorsRadioButton.AutoSize = true;
+            this.uxAllMonitorsRadioButton.Location = new System.Drawing.Point(6, 42);
+            this.uxAllMonitorsRadioButton.Name = "uxAllMonitorsRadioButton";
+            this.uxAllMonitorsRadioButton.Size = new System.Drawing.Size(79, 17);
+            this.uxAllMonitorsRadioButton.TabIndex = 9;
+            this.uxAllMonitorsRadioButton.Tag = "/multimon";
+            this.uxAllMonitorsRadioButton.Text = "All Monitors";
+            this.uxAllMonitorsRadioButton.UseVisualStyleBackColor = true;
             // 
             // toolStrip1
             // 
@@ -438,6 +451,7 @@
         private System.Windows.Forms.ComboBox uxFavoriteGroupsComboBox;
         private System.Windows.Forms.SplitContainer uxFavoritesSplitContainer;
         private System.Windows.Forms.LinkLabel uxFavoritePropertiesLinkLabel;
+        private System.Windows.Forms.RadioButton uxAllMonitorsRadioButton;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
         private System.Windows.Forms.ToolStripMenuItem fullScreenToolStripMenuItem;
