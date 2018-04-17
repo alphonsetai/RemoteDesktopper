@@ -53,12 +53,17 @@
             this.uxLargestWindowRadioButton = new System.Windows.Forms.RadioButton();
             this.uxRecalculateLabel = new System.Windows.Forms.LinkLabel();
             this.uxStateTimer = new System.Windows.Forms.Timer(this.components);
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this.fullScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.largestWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uxServerFrame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uxFavoritesSplitContainer)).BeginInit();
             this.uxFavoritesSplitContainer.Panel1.SuspendLayout();
             this.uxFavoritesSplitContainer.Panel2.SuspendLayout();
             this.uxFavoritesSplitContainer.SuspendLayout();
             this.uxWindowSizeFrame.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // uxRdpFileComboBox
@@ -339,12 +344,48 @@
             // 
             this.uxStateTimer.Tick += new System.EventHandler(this.uxStateTimer_Tick);
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripSplitButton1});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(692, 25);
+            this.toolStrip1.TabIndex = 5;
+            this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip1.Visible = false;
+            // 
+            // toolStripSplitButton1
+            // 
+            this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fullScreenToolStripMenuItem,
+            this.largestWindowToolStripMenuItem});
+            this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
+            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
+            this.toolStripSplitButton1.Size = new System.Drawing.Size(68, 22);
+            this.toolStripSplitButton1.Text = "Connect";
+            // 
+            // fullScreenToolStripMenuItem
+            // 
+            this.fullScreenToolStripMenuItem.Name = "fullScreenToolStripMenuItem";
+            this.fullScreenToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.fullScreenToolStripMenuItem.Text = "Full Screen";
+            // 
+            // largestWindowToolStripMenuItem
+            // 
+            this.largestWindowToolStripMenuItem.Name = "largestWindowToolStripMenuItem";
+            this.largestWindowToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.largestWindowToolStripMenuItem.Text = "Largest Window";
+            // 
             // MainForm
             // 
             this.AcceptButton = this.uxConnectButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(692, 230);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.uxWindowSizeFrame);
             this.Controls.Add(this.uxServerFrame);
             this.Controls.Add(this.uxConnectButton);
@@ -365,7 +406,10 @@
             this.uxFavoritesSplitContainer.ResumeLayout(false);
             this.uxWindowSizeFrame.ResumeLayout(false);
             this.uxWindowSizeFrame.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -394,6 +438,10 @@
         private System.Windows.Forms.ComboBox uxFavoriteGroupsComboBox;
         private System.Windows.Forms.SplitContainer uxFavoritesSplitContainer;
         private System.Windows.Forms.LinkLabel uxFavoritePropertiesLinkLabel;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
+        private System.Windows.Forms.ToolStripMenuItem fullScreenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem largestWindowToolStripMenuItem;
     }
 }
 
