@@ -29,6 +29,7 @@ namespace RemoteDesktopper
         private FormWindowState _lastState;
         private List<BLL.FavoriteMachine> _favoriteMachines;
 
+
         public MainForm()
         {
             InitializeComponent();
@@ -58,12 +59,7 @@ namespace RemoteDesktopper
 
         private void uxConnectButton_Click(object sender, EventArgs e)
         {
-            Connect(false);
-        }
-
-        private void uxMinimizeAndConnectButton_Click(object sender, EventArgs e)
-        {
-            Connect(true);
+            Connect();
         }
 
         private void uxRequeryRdpLinkLabel_Click(object sender, EventArgs e)
@@ -130,14 +126,42 @@ namespace RemoteDesktopper
             frm.ShowDialog(selectedFavorite);
         }
 
+        private void uxScreenSizeMenuItem_Click(object sender, EventArgs e)
+        {
+            var menuItems = new[]
+                {uxFullScreenMenuItem, uxAllMonitorsMenuItem, uxFullScreenWindowMenuItem, uxLargestWindowMenuItem};
+
+            foreach (var menuItem in menuItems)
+                menuItem.Checked = false;
+
+            var senderMenuItem = sender as ToolStripMenuItem;
+
+            senderMenuItem.Checked = true;
+
+            uxConnectSplitButton.Text = $"Connect ({senderMenuItem.Text})";
+
+        }
+
+        private void uxWindowSizeMenuItem_Click(object sender, EventArgs e)
+        {
+            var senderMenuItem = sender as ToolStripMenuItem;
+            HandleWindowSizeMenuItemClick(senderMenuItem);
+        }
+
+        private void uxConnectSplitButton_ButtonClick(object sender, EventArgs e)
+        {
+            Connect(true);
+        }
+
         /*-- Private Methods --------------------------------------------------------------------------------------------------*/
-        private Command BuildCommand()
+        private Command BuildCommand(bool fromMenuItems = false)
         {
             var args = string.Empty;
             var usePutty = false;
             var isValid = true;
             var errorMessage = string.Empty;
 
+            /*--- Determin Remote Server ---*/
             if (uxRdpFileRadioButton.Checked)
             {
                 args += "\"" + Path.Combine(_rdpFolder, uxRdpFileComboBox.Text) + ".rdp\" ";
@@ -191,28 +215,42 @@ namespace RemoteDesktopper
                 }
             }
 
+            /*--- Determine Window Size ---*/
             if (!usePutty)
             {
                 args += " ";
 
-                if (uxFullScreenSizeRadioButton.Checked)
+                if ((!fromMenuItems && uxFullScreenSizeRadioButton.Checked) || (fromMenuItems && uxFullScreenMenuItem.Checked))
                 {
                     args += uxFullScreenSizeRadioButton.Tag.ToString();
                 }
-                else if (uxAllMonitorsRadioButton.Checked)
+                else if ((!fromMenuItems && uxAllMonitorsRadioButton.Checked) || (fromMenuItems && uxAllMonitorsMenuItem.Checked))
                 {
                     args += uxAllMonitorsRadioButton.Tag.ToString();
                 }
-                else if (uxFullScreenWindowRadioButton.Checked)
+                else if (!fromMenuItems && uxFullScreenWindowRadioButton.Checked)
                 {
                     args += ((ScreenSize)uxFullScreenWindowComboBox.SelectedItem).Value.ToString();
                 }
-                else if (uxLargestWindowRadioButton.Checked)
+                else if (fromMenuItems && uxFullScreenWindowMenuItem.Checked)
+                {
+                    var checkedChild = GetFirstCheckedChild(uxFullScreenWindowMenuItem);
+                    var ss = checkedChild.Tag as ScreenSize;
+                    args += ss.Value;
+                }
+                else if (!fromMenuItems && uxLargestWindowRadioButton.Checked)
                 {
                     args += ((ScreenSize)uxLargestWindowComboBox.SelectedItem).Value.ToString();
                 }
+                else if (fromMenuItems && uxLargestWindowMenuItem.Checked)
+                {
+                    var checkedChild = GetFirstCheckedChild(uxLargestWindowMenuItem);
+                    var ss = checkedChild.Tag as ScreenSize;
+                    args += ss.Value;
+                }
             }
 
+            /*--- Return Result ---*/
             return new Command
             {
                 Arguments = args,
@@ -222,18 +260,31 @@ namespace RemoteDesktopper
             };
         }
 
-        private void Connect(bool minimizeFirst)
+        private ToolStripMenuItem GetFirstCheckedChild(ToolStripDropDownItem parent)
         {
-            var cmd = BuildCommand();
+            foreach (var item in parent.DropDownItems)
+            {
+                var menuItem = item as ToolStripMenuItem;
+
+                if (menuItem == null)
+                    continue;
+
+                if (menuItem.Checked)
+                    return menuItem;
+            }
+
+            return null;
+        }
+
+        private void Connect(bool fromMenuItems = false)
+        {
+            var cmd = BuildCommand(fromMenuItems);
 
             if (!cmd.IsValid)
             {
                 MessageBox.Show(cmd.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            if (minimizeFirst && !cmd.UsePutty)
-                this.WindowState = FormWindowState.Minimized;
 
             var p = new Process();
             var si = p.StartInfo;
@@ -313,6 +364,7 @@ namespace RemoteDesktopper
                 || (uxFavoriteRadioButton.Checked && !string.IsNullOrWhiteSpace(SelectedFavoriteMachine));
 
             uxConnectButton.Enabled = enabled;
+            uxConnectSplitButton.Enabled = enabled;
             //uxMinimizeAndConnectButton.Enabled = enabled;
         }
 
@@ -386,9 +438,31 @@ namespace RemoteDesktopper
 
             /*--- Fill Largest-Window ComboBox ---*/
             uxLargestWindowComboBox.Items.Clear();
+            uxLargestWindowMenuItem.DropDownItems.Clear();
+            var first = true;
 
             foreach (var item in largestWindows)
-                uxLargestWindowComboBox.Items.Add(new ScreenSize(item));
+            {
+                var ss = new ScreenSize(item);
+
+                var menuItem = new ToolStripMenuItem
+                {
+                    Text = ss.DisplayText,
+                    Tag = ss,
+                    Checked = first
+                };
+
+                menuItem.Click += uxWindowSizeMenuItem_Click;
+
+                uxLargestWindowMenuItem.DropDownItems.Add(menuItem);
+
+                uxLargestWindowComboBox.Items.Add(ss);
+
+                if (first)
+                    HandleWindowSizeMenuItemClick(menuItem);
+
+                first = false;
+            }
 
             uxLargestWindowComboBox.SelectedIndex = 0;
 
@@ -398,17 +472,34 @@ namespace RemoteDesktopper
             var useEnableFullScreenWindows = (screenSizes.Count() > 1);
 
             if (useEnableFullScreenWindows)
-            {
+            {   
                 uxFullScreenWindowComboBox.Items.Clear();
+                uxFullScreenWindowMenuItem.DropDownItems.Clear();
 
                 foreach (var item in screenSizes)
-                    uxFullScreenWindowComboBox.Items.Add(new ScreenSize(item));
+                {
+                    var ss = new ScreenSize(item);
+
+                    var menuItem = new ToolStripMenuItem
+                    {
+                        Text = ss.DisplayText,
+                        Tag = ss
+                    };
+
+                    menuItem.Click += uxWindowSizeMenuItem_Click;
+
+                    uxFullScreenWindowMenuItem.DropDownItems.Add(menuItem);
+
+                    uxFullScreenWindowComboBox.Items.Add(ss);
+                    
+                }
 
                 uxFullScreenWindowComboBox.SelectedIndex = 0;
                 //uxFullScreenWindowRadioButton.Checked = true;
             }
             uxFullScreenWindowComboBox.Visible = useEnableFullScreenWindows;
             uxFullScreenWindowRadioButton.Visible = useEnableFullScreenWindows;
+            uxFullScreenWindowMenuItem.Visible = useEnableFullScreenWindows;
         }
 
         private void MoveToSouthwest()
@@ -485,10 +576,33 @@ namespace RemoteDesktopper
         {
             get
             {
-                var fm = uxFavoriteMachineComboBox.SelectedValue;
+                var fm = uxFavoriteMachineComboBox.SelectedValue as FavoriteMachine;
 
-                return fm == null ? string.Empty : fm.ToString();
+                var s = fm == null ? string.Empty : fm.DisplayName;
+
+                return s;
             }
+        }
+
+        private void HandleWindowSizeMenuItemClick(ToolStripMenuItem senderMenuItem)
+        {
+            if (senderMenuItem == null)
+                return;
+
+            var parentMenuItem = senderMenuItem.OwnerItem as ToolStripMenuItem;
+
+            if (parentMenuItem == null)
+                return;
+
+            foreach (var menuItem in parentMenuItem.DropDownItems)
+            {
+                (menuItem as ToolStripMenuItem).Checked = false;
+            }
+
+            senderMenuItem.Checked = true;
+            parentMenuItem.Checked = true;
+            parentMenuItem.Text = $"{parentMenuItem.Tag} - {senderMenuItem.Text}";
+            uxConnectSplitButton.Text = $"Connect ({parentMenuItem.Tag} - {senderMenuItem.Text})";
         }
 
     }
