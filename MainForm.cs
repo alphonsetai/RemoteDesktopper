@@ -605,5 +605,14 @@ namespace RemoteDesktopper
             uxConnectSplitButton.Text = $"Connect ({parentMenuItem.Tag} - {senderMenuItem.Text})";
         }
 
+        private void uxTab_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (uxTab.SelectedTab == uxFavoriteTabPage)
+                uxFavoriteRadioButton.Checked = true;
+            else if (uxTab.SelectedTab == uxManualTabPage)
+                uxServerRadioButton.Checked = true;
+            else if (uxTab.SelectedTab == uxRdpFileTabPage)
+                uxRdpFileRadioButton.Checked = true;
+        }
     }
 }
