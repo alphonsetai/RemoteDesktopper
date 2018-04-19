@@ -25,7 +25,7 @@ namespace RemoteDesktopper
         private string _puttyExe = @"C:\Program Files (x86)\PuTTY\putty.exe";
         private string _winscpExe = @"C:\Program Files (x86)\WinSCP\winscp.com";
         private string _rdpTemplate;
-        private bool _moreMode = true;
+        //private bool _moreMode = true;
         private FormWindowState _lastState;
         private List<BLL.FavoriteMachine> _favoriteMachines;
 
@@ -33,6 +33,16 @@ namespace RemoteDesktopper
         public MainForm()
         {
             InitializeComponent();
+
+            //uxFavoritePanel.Anchor = AnchorStyles.Top + AnchorStyles.Bottom + AnchorStyles.Left + AnchorStyles.Right;
+            uxFavoritePanel.Anchor = ((AnchorStyles)((((AnchorStyles.Top | AnchorStyles.Bottom) | AnchorStyles.Left) | AnchorStyles.Right)));
+
+            uxRdpFilePanel.Location = uxFavoritePanel.Location;
+            uxRdpFilePanel.Anchor = uxFavoritePanel.Anchor;
+
+            uxManualPanel.Location = uxFavoritePanel.Location;
+            uxManualPanel.Anchor = uxFavoritePanel.Anchor;
+
             _lastState = this.WindowState;
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
             _rdpTemplate = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Template.rdp");
@@ -53,7 +63,7 @@ namespace RemoteDesktopper
             InitRdpFileComboBox();
             //InitScreenOption();
             CalculateScreenSizes();
-            _moreMode = true;
+            //_moreMode = true;
             uxStateTimer.Enabled = true;
         }
 
@@ -128,17 +138,22 @@ namespace RemoteDesktopper
 
         private void uxScreenSizeMenuItem_Click(object sender, EventArgs e)
         {
-            var menuItems = new[]
-                {uxFullScreenMenuItem, uxAllMonitorsMenuItem, uxFullScreenWindowMenuItem, uxLargestWindowMenuItem};
+            //var menuItems = new[]
+            //    {uxFullScreenMenuItem, uxAllMonitorsMenuItem, uxFullScreenWindowMenuItem, uxLargestWindowMenuItem};
 
-            foreach (var menuItem in menuItems)
-                menuItem.Checked = false;
+            //foreach (var menuItem in menuItems)
+            //    menuItem.Checked = false;
 
-            var senderMenuItem = sender as ToolStripMenuItem;
+            //var senderMenuItem = sender as ToolStripMenuItem;
 
-            senderMenuItem.Checked = true;
+            //senderMenuItem.Checked = true;
 
-            uxConnectSplitButton.Text = $"Connect ({senderMenuItem.Text})";
+            var rmi = HandleRadioMenuItem(sender);
+
+            if (rmi == null)
+                return;
+
+            uxConnectSplitButton.Text = $"Connect ({rmi.Child.Text})";
 
         }
 
@@ -584,35 +599,92 @@ namespace RemoteDesktopper
             }
         }
 
-        private void HandleWindowSizeMenuItemClick(ToolStripMenuItem senderMenuItem)
+        private void HandleWindowSizeMenuItemClick(object sender)
         {
-            if (senderMenuItem == null)
+            var rmi = HandleRadioMenuItem(sender);
+
+            if (rmi == null)
                 return;
+
+            rmi.ParentMenuItem.Checked = true;
+            rmi.ParentMenuItem.Text = $"{rmi.ParentMenuItem.Tag} - {rmi.Child.Text}";
+            uxConnectSplitButton.Text = $"Connect ({rmi.ParentMenuItem.Tag} - {rmi.Child.Text})";
+        }
+
+
+
+        private void uxOptionMenuItem_Click(object sender, EventArgs e)
+        {
+            var rmi = HandleRadioMenuItem(sender);
+
+            if (rmi == null)
+                return;
+
+            if (rmi.Child == uxFavoriteMenuItem)
+            {
+                uxFavoriteRadioButton.Checked = true;
+                uxFavoritePanel.Visible = true;
+                uxRdpFilePanel.Visible = false;
+                uxManualPanel.Visible = false;
+            }
+            else if (rmi.Child == uxRdpFileMenuItem)
+            {
+                uxRdpFileRadioButton.Checked = true;
+                uxFavoritePanel.Visible = false;
+                uxRdpFilePanel.Visible = true;
+                uxManualPanel.Visible = false;
+            }
+            else if (rmi.Child == uxManualMenuItem)
+            {
+                uxServerRadioButton.Checked = true;
+                uxFavoritePanel.Visible = false;
+                uxRdpFilePanel.Visible = false;
+                uxManualPanel.Visible = true;
+            }
+        }
+
+        private RadioMenuItem HandleRadioMenuItem(object sender)
+        {
+            var senderMenuItem = sender as ToolStripMenuItem;
+
+            if (senderMenuItem == null)
+                return null;
 
             var parentMenuItem = senderMenuItem.OwnerItem as ToolStripMenuItem;
 
-            if (parentMenuItem == null)
-                return;
+            var parentSplitButton = senderMenuItem.OwnerItem as ToolStripSplitButton;
 
-            foreach (var menuItem in parentMenuItem.DropDownItems)
+            if (parentMenuItem != null)
             {
-                (menuItem as ToolStripMenuItem).Checked = false;
+                foreach (var menuItem in parentMenuItem.DropDownItems)
+                    (menuItem as ToolStripMenuItem).Checked = false;
+                
+                parentMenuItem.Text = senderMenuItem.Text;
+            }
+
+            else if (parentSplitButton != null)
+            {
+                foreach (var menuItem in parentSplitButton.DropDownItems)
+                    (menuItem as ToolStripMenuItem).Checked = false;
+
+                parentSplitButton.Text = senderMenuItem.Text;
             }
 
             senderMenuItem.Checked = true;
-            parentMenuItem.Checked = true;
-            parentMenuItem.Text = $"{parentMenuItem.Tag} - {senderMenuItem.Text}";
-            uxConnectSplitButton.Text = $"Connect ({parentMenuItem.Tag} - {senderMenuItem.Text})";
-        }
 
-        private void uxTab_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (uxTab.SelectedTab == uxFavoriteTabPage)
-                uxFavoriteRadioButton.Checked = true;
-            else if (uxTab.SelectedTab == uxManualTabPage)
-                uxServerRadioButton.Checked = true;
-            else if (uxTab.SelectedTab == uxRdpFileTabPage)
-                uxRdpFileRadioButton.Checked = true;
+            return new RadioMenuItem
+            {
+                Child = senderMenuItem,
+                ParentSplitButton = parentSplitButton,
+                ParentMenuItem = parentMenuItem
+            };
         }
+    }
+
+    public class RadioMenuItem
+    {
+        public ToolStripMenuItem Child { get; set; }
+        public ToolStripMenuItem ParentMenuItem { get; set; }
+        public ToolStripSplitButton ParentSplitButton { get; set; }
     }
 }
