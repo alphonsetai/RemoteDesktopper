@@ -25,16 +25,13 @@ namespace RemoteDesktopper
         private string _puttyExe = @"C:\Program Files (x86)\PuTTY\putty.exe";
         private string _winscpExe = @"C:\Program Files (x86)\WinSCP\winscp.com";
         private string _rdpTemplate;
-        //private bool _moreMode = true;
         private FormWindowState _lastState;
         private List<BLL.FavoriteMachine> _favoriteMachines;
-
 
         public MainForm()
         {
             InitializeComponent();
 
-            //uxFavoritePanel.Anchor = AnchorStyles.Top + AnchorStyles.Bottom + AnchorStyles.Left + AnchorStyles.Right;
             uxFavoritePanel.Anchor = ((AnchorStyles)((((AnchorStyles.Top | AnchorStyles.Bottom) | AnchorStyles.Left) | AnchorStyles.Right)));
 
             uxRdpFilePanel.Location = uxFavoritePanel.Location;
@@ -53,119 +50,6 @@ namespace RemoteDesktopper
         {
             MoveToSouthwest();
             CalculateScreenSizes();
-        }
-
-        /*-- Event Handlers ---------------------------------------------------------------------------------------------------*/
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            MoveToSouthwest();
-            InitFavoriteGroupsComboBox();
-            InitRdpFileComboBox();
-            //InitScreenOption();
-            CalculateScreenSizes();
-            //_moreMode = true;
-            uxStateTimer.Enabled = true;
-        }
-
-        private void uxConnectButton_Click(object sender, EventArgs e)
-        {
-            Connect();
-        }
-
-        private void uxRequeryRdpLinkLabel_Click(object sender, EventArgs e)
-        {
-            InitRdpFileComboBox();
-        }
-
-        private void uxRdpFileComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            uxRdpFileRadioButton.Checked = true;
-        }
-
-        private void uxServerNameTextBox_TextChanged(object sender, EventArgs e)
-        {
-            uxServerRadioButton.Checked = true;
-        }
-
-        private void uxStateTimer_Tick(object sender, EventArgs e)
-        {
-            UpdateState();
-        }
-
-        private void uxRecalculateLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            CalculateScreenSizes();
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            SystemEvents.DisplaySettingsChanged -= SystemEvents_DisplaySettingsChanged;
-        }
-
-        private void uxFavoriteComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(uxFavoriteMachineComboBox.SelectedValue.ToString()))
-                uxFavoriteRadioButton.Checked = true;
-        }
-
-        private void uxPasteServerNameLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var s = Clipboard.GetText();
-            uxServerNameTextBox.Text = s;
-        }
-
-        private void uxRequeryFavoritesLinkLabel_Click(object sender, EventArgs e)
-        {
-            InitFavoriteGroupsComboBox();
-        }
-
-        private void uxFavoriteGroupsComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            RefreshFavoriteMachinesComboBox();
-        }
-
-        private void uxRequeryFavoritesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            RefreshFavoriteMachinesComboBox();
-        }
-
-        private void uxFavoritePropertiesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var selectedFavorite = ((FavoriteMachine)uxFavoriteMachineComboBox.SelectedValue);
-            var frm = new FavoriteMachineForm();
-            frm.ShowDialog(selectedFavorite);
-        }
-
-        private void uxScreenSizeMenuItem_Click(object sender, EventArgs e)
-        {
-            //var menuItems = new[]
-            //    {uxFullScreenMenuItem, uxAllMonitorsMenuItem, uxFullScreenWindowMenuItem, uxLargestWindowMenuItem};
-
-            //foreach (var menuItem in menuItems)
-            //    menuItem.Checked = false;
-
-            //var senderMenuItem = sender as ToolStripMenuItem;
-
-            //senderMenuItem.Checked = true;
-
-            var rmi = HandleRadioMenuItem(sender);
-
-            if (rmi == null)
-                return;
-
-            uxConnectSplitButton.Text = $"Connect ({rmi.Child.Text})";
-
-        }
-
-        private void uxWindowSizeMenuItem_Click(object sender, EventArgs e)
-        {
-            var senderMenuItem = sender as ToolStripMenuItem;
-            HandleWindowSizeMenuItemClick(senderMenuItem);
-        }
-
-        private void uxConnectSplitButton_ButtonClick(object sender, EventArgs e)
-        {
-            Connect(true);
         }
 
         /*-- Private Methods --------------------------------------------------------------------------------------------------*/
@@ -273,114 +157,6 @@ namespace RemoteDesktopper
                 IsValid = isValid,
                 ErrorMessage = errorMessage
             };
-        }
-
-        private ToolStripMenuItem GetFirstCheckedChild(ToolStripDropDownItem parent)
-        {
-            foreach (var item in parent.DropDownItems)
-            {
-                var menuItem = item as ToolStripMenuItem;
-
-                if (menuItem == null)
-                    continue;
-
-                if (menuItem.Checked)
-                    return menuItem;
-            }
-
-            return null;
-        }
-
-        private void Connect(bool fromMenuItems = false)
-        {
-            var cmd = BuildCommand(fromMenuItems);
-
-            if (!cmd.IsValid)
-            {
-                MessageBox.Show(cmd.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            var p = new Process();
-            var si = p.StartInfo;
-            si.FileName = cmd.UsePutty ? _puttyExe : _rdpExe;
-            si.Arguments = cmd.Arguments;
-            p.Start();
-        }
-
-        private void InitRdpFileComboBox()
-        {
-            var items = Directory.GetFiles(_rdpFolder, "*.rdp", SearchOption.TopDirectoryOnly).OrderBy(o => o);
-            uxRdpFileComboBox.Items.Clear();
-
-            foreach (var item in items)
-                uxRdpFileComboBox.Items.Add(Path.GetFileNameWithoutExtension(item));
-        }
-
-        private void InitFavoriteGroupsComboBox()
-        {
-            /*--- Inits ---*/
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var xmlFile = Path.Combine(path, @"..\..\FavoriteMachines.xml");
-
-            if (!File.Exists(xmlFile))
-            {
-                MessageBox.Show("Favorites file not found.\n\n" + xmlFile, this.Text, 
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            /*--- Update Timestamp Label ---*/
-            var lbl = uxFavoritesTimestampLabel;
-            var dt = File.GetLastWriteTime(xmlFile);
-            var isOld = (DateTime.Now.Subtract(dt).TotalHours > 24.0);
-
-            lbl.Text = dt.ToString("MM/dd/yy h:mm tt");
-            lbl.ForeColor = isOld ? Color.Red : SystemColors.ControlText;
-            lbl.BackColor = isOld ? Color.Yellow : SystemColors.Control;
-
-            /*--- Load Favorites from XML file ---*/
-
-            using (var sr = new StreamReader(xmlFile))
-            {
-                var xs = new XmlSerializer(typeof(List<BLL.FavoriteMachine>));
-                _favoriteMachines = (List<BLL.FavoriteMachine>)xs.Deserialize(sr);
-                sr.Close();
-            }
-            _favoriteMachines.Insert(0, new FavoriteMachine { DisplayName = string.Empty, MachineAddress = string.Empty, GroupName = string.Empty, MachineName = string.Empty });
-
-            /*--- Bind Favorite Groups ComboBox ---*/
-            uxFavoriteGroupsComboBox.DataSource = _favoriteMachines.Select(a => a.GroupName).Distinct().OrderBy(a => a).ToList();
-            RefreshFavoriteMachinesComboBox();
-        }
-
-        private void RefreshFavoriteMachinesComboBox()
-        {
-            if (uxFavoriteGroupsComboBox.SelectedValue == null)
-                return;
-
-            var groupName = uxFavoriteGroupsComboBox.SelectedValue.ToString();
-            uxFavoriteMachineComboBox.DataSource = _favoriteMachines.Where(a => a.GroupName == groupName).ToList(); ;
-            uxFavoriteMachineComboBox.DisplayMember = "DisplayName";
-            uxFavoriteMachineComboBox.ValueMember = null;// Bind to the object "MachineAddress";
-        }
-
-        private void UpdateState()
-        {
-            if (this.WindowState != _lastState && this.WindowState == FormWindowState.Normal)
-            {
-                MoveToSouthwest();
-            }
-            _lastState = this.WindowState;
-
-            var enabled = (uxRdpFileRadioButton.Checked && !string.IsNullOrWhiteSpace(uxRdpFileComboBox.Text)) 
-                || (uxServerRadioButton.Checked && !string.IsNullOrWhiteSpace(uxServerNameTextBox.Text))
-                || (uxFavoriteRadioButton.Checked && !string.IsNullOrWhiteSpace(SelectedFavoriteMachine));
-
-            uxConnectButton.Enabled = enabled;
-            uxConnectSplitButton.Enabled = enabled;
-            //uxMinimizeAndConnectButton.Enabled = enabled;
         }
 
         private void CalculateScreenSizes()
@@ -517,14 +293,6 @@ namespace RemoteDesktopper
             uxFullScreenWindowMenuItem.Visible = useEnableFullScreenWindows;
         }
 
-        private void MoveToSouthwest()
-        {
-            var gap = 5;
-            this.Left = gap;
-            this.Top = Screen.PrimaryScreen.WorkingArea.Height - this.Height - gap;
-            this.Left = gap;
-        }
-
         private string CleanFileName(string input)
         {
             var illegalCharacters = "\\/:*?\"<>|";
@@ -535,6 +303,58 @@ namespace RemoteDesktopper
                 result = result.Replace(illegalCharacters.Substring(i, 1), "~");
             
             return result;
+        }
+
+        private void Connect(bool fromMenuItems = false)
+        {
+            var cmd = BuildCommand(fromMenuItems);
+
+            if (!cmd.IsValid)
+            {
+                MessageBox.Show(cmd.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var p = new Process();
+            var si = p.StartInfo;
+            si.FileName = cmd.UsePutty ? _puttyExe : _rdpExe;
+            si.Arguments = cmd.Arguments;
+            p.Start();
+        }
+
+        private void ConvertPemFileToPpk(string pemFile)
+        {
+            // Assumption: pemKeyFile exists
+
+            // winscp.com /keygen {pemFile} /output={ppkFile}
+
+            var ppkFile = Path.Combine(Path.GetDirectoryName(pemFile), Path.GetFileNameWithoutExtension(pemFile)) + ".ppk";
+
+            var args = string.Format("/keygen \"{0}\" /output=\"{1}\"", pemFile, ppkFile);
+
+            var p = new Process();
+            var si = p.StartInfo;
+            si.FileName = _winscpExe;
+            si.Arguments = args;
+            
+            p.Start();
+            p.WaitForExit();
+        }
+
+        private ToolStripMenuItem GetFirstCheckedChild(ToolStripDropDownItem parent)
+        {
+            foreach (var item in parent.DropDownItems)
+            {
+                var menuItem = item as ToolStripMenuItem;
+
+                if (menuItem == null)
+                    continue;
+
+                if (menuItem.Checked)
+                    return menuItem;
+            }
+
+            return null;
         }
 
         private string GetSshKeyFolder()
@@ -566,81 +386,6 @@ namespace RemoteDesktopper
 
             var result = value.ToString();
             return result;
-        }
-
-        private void ConvertPemFileToPpk(string pemFile)
-        {
-            // Assumption: pemKeyFile exists
-
-            // winscp.com /keygen {pemFile} /output={ppkFile}
-
-            var ppkFile = Path.Combine(Path.GetDirectoryName(pemFile), Path.GetFileNameWithoutExtension(pemFile)) + ".ppk";
-
-            var args = string.Format("/keygen \"{0}\" /output=\"{1}\"", pemFile, ppkFile);
-
-            var p = new Process();
-            var si = p.StartInfo;
-            si.FileName = _winscpExe;
-            si.Arguments = args;
-            
-            p.Start();
-            p.WaitForExit();
-        }
-
-        private string SelectedFavoriteMachine
-        {
-            get
-            {
-                var fm = uxFavoriteMachineComboBox.SelectedValue as FavoriteMachine;
-
-                var s = fm == null ? string.Empty : fm.DisplayName;
-
-                return s;
-            }
-        }
-
-        private void HandleWindowSizeMenuItemClick(object sender)
-        {
-            var rmi = HandleRadioMenuItem(sender);
-
-            if (rmi == null)
-                return;
-
-            rmi.ParentMenuItem.Checked = true;
-            rmi.ParentMenuItem.Text = $"{rmi.ParentMenuItem.Tag} - {rmi.Child.Text}";
-            uxConnectSplitButton.Text = $"Connect ({rmi.ParentMenuItem.Tag} - {rmi.Child.Text})";
-        }
-
-
-
-        private void uxOptionMenuItem_Click(object sender, EventArgs e)
-        {
-            var rmi = HandleRadioMenuItem(sender);
-
-            if (rmi == null)
-                return;
-
-            if (rmi.Child == uxFavoriteMenuItem)
-            {
-                uxFavoriteRadioButton.Checked = true;
-                uxFavoritePanel.Visible = true;
-                uxRdpFilePanel.Visible = false;
-                uxManualPanel.Visible = false;
-            }
-            else if (rmi.Child == uxRdpFileMenuItem)
-            {
-                uxRdpFileRadioButton.Checked = true;
-                uxFavoritePanel.Visible = false;
-                uxRdpFilePanel.Visible = true;
-                uxManualPanel.Visible = false;
-            }
-            else if (rmi.Child == uxManualMenuItem)
-            {
-                uxServerRadioButton.Checked = true;
-                uxFavoritePanel.Visible = false;
-                uxRdpFilePanel.Visible = false;
-                uxManualPanel.Visible = true;
-            }
         }
 
         private RadioMenuItem HandleRadioMenuItem(object sender)
@@ -679,6 +424,244 @@ namespace RemoteDesktopper
                 ParentMenuItem = parentMenuItem
             };
         }
+
+        private void HandleWindowSizeMenuItemClick(object sender)
+        {
+            var rmi = HandleRadioMenuItem(sender);
+
+            if (rmi == null)
+                return;
+
+            rmi.ParentMenuItem.Checked = true;
+            rmi.ParentMenuItem.Text = $"{rmi.ParentMenuItem.Tag} - {rmi.Child.Text}";
+            uxConnectSplitButton.Text = $"Connect ({rmi.ParentMenuItem.Tag} - {rmi.Child.Text})";
+        }
+
+        private void InitRdpFileComboBox()
+        {
+            var items = Directory.GetFiles(_rdpFolder, "*.rdp", SearchOption.TopDirectoryOnly).OrderBy(o => o);
+            uxRdpFileComboBox.Items.Clear();
+
+            foreach (var item in items)
+                uxRdpFileComboBox.Items.Add(Path.GetFileNameWithoutExtension(item));
+        }
+
+        private void InitFavoriteGroupsComboBox()
+        {
+            /*--- Inits ---*/
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var xmlFile = Path.Combine(path, @"..\..\FavoriteMachines.xml");
+
+            if (!File.Exists(xmlFile))
+            {
+                MessageBox.Show("Favorites file not found.\n\n" + xmlFile, this.Text, 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            /*--- Update Timestamp Label ---*/
+            var lbl = uxFavoritesTimestampLabel;
+            var dt = File.GetLastWriteTime(xmlFile);
+            var isOld = (DateTime.Now.Subtract(dt).TotalHours > 24.0);
+
+            lbl.Text = dt.ToString("MM/dd/yy h:mm tt");
+            lbl.ForeColor = isOld ? Color.Red : SystemColors.ControlText;
+            lbl.BackColor = isOld ? Color.Yellow : SystemColors.Control;
+
+            /*--- Load Favorites from XML file ---*/
+
+            using (var sr = new StreamReader(xmlFile))
+            {
+                var xs = new XmlSerializer(typeof(List<BLL.FavoriteMachine>));
+                _favoriteMachines = (List<BLL.FavoriteMachine>)xs.Deserialize(sr);
+                sr.Close();
+            }
+            _favoriteMachines.Insert(0, new FavoriteMachine { DisplayName = string.Empty, MachineAddress = string.Empty, GroupName = string.Empty, MachineName = string.Empty });
+
+            /*--- Bind Favorite Groups ComboBox ---*/
+            uxFavoriteGroupsComboBox.DataSource = _favoriteMachines.Select(a => a.GroupName).Distinct().OrderBy(a => a).ToList();
+            RefreshFavoriteMachinesComboBox();
+        }
+
+        private void MoveToSouthwest()
+        {
+            var gap = 5;
+            this.Left = gap;
+            this.Top = Screen.PrimaryScreen.WorkingArea.Height - this.Height - gap;
+            this.Left = gap;
+        }
+
+        private void RefreshFavoriteMachinesComboBox()
+        {
+            if (uxFavoriteGroupsComboBox.SelectedValue == null)
+                return;
+
+            var groupName = uxFavoriteGroupsComboBox.SelectedValue.ToString();
+            uxFavoriteMachineComboBox.DataSource = _favoriteMachines.Where(a => a.GroupName == groupName).ToList(); ;
+            uxFavoriteMachineComboBox.DisplayMember = "DisplayName";
+            uxFavoriteMachineComboBox.ValueMember = null;// Bind to the object "MachineAddress";
+        }
+
+        private string SelectedFavoriteMachine
+        {
+            get
+            {
+                var fm = uxFavoriteMachineComboBox.SelectedValue as FavoriteMachine;
+
+                var s = fm == null ? string.Empty : fm.DisplayName;
+
+                return s;
+            }
+        }
+
+        private void UpdateState()
+        {
+            if (this.WindowState != _lastState && this.WindowState == FormWindowState.Normal)
+            {
+                MoveToSouthwest();
+            }
+            _lastState = this.WindowState;
+
+            var enabled = (uxRdpFileRadioButton.Checked && !string.IsNullOrWhiteSpace(uxRdpFileComboBox.Text)) 
+                || (uxServerRadioButton.Checked && !string.IsNullOrWhiteSpace(uxServerNameTextBox.Text))
+                || (uxFavoriteRadioButton.Checked && !string.IsNullOrWhiteSpace(SelectedFavoriteMachine));
+
+            uxConnectButton.Enabled = enabled;
+            uxConnectSplitButton.Enabled = enabled;
+            //uxMinimizeAndConnectButton.Enabled = enabled;
+        }
+
+        /*-- Event Handlers ---------------------------------------------------------------------------------------------------*/
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SystemEvents.DisplaySettingsChanged -= SystemEvents_DisplaySettingsChanged;
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            MoveToSouthwest();
+            InitFavoriteGroupsComboBox();
+            InitRdpFileComboBox();
+            CalculateScreenSizes();
+            uxStateTimer.Enabled = true;
+        }
+
+        private void uxConnectButton_Click(object sender, EventArgs e)
+        {
+            Connect();
+        }
+
+        private void uxConnectSplitButton_ButtonClick(object sender, EventArgs e)
+        {
+            Connect(true);
+        }
+
+        private void uxFavoriteComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(uxFavoriteMachineComboBox.SelectedValue.ToString()))
+                uxFavoriteRadioButton.Checked = true;
+        }
+
+        private void uxFavoriteGroupsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshFavoriteMachinesComboBox();
+        }
+
+        private void uxFavoritePropertiesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var selectedFavorite = ((FavoriteMachine)uxFavoriteMachineComboBox.SelectedValue);
+            var frm = new FavoriteMachineForm();
+            frm.ShowDialog(selectedFavorite);
+        }
+
+        private void uxOptionMenuItem_Click(object sender, EventArgs e)
+        {
+            var rmi = HandleRadioMenuItem(sender);
+
+            if (rmi == null)
+                return;
+
+            if (rmi.Child == uxFavoriteMenuItem)
+            {
+                uxFavoriteRadioButton.Checked = true;
+                uxFavoritePanel.Visible = true;
+                uxRdpFilePanel.Visible = false;
+                uxManualPanel.Visible = false;
+            }
+            else if (rmi.Child == uxRdpFileMenuItem)
+            {
+                uxRdpFileRadioButton.Checked = true;
+                uxFavoritePanel.Visible = false;
+                uxRdpFilePanel.Visible = true;
+                uxManualPanel.Visible = false;
+            }
+            else if (rmi.Child == uxManualMenuItem)
+            {
+                uxServerRadioButton.Checked = true;
+                uxFavoritePanel.Visible = false;
+                uxRdpFilePanel.Visible = false;
+                uxManualPanel.Visible = true;
+            }
+        }
+
+        private void uxPasteServerNameLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var s = Clipboard.GetText();
+            uxServerNameTextBox.Text = s;
+        }
+
+        private void uxRecalculateLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            CalculateScreenSizes();
+        }
+        
+        private void uxRequeryFavoritesLinkLabel_Click(object sender, EventArgs e)
+        {
+            InitFavoriteGroupsComboBox();
+        }
+
+        private void uxRequeryFavoritesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            RefreshFavoriteMachinesComboBox();
+        }
+
+        private void uxRequeryRdpLinkLabel_Click(object sender, EventArgs e)
+        {
+            InitRdpFileComboBox();
+        }
+
+        private void uxRdpFileComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            uxRdpFileRadioButton.Checked = true;
+        }
+
+        private void uxScreenSizeMenuItem_Click(object sender, EventArgs e)
+        {
+            var rmi = HandleRadioMenuItem(sender);
+
+            if (rmi == null)
+                return;
+
+            uxConnectSplitButton.Text = $"Connect ({rmi.Child.Text})";
+        }
+
+        private void uxServerNameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            uxServerRadioButton.Checked = true;
+        }
+
+        private void uxStateTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateState();
+        }
+
+        private void uxWindowSizeMenuItem_Click(object sender, EventArgs e)
+        {
+            var senderMenuItem = sender as ToolStripMenuItem;
+            HandleWindowSizeMenuItemClick(senderMenuItem);
+        }
+
     }
 
     public class RadioMenuItem
