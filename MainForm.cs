@@ -19,7 +19,6 @@ namespace RemoteDesktopper
     public partial class MainForm : Form
     {
         private string _rdpFolder = @"C:\Data\Remote Desktop";
-        private string _sshKeyFolder = string.Empty;
 
         private string _rdpExe = @"C:\Windows\System32\mstsc.exe";
         private string _puttyExe = @"C:\Program Files (x86)\PuTTY\putty.exe";
@@ -43,7 +42,6 @@ namespace RemoteDesktopper
             _lastState = this.WindowState;
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
             _rdpTemplate = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Template.rdp");
-            _sshKeyFolder = GetSshKeyFolder();
         }
 
         void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
@@ -84,7 +82,12 @@ namespace RemoteDesktopper
                 else // assume Linux
                 {
                     usePutty = true;
-                    var keyFolder = Path.Combine(_sshKeyFolder, selectedFavorite.GroupName);
+                    var sshKeyFolder = GetSshKeyFolder();
+
+                    if (sshKeyFolder.Length == 0)
+                        return null;
+
+                    var keyFolder = Path.Combine(sshKeyFolder, selectedFavorite.GroupName);
                     var ppkFile = Path.Combine(keyFolder, selectedFavorite.KeyName) + ".ppk";
                     var pemFile = Path.Combine(keyFolder, selectedFavorite.KeyName) + ".pem";
 
@@ -309,6 +312,9 @@ namespace RemoteDesktopper
         {
             var cmd = BuildCommand(fromMenuItems);
 
+            if (cmd == null)
+                return;
+
             if (!cmd.IsValid)
             {
                 MessageBox.Show(cmd.ErrorMessage, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -366,7 +372,7 @@ namespace RemoteDesktopper
 
             if (subKey == null)
             {
-                var msg = string.Format("Couldn't determine SSH Key Folder.\n\nRegistry Key 'HKCU\\{0}' not found.\n\nYou will not be able to connect to servers over SSH.", 
+                var msg = string.Format("Couldn't determine SSH Key Folder.\n\nRegistry Key 'HKCU\\{0}' not found.\n\nYou cannot connect to servers over SSH.", 
                     subKeyName);
 
                 MessageBox.Show(msg, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -377,7 +383,7 @@ namespace RemoteDesktopper
 
             if (value == null)
             {
-                var msg = string.Format("Couldn't determine SSH Key Folder.\n\nRegistry Value 'HKCU\\{0}\\[{1}]' not found.\n\nYou will not be able to connect to servers over SSH.", 
+                var msg = string.Format("Couldn't determine SSH Key Folder.\n\nRegistry Value 'HKCU\\{0}\\[{1}]' not found.\n\nYou cannot connect to servers over SSH.", 
                     subKeyName, valueName);
 
                 MessageBox.Show(msg, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -385,6 +391,13 @@ namespace RemoteDesktopper
             }
 
             var result = value.ToString();
+
+            if (!Directory.Exists(result))
+            {
+                MessageBox.Show($"Directory '{result}' not found.\n\nYou cannot connect to servers over SSH.");
+                return string.Empty;
+            }
+
             return result;
         }
 
