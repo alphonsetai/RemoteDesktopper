@@ -164,3 +164,7 @@ packages*/
 
 *.DS_STORE
 FavoriteMachines.xml
+/.vs/RemoteDesktopper/v15/Server/sqlite3/storage.ide-wal
+/.vs/RemoteDesktopper/v15/Server/sqlite3/storage.ide-shm
+/.vs/RemoteDesktopper/v15/Server/sqlite3/storage.ide
+/.vs/RemoteDesktopper/v15/Server/sqlite3/db.lock
