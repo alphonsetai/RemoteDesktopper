@@ -124,10 +124,10 @@
     <value>140, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="uxOptionSplitButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="uxOptionMenu.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAIDSURBVDhPpZLrS5NhGMb3j4SWh0oRQVExD4gonkDpg4hG
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIDSURBVDhPpZLrS5NhGMb3j4SWh0oRQVExD4gonkDpg4hG
         YKxG6WBogkMZKgPNCEVJFBGdGETEvgwyO9DJE5syZw3PIlPEE9pgBCLZ5XvdMB8Ew8gXbl54nuf63dd9
         0OGSnwCahxbPRNPAPMw9Xpg6ZmF46kZZ0xSKzJPIrhpDWsVnpBhGkKx3nAX8Pv7z1zg8OoY/cITdn4fw
         bf/C0kYAN3Ma/w3gWfZL5kzTKBxjWyK2DftwI9tyMYCZKXbNHaD91bLYJrDXsYbrWfUKwJrPE9M2M1Oc
@@ -142,7 +142,7 @@
   <data name="uxConnectSplitButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAFQSURBVDhPlZK9SwNBEMVfdVmtIggeWAQtxBQGg0WMTSAW
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAFQSURBVDhPlZK9SwNBEMVfdVmtIggeWAQtxBQGg0WMTSAW
         QiAIAREEC5H8ASKWNhYWIhZiKRaCpRaCFkJs7bQQYxOJhXKCH9NoNpBinMuNpbm7HzyO3XfzyeI/6gPI
         N1xUGsOiVPBtpmDUDsfLgfgYzEeifTCVwc9DGFG7Nw+DyNotCbSid9EZ2BvHrtrhPLlY5xtN0JTq8/Bi
         tf86jVq3siSwMsLbBJbUigZVYbkTtG/3RBvBDmgswg6aMj8tS9C2SJbnj8B34M8CTvWXcGTe5EtGFrkp

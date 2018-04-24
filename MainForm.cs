@@ -408,24 +408,14 @@ namespace RemoteDesktopper
             if (senderMenuItem == null)
                 return null;
 
-            var parentMenuItem = senderMenuItem.OwnerItem as ToolStripMenuItem;
+            var parentDropDownItem = senderMenuItem.OwnerItem as ToolStripDropDownItem;
 
-            var parentSplitButton = senderMenuItem.OwnerItem as ToolStripSplitButton;
-
-            if (parentMenuItem != null)
+            if (parentDropDownItem != null)
             {
-                foreach (var menuItem in parentMenuItem.DropDownItems)
-                    (menuItem as ToolStripMenuItem).Checked = false;
-                
-                parentMenuItem.Text = senderMenuItem.Text;
-            }
-
-            else if (parentSplitButton != null)
-            {
-                foreach (var menuItem in parentSplitButton.DropDownItems)
+                foreach (var menuItem in parentDropDownItem.DropDownItems)
                     (menuItem as ToolStripMenuItem).Checked = false;
 
-                parentSplitButton.Text = senderMenuItem.Text;
+                parentDropDownItem.Text = senderMenuItem.Text;
             }
 
             senderMenuItem.Checked = true;
@@ -433,22 +423,21 @@ namespace RemoteDesktopper
             return new RadioMenuItem
             {
                 Child = senderMenuItem,
-                ParentSplitButton = parentSplitButton,
-                ParentMenuItem = parentMenuItem
+                Parent = senderMenuItem.OwnerItem as ToolStripMenuItem
             };
         }
 
         private void HandleWindowSizeMenuItemClick(object sender)
-        {
-            var rmi = HandleRadioMenuItem(sender);
+            {
+                var rmi = HandleRadioMenuItem(sender);
 
-            if (rmi == null)
-                return;
+                if (rmi == null)
+                    return;
 
-            rmi.ParentMenuItem.Checked = true;
-            rmi.ParentMenuItem.Text = $"{rmi.ParentMenuItem.Tag} - {rmi.Child.Text}";
-            uxConnectSplitButton.Text = $"Connect ({rmi.ParentMenuItem.Tag} - {rmi.Child.Text})";
-        }
+                rmi.Parent.Checked = true;
+                rmi.Parent.Text = $"{rmi.Parent.Tag} - {rmi.Child.Text}";
+                uxConnectSplitButton.Text = $"Connect ({rmi.Parent.Tag} - {rmi.Child.Text})";
+            }
 
         private void InitRdpFileComboBox()
         {
@@ -680,7 +669,6 @@ namespace RemoteDesktopper
     public class RadioMenuItem
     {
         public ToolStripMenuItem Child { get; set; }
-        public ToolStripMenuItem ParentMenuItem { get; set; }
-        public ToolStripSplitButton ParentSplitButton { get; set; }
+        public ToolStripMenuItem Parent { get; set; }
     }
 }
