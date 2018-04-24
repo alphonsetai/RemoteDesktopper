@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BLL\Command.cs" />
     <Compile Include="BLL\FavoriteMachine.cs" />
+    <Compile Include="EnumTypes.cs" />
     <Compile Include="FavoriteMachineForm.cs">
       <SubType>Form</SubType>
     </Compile>

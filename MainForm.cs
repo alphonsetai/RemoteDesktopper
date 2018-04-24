@@ -58,12 +58,12 @@ namespace RemoteDesktopper
             var isValid = true;
             var errorMessage = string.Empty;
 
-            /*--- Determin Remote Server ---*/
-            if (uxRdpFileRadioButton.Checked)
+            /*--- Determine Remote Server ---*/
+            if (ServerOption == EnumTypes.ServerOption.RdpFile)
             {
                 args += "\"" + Path.Combine(_rdpFolder, uxRdpFileComboBox.Text) + ".rdp\" ";
             }
-            else if (uxServerRadioButton.Checked)
+            else if (ServerOption == EnumTypes.ServerOption.Manual)
             {
                 args += "/v:" + uxServerNameTextBox.Text;
             }
@@ -122,29 +122,21 @@ namespace RemoteDesktopper
             {
                 args += " ";
 
-                if ((!fromMenuItems && uxFullScreenSizeRadioButton.Checked) || (fromMenuItems && uxFullScreenMenuItem.Checked))
+                if (WindowSizeOption == EnumTypes.WindowSizeOption.FullScreen)
                 {
-                    args += uxFullScreenSizeRadioButton.Tag.ToString();
+                    args += "/f"; 
                 }
-                else if ((!fromMenuItems && uxAllMonitorsRadioButton.Checked) || (fromMenuItems && uxAllMonitorsMenuItem.Checked))
+                else if (WindowSizeOption == EnumTypes.WindowSizeOption.AllMonitors) 
                 {
-                    args += uxAllMonitorsRadioButton.Tag.ToString();
+                    args += "/multimon";
                 }
-                else if (!fromMenuItems && uxFullScreenWindowRadioButton.Checked)
-                {
-                    args += ((ScreenSize)uxFullScreenWindowComboBox.SelectedItem).Value.ToString();
-                }
-                else if (fromMenuItems && uxFullScreenWindowMenuItem.Checked)
+                else if (WindowSizeOption == EnumTypes.WindowSizeOption.FullScreenWindow) 
                 {
                     var checkedChild = GetFirstCheckedChild(uxFullScreenWindowMenuItem);
                     var ss = checkedChild.Tag as ScreenSize;
                     args += ss.Value;
                 }
-                else if (!fromMenuItems && uxLargestWindowRadioButton.Checked)
-                {
-                    args += ((ScreenSize)uxLargestWindowComboBox.SelectedItem).Value.ToString();
-                }
-                else if (fromMenuItems && uxLargestWindowMenuItem.Checked)
+                else if (WindowSizeOption == EnumTypes.WindowSizeOption.LargestWindow)
                 {
                     var checkedChild = GetFirstCheckedChild(uxLargestWindowMenuItem);
                     var ss = checkedChild.Tag as ScreenSize;
@@ -231,7 +223,7 @@ namespace RemoteDesktopper
             }
 
             /*--- Fill Largest-Window ComboBox ---*/
-            uxLargestWindowComboBox.Items.Clear();
+            //uxLargestWindowComboBox.Items.Clear();
             uxLargestWindowMenuItem.DropDownItems.Clear();
             var first = true;
 
@@ -250,7 +242,7 @@ namespace RemoteDesktopper
 
                 uxLargestWindowMenuItem.DropDownItems.Add(menuItem);
 
-                uxLargestWindowComboBox.Items.Add(ss);
+                //uxLargestWindowComboBox.Items.Add(ss);
 
                 if (first)
                     HandleWindowSizeMenuItemClick(menuItem);
@@ -258,16 +250,14 @@ namespace RemoteDesktopper
                 first = false;
             }
 
-            uxLargestWindowComboBox.SelectedIndex = 0;
-
-            //uxLargestWindowRadioButton.Checked = true;
+            //uxLargestWindowComboBox.SelectedIndex = 0;
 
             /*--- Fill Full-Screen-Window ComboBox (?)---*/
             var useEnableFullScreenWindows = (screenSizes.Count() > 1);
 
             if (useEnableFullScreenWindows)
             {   
-                uxFullScreenWindowComboBox.Items.Clear();
+                //uxFullScreenWindowComboBox.Items.Clear();
                 uxFullScreenWindowMenuItem.DropDownItems.Clear();
 
                 foreach (var item in screenSizes)
@@ -284,15 +274,13 @@ namespace RemoteDesktopper
 
                     uxFullScreenWindowMenuItem.DropDownItems.Add(menuItem);
 
-                    uxFullScreenWindowComboBox.Items.Add(ss);
+                    //uxFullScreenWindowComboBox.Items.Add(ss);
                     
                 }
 
-                uxFullScreenWindowComboBox.SelectedIndex = 0;
-                //uxFullScreenWindowRadioButton.Checked = true;
+                //uxFullScreenWindowComboBox.SelectedIndex = 0;
             }
-            uxFullScreenWindowComboBox.Visible = useEnableFullScreenWindows;
-            uxFullScreenWindowRadioButton.Visible = useEnableFullScreenWindows;
+            //uxFullScreenWindowComboBox.Visible = useEnableFullScreenWindows;
             uxFullScreenWindowMenuItem.Visible = useEnableFullScreenWindows;
         }
 
@@ -428,16 +416,18 @@ namespace RemoteDesktopper
         }
 
         private void HandleWindowSizeMenuItemClick(object sender)
-            {
-                var rmi = HandleRadioMenuItem(sender);
+        {
+            var rmi = HandleRadioMenuItem(sender);
 
-                if (rmi == null)
-                    return;
+            if (rmi == null)
+                return;
 
-                rmi.Parent.Checked = true;
-                rmi.Parent.Text = $"{rmi.Parent.Tag} - {rmi.Child.Text}";
-                uxConnectSplitButton.Text = $"Connect ({rmi.Parent.Tag} - {rmi.Child.Text})";
-            }
+            uxScreenSizeMenuItem_Click(rmi.Parent, null);
+
+            //rmi.Parent.Checked = true;
+            rmi.Parent.Text = $"{rmi.Parent.Tag} - {rmi.Child.Text}";
+            uxConnectSplitButton.Text = $"Connect ({rmi.Parent.Tag} - {rmi.Child.Text})";
+        }
 
         private void InitRdpFileComboBox()
         {
@@ -517,6 +507,8 @@ namespace RemoteDesktopper
             }
         }
 
+        private EnumTypes.ServerOption ServerOption { get; set; }
+
         private void UpdateState()
         {
             if (this.WindowState != _lastState && this.WindowState == FormWindowState.Normal)
@@ -525,14 +517,15 @@ namespace RemoteDesktopper
             }
             _lastState = this.WindowState;
 
-            var enabled = (uxRdpFileRadioButton.Checked && !string.IsNullOrWhiteSpace(uxRdpFileComboBox.Text)) 
-                || (uxServerRadioButton.Checked && !string.IsNullOrWhiteSpace(uxServerNameTextBox.Text))
-                || (uxFavoriteRadioButton.Checked && !string.IsNullOrWhiteSpace(SelectedFavoriteMachine));
+            var enabled = (ServerOption == EnumTypes.ServerOption.RdpFile && !string.IsNullOrWhiteSpace(uxRdpFileComboBox.Text)) 
+                || (ServerOption == EnumTypes.ServerOption.Manual && !string.IsNullOrWhiteSpace(uxServerNameTextBox.Text))
+                || (ServerOption == EnumTypes.ServerOption.Favorite && !string.IsNullOrWhiteSpace(SelectedFavoriteMachine));
 
             uxConnectButton.Enabled = enabled;
             uxConnectSplitButton.Enabled = enabled;
-            //uxMinimizeAndConnectButton.Enabled = enabled;
         }
+
+        private EnumTypes.WindowSizeOption WindowSizeOption { get; set; }
 
         /*-- Event Handlers ---------------------------------------------------------------------------------------------------*/
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -551,7 +544,7 @@ namespace RemoteDesktopper
 
         private void uxConnectButton_Click(object sender, EventArgs e)
         {
-            Connect();
+            Connect(true);
         }
 
         private void uxConnectSplitButton_ButtonClick(object sender, EventArgs e)
@@ -561,8 +554,6 @@ namespace RemoteDesktopper
 
         private void uxFavoriteComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(uxFavoriteMachineComboBox.SelectedValue.ToString()))
-                uxFavoriteRadioButton.Checked = true;
         }
 
         private void uxFavoriteGroupsComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -586,21 +577,21 @@ namespace RemoteDesktopper
 
             if (rmi.Child == uxFavoriteMenuItem)
             {
-                uxFavoriteRadioButton.Checked = true;
+                ServerOption = EnumTypes.ServerOption.Favorite;
                 uxFavoritePanel.Visible = true;
                 uxRdpFilePanel.Visible = false;
                 uxManualPanel.Visible = false;
             }
             else if (rmi.Child == uxRdpFileMenuItem)
             {
-                uxRdpFileRadioButton.Checked = true;
+                ServerOption = EnumTypes.ServerOption.RdpFile;
                 uxFavoritePanel.Visible = false;
                 uxRdpFilePanel.Visible = true;
                 uxManualPanel.Visible = false;
             }
             else if (rmi.Child == uxManualMenuItem)
             {
-                uxServerRadioButton.Checked = true;
+                ServerOption = EnumTypes.ServerOption.Manual;
                 uxFavoritePanel.Visible = false;
                 uxRdpFilePanel.Visible = false;
                 uxManualPanel.Visible = true;
@@ -635,11 +626,22 @@ namespace RemoteDesktopper
 
         private void uxRdpFileComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            uxRdpFileRadioButton.Checked = true;
+            
         }
 
         private void uxScreenSizeMenuItem_Click(object sender, EventArgs e)
         {
+            var mi = sender as ToolStripMenuItem;
+
+            if (mi == uxFullScreenWindowMenuItem)
+                WindowSizeOption = EnumTypes.WindowSizeOption.FullScreenWindow;
+            else if (mi == uxFullScreenMenuItem)
+                WindowSizeOption = EnumTypes.WindowSizeOption.FullScreen;
+            else if (mi == uxAllMonitorsMenuItem)
+                WindowSizeOption = EnumTypes.WindowSizeOption.AllMonitors;
+            else if (mi == uxLargestWindowMenuItem)
+                WindowSizeOption = EnumTypes.WindowSizeOption.LargestWindow;
+
             var rmi = HandleRadioMenuItem(sender);
 
             if (rmi == null)
@@ -650,7 +652,6 @@ namespace RemoteDesktopper
 
         private void uxServerNameTextBox_TextChanged(object sender, EventArgs e)
         {
-            uxServerRadioButton.Checked = true;
         }
 
         private void uxStateTimer_Tick(object sender, EventArgs e)
