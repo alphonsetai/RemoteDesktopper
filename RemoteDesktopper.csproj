@@ -32,7 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>LcdScreen.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -106,7 +107,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FavoriteMachines.xml" />
-    <Content Include="LcdScreen.ico" />
+    <Content Include="Graphics\Connect.ico" />
+    <Content Include="Graphics\LcdScreen.ico" />
+    <Content Include="Graphics\Paste.png" />
+    <Content Include="Graphics\Properties.png" />
+    <Content Include="Graphics\Refresh.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

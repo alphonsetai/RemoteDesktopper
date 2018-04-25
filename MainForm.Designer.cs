@@ -75,17 +75,19 @@
             this.uxRdpFileComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.uxRdpFileComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uxRdpFileComboBox.FormattingEnabled = true;
-            this.uxRdpFileComboBox.Location = new System.Drawing.Point(6, 3);
+            this.uxRdpFileComboBox.Location = new System.Drawing.Point(8, 4);
+            this.uxRdpFileComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.uxRdpFileComboBox.Name = "uxRdpFileComboBox";
-            this.uxRdpFileComboBox.Size = new System.Drawing.Size(606, 21);
+            this.uxRdpFileComboBox.Size = new System.Drawing.Size(807, 25);
             this.uxRdpFileComboBox.TabIndex = 1;
             this.uxRdpFileComboBox.SelectedIndexChanged += new System.EventHandler(this.uxRdpFileComboBox_SelectedIndexChanged);
             // 
             // uxConnectButton
             // 
-            this.uxConnectButton.Location = new System.Drawing.Point(218, 150);
+            this.uxConnectButton.Location = new System.Drawing.Point(291, 185);
+            this.uxConnectButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.uxConnectButton.Name = "uxConnectButton";
-            this.uxConnectButton.Size = new System.Drawing.Size(138, 23);
+            this.uxConnectButton.Size = new System.Drawing.Size(184, 28);
             this.uxConnectButton.TabIndex = 4;
             this.uxConnectButton.Text = "Connect";
             this.uxConnectButton.UseVisualStyleBackColor = true;
@@ -96,9 +98,10 @@
             // 
             this.uxFavoritePropertiesLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uxFavoritePropertiesLinkLabel.AutoSize = true;
-            this.uxFavoritePropertiesLinkLabel.Location = new System.Drawing.Point(555, 68);
+            this.uxFavoritePropertiesLinkLabel.Location = new System.Drawing.Point(740, 84);
+            this.uxFavoritePropertiesLinkLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.uxFavoritePropertiesLinkLabel.Name = "uxFavoritePropertiesLinkLabel";
-            this.uxFavoritePropertiesLinkLabel.Size = new System.Drawing.Size(54, 13);
+            this.uxFavoritePropertiesLinkLabel.Size = new System.Drawing.Size(73, 17);
             this.uxFavoritePropertiesLinkLabel.TabIndex = 10;
             this.uxFavoritePropertiesLinkLabel.TabStop = true;
             this.uxFavoritePropertiesLinkLabel.Text = "Properties";
@@ -109,7 +112,8 @@
             this.uxFavoritesSplitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.uxFavoritesSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.uxFavoritesSplitContainer.Location = new System.Drawing.Point(3, 3);
+            this.uxFavoritesSplitContainer.Location = new System.Drawing.Point(4, 4);
+            this.uxFavoritesSplitContainer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.uxFavoritesSplitContainer.Name = "uxFavoritesSplitContainer";
             // 
             // uxFavoritesSplitContainer.Panel1
@@ -119,8 +123,9 @@
             // uxFavoritesSplitContainer.Panel2
             // 
             this.uxFavoritesSplitContainer.Panel2.Controls.Add(this.uxFavoriteMachineComboBox);
-            this.uxFavoritesSplitContainer.Size = new System.Drawing.Size(612, 23);
+            this.uxFavoritesSplitContainer.Size = new System.Drawing.Size(816, 28);
             this.uxFavoritesSplitContainer.SplitterDistance = 161;
+            this.uxFavoritesSplitContainer.SplitterWidth = 5;
             this.uxFavoritesSplitContainer.TabIndex = 5;
             // 
             // uxFavoriteGroupsComboBox
@@ -130,8 +135,9 @@
             this.uxFavoriteGroupsComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uxFavoriteGroupsComboBox.FormattingEnabled = true;
             this.uxFavoriteGroupsComboBox.Location = new System.Drawing.Point(0, 0);
+            this.uxFavoriteGroupsComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.uxFavoriteGroupsComboBox.Name = "uxFavoriteGroupsComboBox";
-            this.uxFavoriteGroupsComboBox.Size = new System.Drawing.Size(161, 21);
+            this.uxFavoriteGroupsComboBox.Size = new System.Drawing.Size(161, 25);
             this.uxFavoriteGroupsComboBox.TabIndex = 10;
             this.uxFavoriteGroupsComboBox.SelectedIndexChanged += new System.EventHandler(this.uxFavoriteGroupsComboBox_SelectedIndexChanged);
             // 
@@ -142,17 +148,19 @@
             this.uxFavoriteMachineComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.uxFavoriteMachineComboBox.FormattingEnabled = true;
             this.uxFavoriteMachineComboBox.Location = new System.Drawing.Point(0, 0);
+            this.uxFavoriteMachineComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.uxFavoriteMachineComboBox.Name = "uxFavoriteMachineComboBox";
-            this.uxFavoriteMachineComboBox.Size = new System.Drawing.Size(447, 21);
+            this.uxFavoriteMachineComboBox.Size = new System.Drawing.Size(650, 25);
             this.uxFavoriteMachineComboBox.TabIndex = 4;
             this.uxFavoriteMachineComboBox.SelectedIndexChanged += new System.EventHandler(this.uxFavoriteComboBox_SelectedIndexChanged);
             // 
             // uxFavoritesTimestampLabel
             // 
             this.uxFavoritesTimestampLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxFavoritesTimestampLabel.Location = new System.Drawing.Point(395, 68);
+            this.uxFavoritesTimestampLabel.Location = new System.Drawing.Point(527, 84);
+            this.uxFavoritesTimestampLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.uxFavoritesTimestampLabel.Name = "uxFavoritesTimestampLabel";
-            this.uxFavoritesTimestampLabel.Size = new System.Drawing.Size(101, 14);
+            this.uxFavoritesTimestampLabel.Size = new System.Drawing.Size(135, 17);
             this.uxFavoritesTimestampLabel.TabIndex = 9;
             this.uxFavoritesTimestampLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
@@ -160,9 +168,10 @@
             // 
             this.uxRequeryFavoritesLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uxRequeryFavoritesLinkLabel.AutoSize = true;
-            this.uxRequeryFavoritesLinkLabel.Location = new System.Drawing.Point(502, 68);
+            this.uxRequeryFavoritesLinkLabel.Location = new System.Drawing.Point(669, 84);
+            this.uxRequeryFavoritesLinkLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.uxRequeryFavoritesLinkLabel.Name = "uxRequeryFavoritesLinkLabel";
-            this.uxRequeryFavoritesLinkLabel.Size = new System.Drawing.Size(47, 13);
+            this.uxRequeryFavoritesLinkLabel.Size = new System.Drawing.Size(62, 17);
             this.uxRequeryFavoritesLinkLabel.TabIndex = 8;
             this.uxRequeryFavoritesLinkLabel.TabStop = true;
             this.uxRequeryFavoritesLinkLabel.Text = "Requery";
@@ -173,9 +182,10 @@
             // 
             this.uxPasteServerNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uxPasteServerNameLabel.AutoSize = true;
-            this.uxPasteServerNameLabel.Location = new System.Drawing.Point(572, 37);
+            this.uxPasteServerNameLabel.Location = new System.Drawing.Point(763, 46);
+            this.uxPasteServerNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.uxPasteServerNameLabel.Name = "uxPasteServerNameLabel";
-            this.uxPasteServerNameLabel.Size = new System.Drawing.Size(34, 13);
+            this.uxPasteServerNameLabel.Size = new System.Drawing.Size(44, 17);
             this.uxPasteServerNameLabel.TabIndex = 7;
             this.uxPasteServerNameLabel.TabStop = true;
             this.uxPasteServerNameLabel.Text = "Paste";
@@ -185,9 +195,10 @@
             // 
             this.uxRequeryRdpLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.uxRequeryRdpLinkLabel.AutoSize = true;
-            this.uxRequeryRdpLinkLabel.Location = new System.Drawing.Point(559, 45);
+            this.uxRequeryRdpLinkLabel.Location = new System.Drawing.Point(745, 55);
+            this.uxRequeryRdpLinkLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.uxRequeryRdpLinkLabel.Name = "uxRequeryRdpLinkLabel";
-            this.uxRequeryRdpLinkLabel.Size = new System.Drawing.Size(47, 13);
+            this.uxRequeryRdpLinkLabel.Size = new System.Drawing.Size(62, 17);
             this.uxRequeryRdpLinkLabel.TabIndex = 2;
             this.uxRequeryRdpLinkLabel.TabStop = true;
             this.uxRequeryRdpLinkLabel.Text = "Requery";
@@ -197,9 +208,10 @@
             // 
             this.uxServerNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.uxServerNameTextBox.Location = new System.Drawing.Point(6, 4);
+            this.uxServerNameTextBox.Location = new System.Drawing.Point(8, 5);
+            this.uxServerNameTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.uxServerNameTextBox.Name = "uxServerNameTextBox";
-            this.uxServerNameTextBox.Size = new System.Drawing.Size(606, 20);
+            this.uxServerNameTextBox.Size = new System.Drawing.Size(807, 22);
             this.uxServerNameTextBox.TabIndex = 6;
             this.uxServerNameTextBox.TextChanged += new System.EventHandler(this.uxServerNameTextBox_TextChanged);
             // 
@@ -218,7 +230,7 @@
             this.uxPasteButton});
             this.uxToolStrip.Location = new System.Drawing.Point(0, 0);
             this.uxToolStrip.Name = "uxToolStrip";
-            this.uxToolStrip.Size = new System.Drawing.Size(624, 27);
+            this.uxToolStrip.Size = new System.Drawing.Size(832, 27);
             this.uxToolStrip.TabIndex = 5;
             this.uxToolStrip.Text = "Tool Strip";
             // 
@@ -232,7 +244,7 @@
             this.uxOptionMenu.Image = ((System.Drawing.Image)(resources.GetObject("uxOptionMenu.Image")));
             this.uxOptionMenu.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.uxOptionMenu.Name = "uxOptionMenu";
-            this.uxOptionMenu.Size = new System.Drawing.Size(62, 24);
+            this.uxOptionMenu.Size = new System.Drawing.Size(75, 24);
             this.uxOptionMenu.Text = "Favorite";
             // 
             // uxFavoriteMenuItem
@@ -240,21 +252,21 @@
             this.uxFavoriteMenuItem.Checked = true;
             this.uxFavoriteMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.uxFavoriteMenuItem.Name = "uxFavoriteMenuItem";
-            this.uxFavoriteMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.uxFavoriteMenuItem.Size = new System.Drawing.Size(139, 26);
             this.uxFavoriteMenuItem.Text = "Favorite";
             this.uxFavoriteMenuItem.Click += new System.EventHandler(this.uxServerOptionMenuItem_Click);
             // 
             // uxRdpFileMenuItem
             // 
             this.uxRdpFileMenuItem.Name = "uxRdpFileMenuItem";
-            this.uxRdpFileMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.uxRdpFileMenuItem.Size = new System.Drawing.Size(139, 26);
             this.uxRdpFileMenuItem.Text = "RDP File";
             this.uxRdpFileMenuItem.Click += new System.EventHandler(this.uxServerOptionMenuItem_Click);
             // 
             // uxManualMenuItem
             // 
             this.uxManualMenuItem.Name = "uxManualMenuItem";
-            this.uxManualMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.uxManualMenuItem.Size = new System.Drawing.Size(139, 26);
             this.uxManualMenuItem.Text = "Manual";
             this.uxManualMenuItem.Click += new System.EventHandler(this.uxServerOptionMenuItem_Click);
             // 
@@ -268,21 +280,21 @@
             this.uxConnectSplitButton.Image = ((System.Drawing.Image)(resources.GetObject("uxConnectSplitButton.Image")));
             this.uxConnectSplitButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.uxConnectSplitButton.Name = "uxConnectSplitButton";
-            this.uxConnectSplitButton.Size = new System.Drawing.Size(88, 24);
+            this.uxConnectSplitButton.Size = new System.Drawing.Size(102, 24);
             this.uxConnectSplitButton.Text = "Connect";
             this.uxConnectSplitButton.ButtonClick += new System.EventHandler(this.uxConnectSplitButton_ButtonClick);
             // 
             // uxFullScreenMenuItem
             // 
             this.uxFullScreenMenuItem.Name = "uxFullScreenMenuItem";
-            this.uxFullScreenMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.uxFullScreenMenuItem.Size = new System.Drawing.Size(214, 26);
             this.uxFullScreenMenuItem.Text = "Full Screen";
             this.uxFullScreenMenuItem.Click += new System.EventHandler(this.uxScreenSizeMenuItem_Click);
             // 
             // uxAllMonitorsMenuItem
             // 
             this.uxAllMonitorsMenuItem.Name = "uxAllMonitorsMenuItem";
-            this.uxAllMonitorsMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.uxAllMonitorsMenuItem.Size = new System.Drawing.Size(214, 26);
             this.uxAllMonitorsMenuItem.Text = "All Monitors";
             this.uxAllMonitorsMenuItem.Click += new System.EventHandler(this.uxScreenSizeMenuItem_Click);
             // 
@@ -291,7 +303,7 @@
             this.uxLargestWindowMenuItem.Checked = true;
             this.uxLargestWindowMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.uxLargestWindowMenuItem.Name = "uxLargestWindowMenuItem";
-            this.uxLargestWindowMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.uxLargestWindowMenuItem.Size = new System.Drawing.Size(214, 26);
             this.uxLargestWindowMenuItem.Tag = "Largest Window";
             this.uxLargestWindowMenuItem.Text = "Largest Window";
             this.uxLargestWindowMenuItem.Click += new System.EventHandler(this.uxScreenSizeMenuItem_Click);
@@ -299,38 +311,38 @@
             // uxFullScreenWindowMenuItem
             // 
             this.uxFullScreenWindowMenuItem.Name = "uxFullScreenWindowMenuItem";
-            this.uxFullScreenWindowMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.uxFullScreenWindowMenuItem.Size = new System.Drawing.Size(214, 26);
             this.uxFullScreenWindowMenuItem.Tag = "Full Screen Window";
             this.uxFullScreenWindowMenuItem.Text = "Full Screen Window";
             this.uxFullScreenWindowMenuItem.Click += new System.EventHandler(this.uxScreenSizeMenuItem_Click);
             // 
             // uxRequeryButton
             // 
-            this.uxRequeryButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.uxRequeryButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.uxRequeryButton.Image = ((System.Drawing.Image)(resources.GetObject("uxRequeryButton.Image")));
             this.uxRequeryButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.uxRequeryButton.Name = "uxRequeryButton";
-            this.uxRequeryButton.Size = new System.Drawing.Size(54, 24);
+            this.uxRequeryButton.Size = new System.Drawing.Size(24, 24);
             this.uxRequeryButton.Text = "Requery";
             this.uxRequeryButton.Click += new System.EventHandler(this.uxRequeryButton_Click);
             // 
             // uxPropertiesButton
             // 
-            this.uxPropertiesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.uxPropertiesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.uxPropertiesButton.Image = ((System.Drawing.Image)(resources.GetObject("uxPropertiesButton.Image")));
             this.uxPropertiesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.uxPropertiesButton.Name = "uxPropertiesButton";
-            this.uxPropertiesButton.Size = new System.Drawing.Size(64, 24);
+            this.uxPropertiesButton.Size = new System.Drawing.Size(24, 24);
             this.uxPropertiesButton.Text = "Properties";
             this.uxPropertiesButton.Click += new System.EventHandler(this.uxPropertiesButton_Click);
             // 
             // uxPasteButton
             // 
-            this.uxPasteButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.uxPasteButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.uxPasteButton.Image = ((System.Drawing.Image)(resources.GetObject("uxPasteButton.Image")));
             this.uxPasteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.uxPasteButton.Name = "uxPasteButton";
-            this.uxPasteButton.Size = new System.Drawing.Size(39, 24);
+            this.uxPasteButton.Size = new System.Drawing.Size(24, 24);
             this.uxPasteButton.Text = "Paste";
             this.uxPasteButton.Click += new System.EventHandler(this.uxPasteButton_Click);
             // 
@@ -340,18 +352,20 @@
             this.uxFavoritePanel.Controls.Add(this.uxFavoritesSplitContainer);
             this.uxFavoritePanel.Controls.Add(this.uxFavoritePropertiesLinkLabel);
             this.uxFavoritePanel.Controls.Add(this.uxRequeryFavoritesLinkLabel);
-            this.uxFavoritePanel.Location = new System.Drawing.Point(3, 28);
+            this.uxFavoritePanel.Location = new System.Drawing.Point(4, 34);
+            this.uxFavoritePanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.uxFavoritePanel.Name = "uxFavoritePanel";
-            this.uxFavoritePanel.Size = new System.Drawing.Size(618, 30);
+            this.uxFavoritePanel.Size = new System.Drawing.Size(824, 37);
             this.uxFavoritePanel.TabIndex = 7;
             // 
             // uxRdpFilePanel
             // 
             this.uxRdpFilePanel.Controls.Add(this.uxRdpFileComboBox);
             this.uxRdpFilePanel.Controls.Add(this.uxRequeryRdpLinkLabel);
-            this.uxRdpFilePanel.Location = new System.Drawing.Point(6, 201);
+            this.uxRdpFilePanel.Location = new System.Drawing.Point(8, 247);
+            this.uxRdpFilePanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.uxRdpFilePanel.Name = "uxRdpFilePanel";
-            this.uxRdpFilePanel.Size = new System.Drawing.Size(618, 30);
+            this.uxRdpFilePanel.Size = new System.Drawing.Size(824, 37);
             this.uxRdpFilePanel.TabIndex = 8;
             this.uxRdpFilePanel.Visible = false;
             // 
@@ -359,27 +373,29 @@
             // 
             this.uxManualPanel.Controls.Add(this.uxPasteServerNameLabel);
             this.uxManualPanel.Controls.Add(this.uxServerNameTextBox);
-            this.uxManualPanel.Location = new System.Drawing.Point(6, 259);
+            this.uxManualPanel.Location = new System.Drawing.Point(8, 319);
+            this.uxManualPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.uxManualPanel.Name = "uxManualPanel";
-            this.uxManualPanel.Size = new System.Drawing.Size(618, 27);
+            this.uxManualPanel.Size = new System.Drawing.Size(824, 33);
             this.uxManualPanel.TabIndex = 9;
             this.uxManualPanel.Visible = false;
             // 
             // MainForm
             // 
             this.AcceptButton = this.uxConnectButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 61);
+            this.ClientSize = new System.Drawing.Size(832, 75);
             this.Controls.Add(this.uxManualPanel);
             this.Controls.Add(this.uxRdpFilePanel);
             this.Controls.Add(this.uxFavoritePanel);
             this.Controls.Add(this.uxToolStrip);
             this.Controls.Add(this.uxConnectButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(3000, 3000);
-            this.MinimumSize = new System.Drawing.Size(438, 100);
+            this.MaximumSize = new System.Drawing.Size(3994, 3681);
+            this.MinimumSize = new System.Drawing.Size(578, 112);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Remote Desktopper";
