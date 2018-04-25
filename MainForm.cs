@@ -26,24 +26,11 @@ namespace RemoteDesktopper
         private string _rdpTemplate;
         private FormWindowState _lastState;
         private List<BLL.FavoriteMachine> _favoriteMachines;
+        private DateTime _favoriteMachinesTimestamp;
 
         public MainForm()
         {
             InitializeComponent();
-
-            uxFavoritePanel.Anchor = ((AnchorStyles)((((AnchorStyles.Top | AnchorStyles.Bottom) | AnchorStyles.Left) | AnchorStyles.Right)));
-
-            uxRdpFilePanel.Location = uxFavoritePanel.Location;
-            uxRdpFilePanel.Anchor = uxFavoritePanel.Anchor;
-
-            uxManualPanel.Location = uxFavoritePanel.Location;
-            uxManualPanel.Anchor = uxFavoritePanel.Anchor;
-
-            _lastState = this.WindowState;
-            SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
-            _rdpTemplate = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Template.rdp");
-
-            uxServerOptionMenuItem_Click(uxFavoriteMenuItem, null);
         }
 
         void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
@@ -440,6 +427,8 @@ namespace RemoteDesktopper
                 uxRdpFileComboBox.Items.Add(Path.GetFileNameWithoutExtension(item));
         }
 
+        private DateTime FavoriteMachinesTimestamp { get; set; }
+
         private void InitFavoriteGroupsComboBox()
         {
             /*--- Inits ---*/
@@ -456,10 +445,10 @@ namespace RemoteDesktopper
 
             /*--- Update Timestamp Label ---*/
             var lbl = uxFavoritesTimestampLabel;
-            var dt = File.GetLastWriteTime(xmlFile);
-            var isOld = (DateTime.Now.Subtract(dt).TotalHours > 24.0);
+            FavoriteMachinesTimestamp = File.GetLastWriteTime(xmlFile);
+            var isOld = (DateTime.Now.Subtract(FavoriteMachinesTimestamp).TotalHours > 24.0);
 
-            lbl.Text = dt.ToString("MM/dd/yy h:mm tt");
+            lbl.Text = FavoriteMachinesTimestamp.ToString("MM/dd/yy h:mm tt");
             lbl.ForeColor = isOld ? Color.Red : SystemColors.ControlText;
             lbl.BackColor = isOld ? Color.Yellow : SystemColors.Control;
 
@@ -549,10 +538,23 @@ namespace RemoteDesktopper
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            uxFavoritePanel.Anchor = ((AnchorStyles)((((AnchorStyles.Top | AnchorStyles.Bottom) | AnchorStyles.Left) | AnchorStyles.Right)));
+
+            uxRdpFilePanel.Location = uxFavoritePanel.Location;
+            uxRdpFilePanel.Anchor = uxFavoritePanel.Anchor;
+
+            uxManualPanel.Location = uxFavoritePanel.Location;
+            uxManualPanel.Anchor = uxFavoritePanel.Anchor;
+
+            _lastState = this.WindowState;
+            SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
+            _rdpTemplate = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Template.rdp");
+
             MoveToSouthwest();
             InitFavoriteGroupsComboBox();
             InitRdpFileComboBox();
             CalculateScreenSizes();
+            uxServerOptionMenuItem_Click(uxFavoriteMenuItem, null);
             uxStateTimer.Enabled = true;
         }
 
@@ -595,6 +597,7 @@ namespace RemoteDesktopper
                 uxManualPanel.Visible = false;
 
                 uxRequeryButton.Visible = true;
+                uxRequeryButton.Text = "Requery (" + FavoriteMachinesTimestamp.ToString("MM/dd/yy h:mm tt") + ")";
                 uxPropertiesButton.Visible = true;
                 uxPasteButton.Visible = false;
             }
@@ -606,6 +609,7 @@ namespace RemoteDesktopper
                 uxManualPanel.Visible = false;
 
                 uxRequeryButton.Visible = true;
+                uxRequeryButton.Text = "Requery";
                 uxPropertiesButton.Visible = false;
                 uxPasteButton.Visible = false;
             }
@@ -617,6 +621,7 @@ namespace RemoteDesktopper
                 uxManualPanel.Visible = true;
 
                 uxRequeryButton.Visible = false;
+                uxRequeryButton.Text = "Requery";
                 uxPropertiesButton.Visible = false;
                 uxPasteButton.Visible = true;
             }
