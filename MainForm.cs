@@ -42,6 +42,8 @@ namespace RemoteDesktopper
             _lastState = this.WindowState;
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
             _rdpTemplate = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Template.rdp");
+
+            uxServerOptionMenuItem_Click(uxFavoriteMenuItem, null);
         }
 
         void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
@@ -462,7 +464,6 @@ namespace RemoteDesktopper
             lbl.BackColor = isOld ? Color.Yellow : SystemColors.Control;
 
             /*--- Load Favorites from XML file ---*/
-
             using (var sr = new StreamReader(xmlFile))
             {
                 var xs = new XmlSerializer(typeof(List<BLL.FavoriteMachine>));
@@ -482,6 +483,12 @@ namespace RemoteDesktopper
             this.Left = gap;
             this.Top = Screen.PrimaryScreen.WorkingArea.Height - this.Height - gap;
             this.Left = gap;
+        }
+
+        private void PasteServerName()
+        {
+            var s = Clipboard.GetText();
+            uxServerNameTextBox.Text = s;
         }
 
         private void RefreshFavoriteMachinesComboBox()
@@ -505,6 +512,13 @@ namespace RemoteDesktopper
 
                 return s;
             }
+        }
+
+        private void ShowSelectedFavorite()
+        {
+            var selectedFavorite = (FavoriteMachine)uxFavoriteMachineComboBox.SelectedValue;
+            var frm = new FavoriteMachineForm();
+            frm.ShowDialog(selectedFavorite);
         }
 
         private EnumTypes.ServerOption ServerOption { get; set; }
@@ -563,12 +577,10 @@ namespace RemoteDesktopper
 
         private void uxFavoritePropertiesLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var selectedFavorite = ((FavoriteMachine)uxFavoriteMachineComboBox.SelectedValue);
-            var frm = new FavoriteMachineForm();
-            frm.ShowDialog(selectedFavorite);
+            ShowSelectedFavorite();
         }
 
-        private void uxOptionMenuItem_Click(object sender, EventArgs e)
+        private void uxServerOptionMenuItem_Click(object sender, EventArgs e)
         {
             var rmi = HandleRadioMenuItem(sender);
 
@@ -581,6 +593,10 @@ namespace RemoteDesktopper
                 uxFavoritePanel.Visible = true;
                 uxRdpFilePanel.Visible = false;
                 uxManualPanel.Visible = false;
+
+                uxRequeryButton.Visible = true;
+                uxPropertiesButton.Visible = true;
+                uxPasteButton.Visible = false;
             }
             else if (rmi.Child == uxRdpFileMenuItem)
             {
@@ -588,6 +604,10 @@ namespace RemoteDesktopper
                 uxFavoritePanel.Visible = false;
                 uxRdpFilePanel.Visible = true;
                 uxManualPanel.Visible = false;
+
+                uxRequeryButton.Visible = true;
+                uxPropertiesButton.Visible = false;
+                uxPasteButton.Visible = false;
             }
             else if (rmi.Child == uxManualMenuItem)
             {
@@ -595,20 +615,18 @@ namespace RemoteDesktopper
                 uxFavoritePanel.Visible = false;
                 uxRdpFilePanel.Visible = false;
                 uxManualPanel.Visible = true;
+
+                uxRequeryButton.Visible = false;
+                uxPropertiesButton.Visible = false;
+                uxPasteButton.Visible = true;
             }
         }
 
         private void uxPasteServerNameLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var s = Clipboard.GetText();
-            uxServerNameTextBox.Text = s;
+            PasteServerName();
         }
 
-        private void uxRecalculateLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            CalculateScreenSizes();
-        }
-        
         private void uxRequeryFavoritesLinkLabel_Click(object sender, EventArgs e)
         {
             InitFavoriteGroupsComboBox();
@@ -665,6 +683,31 @@ namespace RemoteDesktopper
             HandleWindowSizeMenuItemClick(senderMenuItem);
         }
 
+        private void uxRequeryButton_Click(object sender, EventArgs e)
+        {
+            switch (ServerOption)
+            {
+                case EnumTypes.ServerOption.Favorite:
+                    RefreshFavoriteMachinesComboBox();
+                    break;
+                case EnumTypes.ServerOption.Manual:
+                    break;
+                case EnumTypes.ServerOption.RdpFile:
+                    InitRdpFileComboBox();
+                    break;
+            }
+
+        }
+
+        private void uxPropertiesButton_Click(object sender, EventArgs e)
+        {
+             ShowSelectedFavorite();
+        }
+
+        private void uxPasteButton_Click(object sender, EventArgs e)
+        {
+            PasteServerName();
+        }
     }
 
     public class RadioMenuItem
