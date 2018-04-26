@@ -466,6 +466,30 @@ namespace RemoteDesktopper
             RefreshFavoriteMachinesComboBox();
         }
 
+        private void LoadPreferences()
+        {
+            var p = Properties.Settings.Default;
+            ServerOption = (EnumTypes.ServerOption)p.ServerOption;
+            WindowSizeOption = (EnumTypes.WindowSizeOption)p.WindowSizeOption;
+
+            ToolStripMenuItem child;
+
+            switch (WindowSizeOption)
+            {
+                case EnumTypes.WindowSizeOption.FullScreenWindow:
+                    child = (ToolStripMenuItem)uxFullScreenWindowMenuItem.DropDownItems[0];
+                    uxWindowSizeMenuItem_Click(child, null);
+                    break;
+
+                case EnumTypes.WindowSizeOption.LargestWindow:
+                    child = (ToolStripMenuItem)uxLargestWindowMenuItem.DropDownItems[0];
+                    uxWindowSizeMenuItem_Click(child, null);
+                    break;
+            }
+
+
+        }
+
         private void MoveToSouthwest()
         {
             var gap = 5;
@@ -491,6 +515,14 @@ namespace RemoteDesktopper
             uxFavoriteMachineComboBox.ValueMember = null;// Bind to the object "MachineAddress";
         }
 
+        private void SavePreferences()
+        {
+            var p = Properties.Settings.Default;
+            p.ServerOption = (int)ServerOption;
+            p.WindowSizeOption = (int)WindowSizeOption;
+            p.Save();
+        }
+
         private string SelectedFavoriteMachine
         {
             get
@@ -510,7 +542,31 @@ namespace RemoteDesktopper
             frm.ShowDialog(selectedFavorite);
         }
 
-        private EnumTypes.ServerOption ServerOption { get; set; }
+        private EnumTypes.ServerOption _serverOption;
+        private EnumTypes.ServerOption ServerOption
+        {
+            get { return _serverOption; }
+            set
+            {
+                if (_serverOption == value)
+                    return;
+
+                _serverOption = value;
+
+                switch(_serverOption)
+                {
+                    case EnumTypes.ServerOption.Favorite:
+                        uxServerOptionMenuItem_Click(uxFavoriteMenuItem, null);
+                        break;
+                    case EnumTypes.ServerOption.Manual:
+                        uxServerOptionMenuItem_Click(uxManualMenuItem, null);
+                        break;
+                    case EnumTypes.ServerOption.RdpFile:
+                        uxServerOptionMenuItem_Click(uxRdpFileMenuItem, null);
+                        break;
+                }
+            }
+        }
 
         private void UpdateState()
         {
@@ -528,12 +584,32 @@ namespace RemoteDesktopper
             uxConnectSplitButton.Enabled = enabled;
         }
 
-        private EnumTypes.WindowSizeOption WindowSizeOption { get; set; }
+        private EnumTypes.WindowSizeOption _windowSizeOption;
+        private EnumTypes.WindowSizeOption WindowSizeOption
+        {
+            get { return _windowSizeOption; }
+            set
+            {
+                if (_windowSizeOption == value)
+                    return;
+
+                _windowSizeOption = value;
+
+                switch (_windowSizeOption)
+                {
+                    case EnumTypes.WindowSizeOption.FullScreenWindow:   uxScreenSizeMenuItem_Click(uxFullScreenWindowMenuItem, null); break;
+                    case EnumTypes.WindowSizeOption.FullScreen:         uxScreenSizeMenuItem_Click(uxFullScreenMenuItem, null); break;
+                    case EnumTypes.WindowSizeOption.AllMonitors:        uxScreenSizeMenuItem_Click(uxAllMonitorsMenuItem, null); break;
+                    case EnumTypes.WindowSizeOption.LargestWindow:      uxScreenSizeMenuItem_Click(uxLargestWindowMenuItem, null); break;
+                }
+            }
+        }
 
         /*-- Event Handlers ---------------------------------------------------------------------------------------------------*/
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SystemEvents.DisplaySettingsChanged -= SystemEvents_DisplaySettingsChanged;
+            SavePreferences();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -546,7 +622,7 @@ namespace RemoteDesktopper
             uxManualPanel.Location = uxFavoritePanel.Location;
             uxManualPanel.Anchor = uxFavoritePanel.Anchor;
 
-            _lastState = this.WindowState;
+            _lastState = WindowState;
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
             _rdpTemplate = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Template.rdp");
 
@@ -554,7 +630,8 @@ namespace RemoteDesktopper
             InitFavoriteGroupsComboBox();
             InitRdpFileComboBox();
             CalculateScreenSizes();
-            uxServerOptionMenuItem_Click(uxFavoriteMenuItem, null);
+            ServerOption = EnumTypes.ServerOption.Favorite;
+            LoadPreferences();
             uxStateTimer.Enabled = true;
         }
 
@@ -656,14 +733,10 @@ namespace RemoteDesktopper
         {
             var mi = sender as ToolStripMenuItem;
 
-            if (mi == uxFullScreenWindowMenuItem)
-                WindowSizeOption = EnumTypes.WindowSizeOption.FullScreenWindow;
-            else if (mi == uxFullScreenMenuItem)
-                WindowSizeOption = EnumTypes.WindowSizeOption.FullScreen;
-            else if (mi == uxAllMonitorsMenuItem)
-                WindowSizeOption = EnumTypes.WindowSizeOption.AllMonitors;
-            else if (mi == uxLargestWindowMenuItem)
-                WindowSizeOption = EnumTypes.WindowSizeOption.LargestWindow;
+            if (mi == uxFullScreenWindowMenuItem)   WindowSizeOption = EnumTypes.WindowSizeOption.FullScreenWindow;
+            else if (mi == uxFullScreenMenuItem)    WindowSizeOption = EnumTypes.WindowSizeOption.FullScreen;
+            else if (mi == uxAllMonitorsMenuItem)   WindowSizeOption = EnumTypes.WindowSizeOption.AllMonitors;
+            else if (mi == uxLargestWindowMenuItem) WindowSizeOption = EnumTypes.WindowSizeOption.LargestWindow;
 
             var rmi = HandleRadioMenuItem(sender);
 

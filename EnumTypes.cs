@@ -10,17 +10,17 @@ namespace RemoteDesktopper
     {
         public enum ServerOption
         {
-            RdpFile,
-            Favorite,
-            Manual
+            RdpFile = 1,
+            Favorite = 2,
+            Manual = 3
         }
 
         public enum WindowSizeOption
         {
-            FullScreen,
-            AllMonitors,
-            LargestWindow,
-            FullScreenWindow
+            FullScreen = 1,
+            AllMonitors = 2,
+            LargestWindow = 3 ,
+            FullScreenWindow = 4
         }
     }
 }

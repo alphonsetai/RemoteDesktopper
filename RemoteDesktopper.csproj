@@ -68,6 +68,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenSize.cs" />
+    <Compile Include="Settings.cs" />
     <EmbeddedResource Include="FavoriteMachineForm.resx">
       <DependentUpon>FavoriteMachineForm.cs</DependentUpon>
     </EmbeddedResource>
