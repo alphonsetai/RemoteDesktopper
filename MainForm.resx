@@ -154,18 +154,18 @@
   <data name="uxRequeryButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAJ0SURBVDhPrVNdSJNhGD1OV2vi5lyuT0U2mz/VQq0plUlD
-        ErGspIsuKsECo7oISaKyi2bShVAiFKGYuQvrpgQptcSfdJaJV7bChaFNCO2fRRoV/Zzerc/NZZcdeHh5
-        n+/wfOd5zvPiv0GxC+WK7bArtqEchbD5I19EATJkCuLuo1jXA618DYW+XeHJ/m7k/h87ef5nJVt/3WCz
-        q5GHrpT1yxRYBsLaUpxhgXsIIvbCZn1ipPoTuHRWxByo/yrOStTJFEjtKM0eCad0Ryj7G1svb3ZMzI1z
-        gzedqneg6gMojYPKkmALupvQrnsUzrVOZagK1XHYat3VPO2tYNQ0GP0a1L0RCm7BI1MCSOkDN45oGX0d
-        RjkFWJvNjtqPVdRMgqYx0DgKJgkVmotB+fNY2Q0WTMQxpkkMex5FTqsn78V6ml+Kv16DQ1MDu9kNLjuF
-        Ypnih64G2tRhcNOYiVm9kl1OA7k9ybS4Y5nkFNIFyZeLqkKp71RXI2N5I/zk6EuwpzwHCyetzO1ODhbI
-        GUzwZD7TMvE2FlmkvwqHT436DOxSF7wGMdiKtwe4qskQLJDWoW6zTWpo6lzc84p78Ma/EjN5CibOgNlT
-        FtbN2EPbi2lB6RZ3JE130San/FhShuKEKTEL4YxGFEmdTuTQt36WtO4elSl/4PM3bVDpTRsIC/kQeQEO
-        g1gq1XsRwpUTc8dYP1zvVR4O7kYA8V2wZw4pKHUE/bW0JHhyvqRzzWczjbMSY2YjGPsQXtW+BTuwEKsf
-        wGPolf3Nh/ZowxE2uRp41nWSB117mPc4i8mjeqrPhbYagNQH4z9fmyjmf507YIsQoSyabwH4DVu9+FCv
-        iHUOAAAAAElFTkSuQmCC
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAJ0SURBVDhPrVNdSJNRGH6crtbEzblcn4psNn+qhVpTKpOG
+        JGJZSRddVIIFRnURkkRlF82kC6FEKEIxcxfWTQlS2g/+pLNMvLIVLgxtQmj/LHJR0c/T2frcXHbZAy+H
+        837Peb/nfZ9z8N+g2IFKxVbYFVtQiWLYAlEooghZMgUJ91Gq64FW3oZD36nw5H43cu+P7Tz7s5rtv66x
+        1dXMA5cq+mUKLAMRHWnOiOA+DFG7YbM+MVL9CVw8K8IH6r+KtRoNMgVSJ8pzRyIp3RLK/sbmixsdE75x
+        rvNmUvUOVH0ApXFQWRZqQXcd2jWPIrnaqQxXoToKW727lie9VYyZBmNfg7o3QsENeGRKEGl94PoRLWOv
+        wiinAGur2VH/sYaaSdA0BhpHwRShQnM+JH8Oy7vBookExrWIYc+hxGn1FLxYS/NL8dcrcGjqYDe7wSUn
+        UCpTAtDVQZs+DG4YMzGnV7LLaSC/J5UWdzxTnEK6IPlzMTUo96/qWmQtbUaAHHsB9rTnYPGklfndqaEC
+        eYNJnuxnWibfxAKL9Jfh8KtRn4J92V14DWKwVW/3cUWLIVQgo0vdYZvU0HR7Yc/+Q4mvxEyegskzYO6U
+        hQ0z9vD24tpQvskdTdMddMipABZVoDRpSsxCOKMRRdKnkzn0rZ9l7TtHZcof+P3NGFR6MwYiwj5En4PD
+        IC6V6r0I4cox3xE2Djd6lQdDdyOIxHuwZw8pKHWF/LW0JXnyvmRy1WczjbMS42ajGP8QXtWeeXdgPlY+
+        gMfQK/tbCO3hpkNscTXxtOs497t2seBxDlNH9VSfCW81CKkPxn++NlEs8Dq3wRYlQlky1wLwG1iK+E6G
+        E3HkAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="uxPropertiesButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
