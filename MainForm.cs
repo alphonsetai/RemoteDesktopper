@@ -188,19 +188,30 @@ namespace RemoteDesktopper
             });
 
             /*--- Build List of Largest Windows ---*/
-            var largestWindows = new List<Size>();
+            var largestWindows = new List<Size>(); // largest for each screen
+            var cascadeWindows = new List<Size>(); // second-largest for each screen
             var screenNum = 0;
             var margin = 10;
 
             foreach (var screen in fullSizeBufferedWindows)
             {
-                var bestScreenSize = screenResolutions.Where(o =>
+                var bestScreenSizes = screenResolutions.Where(o =>
                                                             o.Width < screen.Width - margin
                                                             && o.Height < screen.Height - margin)
                                                         .OrderByDescending(o => o.Height)
                                                         .ThenByDescending(o => o.Width)
-                                                        .ToList()
-                                                        .FirstOrDefault();
+                                                        .ToList();
+
+                /*--- Cascade Windows ---*/
+                var bestScreenSize = bestScreenSizes.Skip(1).FirstOrDefault();
+
+                if (bestScreenSize != null && !cascadeWindows.Any(o => o.Width == bestScreenSize.Width && o.Height == bestScreenSize.Height))
+                {
+                    cascadeWindows.Add(bestScreenSize);
+                }  
+
+                /*--- Largest Windows ---*/
+                bestScreenSize = bestScreenSizes.FirstOrDefault();
 
                 if (!largestWindows.Any(o => o.Width == bestScreenSize.Width && o.Height == bestScreenSize.Height))
                 { 
@@ -211,10 +222,34 @@ namespace RemoteDesktopper
                 }
             }
 
-            /*--- Fill Largest-Window ComboBox ---*/
-            //uxLargestWindowComboBox.Items.Clear();
-            uxLargestWindowMenuItem.DropDownItems.Clear();
+            /*--- Create Cascading-Windows Menu Items ---*/
+            uxCascadingWindowsMenuItem.DropDownItems.Clear();
             var first = true;
+
+            foreach (var item in cascadeWindows)
+            {
+                var ss = new ScreenSize(item);
+
+                var menuItem = new ToolStripMenuItem
+                {
+                    Text = ss.DisplayText,
+                    Tag = ss,
+                    Checked = first
+                };
+
+                menuItem.Click += uxWindowSizeMenuItem_Click;
+
+                uxCascadingWindowsMenuItem.DropDownItems.Add(menuItem);
+
+                if (first)
+                    HandleWindowSizeMenuItemClick(menuItem);
+
+                first = false;
+            }
+
+            /*--- Create Largest-Window Menu Items ---*/
+            uxLargestWindowMenuItem.DropDownItems.Clear();
+            first = true;
 
             foreach (var item in largestWindows)
             {
@@ -231,22 +266,17 @@ namespace RemoteDesktopper
 
                 uxLargestWindowMenuItem.DropDownItems.Add(menuItem);
 
-                //uxLargestWindowComboBox.Items.Add(ss);
-
                 if (first)
                     HandleWindowSizeMenuItemClick(menuItem);
 
                 first = false;
             }
 
-            //uxLargestWindowComboBox.SelectedIndex = 0;
-
-            /*--- Fill Full-Screen-Window ComboBox (?)---*/
+            /*--- Create Full-Screen-Window Menu Items ---*/
             var useEnableFullScreenWindows = (screenSizes.Count() > 1);
 
             if (useEnableFullScreenWindows)
             {   
-                //uxFullScreenWindowComboBox.Items.Clear();
                 uxFullScreenWindowMenuItem.DropDownItems.Clear();
 
                 foreach (var item in screenSizes)
@@ -262,14 +292,8 @@ namespace RemoteDesktopper
                     menuItem.Click += uxWindowSizeMenuItem_Click;
 
                     uxFullScreenWindowMenuItem.DropDownItems.Add(menuItem);
-
-                    //uxFullScreenWindowComboBox.Items.Add(ss);
-                    
                 }
-
-                //uxFullScreenWindowComboBox.SelectedIndex = 0;
             }
-            //uxFullScreenWindowComboBox.Visible = useEnableFullScreenWindows;
             uxFullScreenWindowMenuItem.Visible = useEnableFullScreenWindows;
         }
 
