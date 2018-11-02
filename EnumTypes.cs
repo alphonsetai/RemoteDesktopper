@@ -20,7 +20,8 @@ namespace RemoteDesktopper
             FullScreen = 1,
             AllMonitors = 2,
             LargestWindow = 3 ,
-            FullScreenWindow = 4
+            FullScreenWindow = 4,
+            CascadingWindows = 5
         }
     }
 }

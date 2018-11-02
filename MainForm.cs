@@ -131,6 +131,12 @@ namespace RemoteDesktopper
                     var ss = checkedChild.Tag as ScreenSize;
                     args += ss.Value;
                 }
+                else if (WindowSizeOption == EnumTypes.WindowSizeOption.CascadingWindows)
+                {
+                    var checkedChild = GetFirstCheckedChild(uxCascadingWindowsMenuItem);
+                    var ss = checkedChild.Tag as ScreenSize;
+                    args += ss.Value;
+                }
             }
 
             /*--- Return Result ---*/
@@ -761,6 +767,7 @@ namespace RemoteDesktopper
             else if (mi == uxFullScreenMenuItem)    WindowSizeOption = EnumTypes.WindowSizeOption.FullScreen;
             else if (mi == uxAllMonitorsMenuItem)   WindowSizeOption = EnumTypes.WindowSizeOption.AllMonitors;
             else if (mi == uxLargestWindowMenuItem) WindowSizeOption = EnumTypes.WindowSizeOption.LargestWindow;
+            else if (mi == uxCascadingWindowsMenuItem) WindowSizeOption = EnumTypes.WindowSizeOption.CascadingWindows;
 
             var rmi = HandleRadioMenuItem(sender);
 
