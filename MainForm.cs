@@ -35,7 +35,7 @@ namespace RemoteDesktopper
 
         void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
         {
-            MoveToSouthwest();
+            MoveToCorner();
             CalculateScreenSizes();
         }
 
@@ -515,17 +515,23 @@ namespace RemoteDesktopper
                     child = (ToolStripMenuItem)uxLargestWindowMenuItem.DropDownItems[0];
                     uxWindowSizeMenuItem_Click(child, null);
                     break;
+
+                case EnumTypes.WindowSizeOption.CascadingWindows:
+                    child = (ToolStripMenuItem)uxCascadingWindowsMenuItem.DropDownItems[0];
+                    uxWindowSizeMenuItem_Click(child, null);
+                    break;
             }
 
 
         }
 
-        private void MoveToSouthwest()
+        private void MoveToCorner()
         {
             var gap = 5;
-            this.Left = gap;
-            this.Top = Screen.PrimaryScreen.WorkingArea.Height - this.Height - gap;
-            this.Left = gap;
+            var x = Screen.PrimaryScreen.WorkingArea.Width - Width - gap;
+            Left = x;
+            Top = Screen.PrimaryScreen.WorkingArea.Height - this.Height - gap;
+            Left = x;
         }
 
         private void PasteServerName()
@@ -602,7 +608,7 @@ namespace RemoteDesktopper
         {
             if (this.WindowState != _lastState && this.WindowState == FormWindowState.Normal)
             {
-                MoveToSouthwest();
+                MoveToCorner();
             }
             _lastState = this.WindowState;
 
@@ -638,8 +644,17 @@ namespace RemoteDesktopper
         /*-- Event Handlers ---------------------------------------------------------------------------------------------------*/
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SystemEvents.DisplaySettingsChanged -= SystemEvents_DisplaySettingsChanged;
-            SavePreferences();
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Hide();
+            }
+            else
+            {
+                SystemEvents.DisplaySettingsChanged -= SystemEvents_DisplaySettingsChanged;
+                SavePreferences();
+            }
+
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -656,7 +671,7 @@ namespace RemoteDesktopper
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
             _rdpTemplate = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Template.rdp");
 
-            MoveToSouthwest();
+            MoveToCorner();
             InitFavoriteGroupsComboBox();
             InitRdpFileComboBox();
             CalculateScreenSizes();
@@ -816,6 +831,29 @@ namespace RemoteDesktopper
         private void uxPasteButton_Click(object sender, EventArgs e)
         {
             PasteServerName();
+        }
+
+        private void uxQuitMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void uxNotifyIcon_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (!Visible)
+                {
+                    Show();
+                    WindowState = FormWindowState.Normal;
+                    Activate();
+                }
+                else
+                {
+                    Hide();
+                }
+
+            }
         }
     }
 
