@@ -812,7 +812,7 @@ namespace RemoteDesktopper
             switch (ServerOption)
             {
                 case EnumTypes.ServerOption.Favorite:
-                    RefreshFavoriteMachinesComboBox();
+                    InitFavoriteGroupsComboBox();
                     break;
                 case EnumTypes.ServerOption.Manual:
                     break;
